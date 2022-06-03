@@ -41,17 +41,11 @@ public class Main extends Game {
 
 	boolean visible;
 
-	SpriteBatch spriteBatch;
-
-	long previousTime;
-
 	@Override
 	public void create () {
 		TextureStore.instantiate();
 
 		menuManager.switchMenu(0);
-
-		spriteBatch = new SpriteBatch();
 		// Entity creation
 		EntityFactory.getInstance().addSubFactory(CollidableFactory.getInstance());
 		CollidableFactory.getInstance().addSubFactory(TestEntityFactory.getInstance());
@@ -61,9 +55,6 @@ public class Main extends Game {
 		TestEntityFactory.getInstance().addManagedObject(e1);
 		TestEntityFactory.getInstance().addManagedObject(e2);
 		TestEntityFactory.getInstance().addManagedObject(e3);
-
-		//time
-		previousTime = System.currentTimeMillis();
 	}
 
 	public void resize (int width, int height) {
