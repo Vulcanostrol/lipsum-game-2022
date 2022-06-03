@@ -29,22 +29,23 @@ public class Main extends Game {
 
 	private final MenuManager menuManager;
 
+	private final GameManager gameManager;
+
 	public Main() {
 		super();
 		menuManager = new MenuManager();
 		menuManager.registerMenu(new MainMenu());
 		menuManager.registerMenu(new OptionsMenu());
+		gameManager = new GameManager();
 	}
 
-	SpriteBatch spriteBatch;
-
-	long previousTime;
+	boolean visible;
 
 	@Override
 	public void create () {
-		menuManager.switchMenu(0);
+		TextureStore.instantiate();
 
-		spriteBatch = new SpriteBatch();
+		menuManager.switchMenu(0);
 		// Entity creation
 		EntityFactory.getInstance().addSubFactory(CollidableFactory.getInstance());
 		CollidableFactory.getInstance().addSubFactory(TestEntityFactory.getInstance());
@@ -54,9 +55,6 @@ public class Main extends Game {
 		TestEntityFactory.getInstance().addManagedObject(e1);
 		TestEntityFactory.getInstance().addManagedObject(e2);
 		TestEntityFactory.getInstance().addManagedObject(e3);
-
-		//time
-		previousTime = System.currentTimeMillis();
 	}
 
 	public void resize (int width, int height) {
@@ -72,30 +70,7 @@ public class Main extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
 		menuManager.draw();
-
-		//Update
-		long newTime = System.currentTimeMillis();
-		EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
-		previousTime = newTime;
-
-		//Collision
-		this.checkCollisions();
-
-		//Draw
-		spriteBatch.begin();
-		EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
-		spriteBatch.end();
-
-	}
-
-	private void checkCollisions(){
-		TestEntityFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
-			CollidableFactory.getInstance().getAllManagedObjects().forEach(e2 -> {
-				if(e1!=e2 && e1.checkCollision(e2)){
-					e1.setHasCollided();
-				}
-			});
-		});
+		gameManager.draw();
 	}
 
 	@Override

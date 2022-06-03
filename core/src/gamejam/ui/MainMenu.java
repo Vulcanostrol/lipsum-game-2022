@@ -7,8 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import gamejam.event.Event;
 import gamejam.event.EventQueue;
 import gamejam.event.events.MenuChangeEvent;
+import gamejam.event.events.SetupGameEvent;
 
 public class MainMenu extends Menu {
 
@@ -25,7 +27,7 @@ public class MainMenu extends Menu {
         labelStyle.font = font;
         labelStyle.fontColor = Color.WHITE;
 
-        Label gameTitle = new Label("Game Jam Game 2022", labelStyle);
+        Label gameTitle = new Label("gamejam.Game Jam gamejam.Game 2022", labelStyle);
         verticalGroup.addActor(gameTitle);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
@@ -35,8 +37,8 @@ public class MainMenu extends Menu {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                System.out.println("Event: start game!");
                 EventQueue.getInstance().add(new MenuChangeEvent(-1));
+                EventQueue.getInstance().add(new SetupGameEvent());
             }
         });
         verticalGroup.addActor(playButton);

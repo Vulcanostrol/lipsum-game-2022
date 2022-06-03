@@ -1,10 +1,10 @@
-# Lipsum Game 2022
-Made for the Inter-Actief Game Jam (June 2022).
+# Lipsum gamejam.Game 2022
+Made for the Inter-Actief gamejam.Game Jam (June 2022).
 
 ---
 
 ## Theme
-The theme for the Game Jam is:\
+The theme for the gamejam.Game Jam is:\
 **_"Everything has a cost - Break the system"_**.
 
 ## Installation
