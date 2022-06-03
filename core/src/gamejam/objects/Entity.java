@@ -62,9 +62,9 @@ public class Entity {
 
     public boolean checkCollision(Entity e){
         return  hasCollided ||
-                (this.x < e.x + e.collisionWidth &&
-                this.x + this.collisionWidth > e.x &&
-                this.y < e.y + e.collisionHeight &&
+                (this.x - this.collisionWidth / 2 < e.x + e.collisionWidth / 2 &&
+                this.x + this.collisionWidth / 2> e.x - e.collisionWidth / 2 &&
+                this.y < e.y + e.collisionHeight /2 &&
                 this.collisionHeight + this.y > e.y);
     }
 
