@@ -39,14 +39,14 @@ public class EventQueue {
      * @return Optional met de volgende Event uit de queue of een empty optional. Dit
      * zodat je als aanroepende mainloop ook nog iets met een event kan doen als je wil.
      */
-    public Optional<Event> get() {
-        final var e = this.getInstance().eventQueue.poll();
+    public Optional<Event> handleNext() {
+        final Event e = this.getInstance().eventQueue.poll();
         if (e == null) {
             return Optional.empty();
 
         }
         final ArrayList<EventListener> listeners = listenersByType.get(e.getType());
-        for (var listener : listeners) {
+        for (EventListener listener : listeners) {
             listener.onEvent(e);
         }
         return Optional.of(e);
@@ -59,12 +59,12 @@ public class EventQueue {
      */
     public void registerListener(EventListener eventListener, String eventType) {
         if (this.listenersByType.containsKey(eventType)) {
-            var currentListeners = this.listenersByType.get(eventType);
+            ArrayList<EventListener> currentListeners = this.listenersByType.get(eventType);
             currentListeners.add(eventListener);
             this.listenersByType.put(eventType, currentListeners);
             return;
         }
-        var listWithTheListener = new ArrayList<EventListener>();
+        ArrayList<EventListener> listWithTheListener = new ArrayList<>();
         listWithTheListener.add(eventListener);
         this.listenersByType.put(eventType, listWithTheListener);
     }
@@ -75,7 +75,7 @@ public class EventQueue {
      * @param eventType moet corresponderen aan een {@link Event}.getType() - type van het event
      */
     public void deregisterListener(EventListener eventListener, String eventType) {
-        var listeners = this.listenersByType.get(eventType);
+        ArrayList<EventListener> listeners = this.listenersByType.get(eventType);
         if (listeners.contains(eventListener)) {
             listeners.remove(eventListener);
             this.listenersByType.put(eventType, listeners);
