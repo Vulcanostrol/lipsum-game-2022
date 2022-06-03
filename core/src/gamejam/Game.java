@@ -43,9 +43,9 @@ public class Game {
     }
 
     private void checkCollisions(){
-        TestEntityFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
+        CollidableFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
             CollidableFactory.getInstance().getAllManagedObjects().forEach(e2 -> {
-                if(e1!=e2 && e1.checkCollision(e2)){
+                if(e1 != e2 && e1.checkCollision(e2)){
                     e1.setHasCollided();
                     CollisionEvent event = new CollisionEvent(e1, e2);
                     EventQueue.getInstance().invoke(event);
@@ -53,5 +53,4 @@ public class Game {
             });
         });
     }
-
 }

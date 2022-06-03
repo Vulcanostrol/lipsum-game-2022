@@ -4,21 +4,39 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.KeyHoldWatcher;
+import gamejam.event.EventConsumer;
+import gamejam.event.EventQueue;
+import gamejam.event.EventType;
+import gamejam.event.events.CollisionEvent;
+import gamejam.event.events.KeyEvent;
+import gamejam.event.events.PlayerDeathEvent;
+import gamejam.factories.BulletFactory;
 
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
  */
-public class Player extends Collidable {
+public class Player extends Collidable implements Damageable {
     public static final float SPEED = 0.3f;
+
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
     private final Texture texture;
 
-    public Player(float x, float y) {
+    private final float maxHealth = 100;
+    private float health = maxHealth;
+
+    public Player(float x, float y) {💥
+        super(40, 60, 25, 25);
         this.x = x;
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
         texture = new Texture("Robot.png");
+
+        EventConsumer<CollisionEvent> collisionConsumer = this::onCollisionEvent;
+        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
+
+        EventConsumer<KeyEvent> keyEventConsumer = this::onKeyEvent;
+        EventQueue.getInstance().registerConsumer(keyEventConsumer, EventType.KEY_EVENT);
     }
 
     @Override
@@ -47,6 +65,34 @@ public class Player extends Collidable {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(texture, x, y, 40, 60, 0, 0, 20, 30, lookingLeft, false);
+        spriteBatch.draw(texture, x - spriteWidth / 2, y, spriteWidth, spriteHeight, 0, 0, 20, 30, lookingLeft, false);
+    }
+
+    private void onCollisionEvent(CollisionEvent event) {
+    }
+
+    private void onKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == Input.Keys.SPACE && event.isKeyDown()) {
+            BulletFactory.getInstance().addManagedObject(new Bullet(this.x, this.y, 0, 100));
+        }
+    }
+
+    @Override
+    public void damage(float damage) {
+        health -= damage;
+        if (health < 0) {
+            health = 0;
+            EventQueue.getInstance().invoke(new PlayerDeathEvent());
+        }
+    }
+
+    @Override
+    public float getHealth() {
+        return health;
+    }
+
+    @Override
+    public float getMaxHealth() {
+        return maxHealth;
     }
 }

@@ -3,6 +3,10 @@ package gamejam;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import gamejam.event.Event;
+import gamejam.event.EventConsumer;
+import gamejam.event.EventType;
+import gamejam.event.events.CollisionEvent;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.PlayerFactory;
@@ -39,18 +43,15 @@ public class Main extends Game {
 
 		menuManager.switchMenu(0);
 		// Entity creation
-		EntityFactory.getInstance().addSubFactory(CollidableFactory.getInstance());
-		CollidableFactory.getInstance().addSubFactory(TestEntityFactory.getInstance());
-		CollidableFactory.getInstance().addSubFactory(PlayerFactory.getInstance());
 		Player player = new Player(300, 100);
 		TestEntity e1 = new TestEntity(100, 200);
 		TestEntity e2 = new TestEntity(100, 250);
-		TestEntity e3 = new TestEntity(500, 200, -100, 0);
+		TestEntity e3 = new TestEntity(500, 200, 0, 0);
 		PlayerFactory.getInstance().addManagedObject(player);
 		TestEntityFactory.getInstance().addManagedObject(e1);
 		TestEntityFactory.getInstance().addManagedObject(e2);
 		TestEntityFactory.getInstance().addManagedObject(e3);
-	}
+ 	}
 
 	public void resize (int width, int height) {
 		menuManager.onResize(width, height);

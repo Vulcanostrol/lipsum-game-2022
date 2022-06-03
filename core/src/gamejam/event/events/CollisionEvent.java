@@ -1,6 +1,7 @@
 package gamejam.event.events;
 
 import gamejam.event.Event;
+import gamejam.event.EventType;
 import gamejam.objects.Collidable;
 
 public class CollisionEvent implements Event {
@@ -9,7 +10,7 @@ public class CollisionEvent implements Event {
 
     @Override
     public String getType() {
-        return "CollisionChange";
+        return EventType.COLLISION_EVENT;
     }
 
     public CollisionEvent(Collidable collidingObject, Collidable collidesWith){

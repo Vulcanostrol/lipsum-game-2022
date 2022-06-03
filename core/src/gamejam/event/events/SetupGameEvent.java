@@ -2,6 +2,7 @@ package gamejam.event.events;
 
 import gamejam.GameManager;
 import gamejam.event.Event;
+import gamejam.event.EventType;
 
 public class SetupGameEvent implements Event {
 
@@ -11,7 +12,7 @@ public class SetupGameEvent implements Event {
 
     @Override
     public String getType() {
-        return "SetupGameChange";
+        return EventType.SETUP_GAME;
     }
 
 

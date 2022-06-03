@@ -1,6 +1,7 @@
 package gamejam.event.events;
 
 import gamejam.event.Event;
+import gamejam.event.EventType;
 
 public class KeyTypedEvent implements Event {
     final char charTyped;
@@ -15,6 +16,6 @@ public class KeyTypedEvent implements Event {
 
     @Override
     public String getType() {
-        return "KeyTypedEvent";
+        return EventType.KEY_TYPED;
     }
 }

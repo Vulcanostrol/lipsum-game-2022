@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
+import gamejam.event.EventType;
 import gamejam.event.events.KeyEvent;
 import gamejam.event.events.MenuChangeEvent;
 import gamejam.input.InputHandler;
@@ -22,11 +23,11 @@ public class MenuManager {
 
         // Menu change listeners
         EventConsumer<MenuChangeEvent> consumer = this::handleMenuChangeEvent;
-        EventQueue.getInstance().registerConsumer(consumer, "MenuChange");
+        EventQueue.getInstance().registerConsumer(consumer, EventType.MENU_CHANGE);
 
         // Pause menu
         EventConsumer<KeyEvent> keyConsumer = this::onKeyEvent;
-        EventQueue.getInstance().registerConsumer(keyConsumer, "KeyEvent");
+        EventQueue.getInstance().registerConsumer(keyConsumer, EventType.KEY_EVENT);
     }
 
     public void handleMenuChangeEvent(MenuChangeEvent event) {

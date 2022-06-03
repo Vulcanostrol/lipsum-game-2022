@@ -2,6 +2,7 @@ package gamejam;
 
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
+import gamejam.event.EventType;
 import gamejam.event.events.KeyEvent;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ public class KeyHoldWatcher {
     public KeyHoldWatcher() {
         heldKeys = new HashMap<>();
         EventConsumer<KeyEvent> keyEventEventConsumer = this::onKeyEvent;
-        EventQueue.getInstance().registerConsumer(keyEventEventConsumer, "KeyEvent");
+        EventQueue.getInstance().registerConsumer(keyEventEventConsumer, EventType.KEY_EVENT);
     }
 
     private void onKeyEvent(KeyEvent keyEvent) {
