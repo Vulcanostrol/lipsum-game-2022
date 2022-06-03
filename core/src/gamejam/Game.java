@@ -1,17 +1,22 @@
 package gamejam;
 
-import gamejam.rooms.Room;
+import gamejam.levels.Level;
+
+import java.util.ArrayList;
 
 public class Game {
 
-    private Room room;
+    private ArrayList<Level> levels = new ArrayList<>();
+    private Level currentLevel;
 
     public Game() {
-        room = new Room();
+        // Initialize a base level
+        currentLevel = new Level();
+        levels.add(currentLevel);
     }
 
     public void render() {
-        room.draw();
+        currentLevel.render();
     }
 
 }
