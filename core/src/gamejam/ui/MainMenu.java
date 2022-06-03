@@ -44,7 +44,7 @@ public class MainMenu extends Menu {
         optionsButton.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                EventQueue.getInstance().add(new MenuChangeEvent(1));
+                EventQueue.getInstance().invoke(new MenuChangeEvent(1));
             }
         });
         verticalGroup.addActor(optionsButton);
