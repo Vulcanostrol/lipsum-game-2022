@@ -14,11 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import gamejam.factories.EntityFactory;
+import gamejam.factories.TestEntityFactory;
 import gamejam.objects.Entity;
 
 import java.util.stream.Stream;
 import gamejam.event.Event;
 import gamejam.event.EventQueue;
+import gamejam.objects.TestEntity;
 
 public class Main extends Game {
 
@@ -35,7 +37,7 @@ public class Main extends Game {
 
 	EventQueue eventQueue = EventQueue.getInstance();
 
-	EntityFactory entityFactory;
+	TestEntityFactory testEntityFactory;
 	SpriteBatch spriteBatch;
 
 	long previousTime;
@@ -88,13 +90,13 @@ public class Main extends Game {
 
 		spriteBatch = new SpriteBatch();
 		// Entity creation
-		entityFactory = new EntityFactory();
-		Entity e1 = new Entity(100, 200);
-		Entity e2 = new Entity(100, 250);
-		Entity e3 = new Entity(500, 200, -100, 0);
-		entityFactory.addManagedObject(e1);
-		entityFactory.addManagedObject(e2);
-		entityFactory.addManagedObject(e3);
+		testEntityFactory = new TestEntityFactory();
+		TestEntity e1 = new TestEntity(100, 200);
+		TestEntity e2 = new TestEntity(100, 250);
+		TestEntity e3 = new TestEntity(500, 200, -100, 0);
+		testEntityFactory.addManagedObject(e1);
+		testEntityFactory.addManagedObject(e2);
+		testEntityFactory.addManagedObject(e3);
 
 		//time
 		previousTime = System.currentTimeMillis();
@@ -112,7 +114,7 @@ public class Main extends Game {
 
 		//Update
 		long newTime = System.currentTimeMillis();
-		entityFactory.getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
+		testEntityFactory.getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
 		previousTime = newTime;
 
 		//Collision
@@ -120,16 +122,16 @@ public class Main extends Game {
 
 		//Draw
 		spriteBatch.begin();
-		entityFactory.getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
+		testEntityFactory.getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
 		spriteBatch.end();
 
 	}
 
 	private void checkCollisions(){
-		entityFactory.getAllManagedObjects().forEach(e1 -> {
-			entityFactory.getAllManagedObjects().forEach(e2 -> {
+		testEntityFactory.getAllManagedObjects().forEach(e1 -> {
+			testEntityFactory.getAllManagedObjects().forEach(e2 -> {
 				if(e1!=e2 && e1.checkCollision(e2)){
-					e1.updateHasCollided();
+					e1.setHasCollided();
 				}
 			});
 		});
