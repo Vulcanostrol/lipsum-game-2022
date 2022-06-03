@@ -1,6 +1,8 @@
 package gamejam;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.event.EventQueue;
+import gamejam.event.events.CollisionEvent;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.TestEntityFactory;
@@ -45,6 +47,8 @@ public class Game {
             CollidableFactory.getInstance().getAllManagedObjects().forEach(e2 -> {
                 if(e1!=e2 && e1.checkCollision(e2)){
                     e1.setHasCollided();
+                    CollisionEvent event = new CollisionEvent(e1, e2);
+                    EventQueue.getInstance().invoke(event);
                 }
             });
         });
