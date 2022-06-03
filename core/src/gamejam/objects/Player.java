@@ -9,14 +9,16 @@ import gamejam.KeyHoldWatcher;
  * The player entity. Is NOT meant to hold the inventory etc!
  */
 public class Player extends Collidable {
+    public static final float SPEED = 0.3f;
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
-    private static final Texture TEXTURE = new Texture("Robot.png");
+    private final Texture texture;
 
     public Player(float x, float y) {
         this.x = x;
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
+        texture = new Texture("Robot.png");
     }
 
     @Override
@@ -38,13 +40,13 @@ public class Player extends Collidable {
             dy -= 1;
         }
 
-        x += dx * timeDeltaMillis;
-        y += dy * timeDeltaMillis;
+        x += SPEED * dx * timeDeltaMillis;
+        y += SPEED * dy * timeDeltaMillis;
 
     }
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(TEXTURE, x, y, 40, 60, 0, 0, 20, 30, lookingLeft, false);
+        spriteBatch.draw(texture, x, y, 40, 60, 0, 0, 20, 30, lookingLeft, false);
     }
 }

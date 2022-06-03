@@ -1,7 +1,8 @@
 package gamejam;
 
-import gamejam.event.Event;
+import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
+import gamejam.event.events.KeyEvent;
 
 import java.util.HashMap;
 
@@ -10,11 +11,16 @@ public class KeyHoldWatcher {
 
     public KeyHoldWatcher() {
         heldKeys = new HashMap<>();
-        EventQueue.getInstance().registerConsumer(this::onKeyEvent, "KeyEvent");
+        EventConsumer<KeyEvent> keyEventEventConsumer = this::onKeyEvent;
+        EventQueue.getInstance().registerConsumer(keyEventEventConsumer, "KeyEvent");
     }
 
-    private void onKeyEvent(Event keyEvent) {
-        // TODO: When key is held, put true in map
+    private void onKeyEvent(KeyEvent keyEvent) {
+        if (keyEvent.isKeyDown()) {
+            heldKeys.put(keyEvent.getKeyCode(), true);
+        } else {
+            heldKeys.put(keyEvent.getKeyCode(), false);
+        }
     }
 
     public boolean isKeyHeld(int keyCode) {
