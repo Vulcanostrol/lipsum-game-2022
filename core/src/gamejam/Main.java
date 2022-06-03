@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package gamejam;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
