@@ -5,18 +5,17 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import gamejam.event.EventQueue;
 import gamejam.event.events.KeyEvent;
+import gamejam.event.events.KeyTypedEvent;
+
+import java.util.function.Function;
 
 public class InputHandler implements InputProcessor {
 
     EventQueue eventQueue = EventQueue.getInstance();
 
-    public InputHandler() {
-    }
-
     @Override
     public boolean keyDown(int keycode) {
         this.eventQueue.add(new KeyEvent(true, keycode));
-        System.out.println(Input.Keys.toString(keycode) + " was pressed.");
         return true;
     }
 
@@ -28,7 +27,7 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-
+        this.eventQueue.add(new KeyTypedEvent(character));
         return false;
     }
 

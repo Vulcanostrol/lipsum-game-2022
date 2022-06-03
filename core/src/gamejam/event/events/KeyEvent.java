@@ -4,19 +4,21 @@ import gamejam.event.Event;
 
 public class KeyEvent implements Event {
     private final boolean isKeyDown;
-    private final int code;
+    private final int keyCode;
 
-    public KeyEvent(boolean isKeyDown, int code) {
+    public KeyEvent(boolean isKeyDown, int keyCode) {
         this.isKeyDown = isKeyDown;
-        this.code = code;
+        this.keyCode = keyCode;
     }
 
-    public int getCode(){
-        return this.code;
+    public int getKeyCode() {
+        return keyCode;
     }
+
     public boolean isKeyDown() {
         return this.isKeyDown;
     }
+
     public boolean isKeyUp() {
         return !this.isKeyDown;
     }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import gamejam.event.EventQueue;
 import gamejam.event.events.MenuChangeEvent;
+import gamejam.input.InputHandler;
 
 public class MainMenu extends Menu {
 
