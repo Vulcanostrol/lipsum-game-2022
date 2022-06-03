@@ -36,6 +36,7 @@ public class MainMenu extends Menu {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 System.out.println("Event: start game!");
+                EventQueue.getInstance().add(new MenuChangeEvent(-1));
             }
         });
         verticalGroup.addActor(playButton);
