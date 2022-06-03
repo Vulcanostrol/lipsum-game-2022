@@ -23,4 +23,9 @@ public abstract class Entity {
     public void draw(SpriteBatch spriteBatch){
         spriteBatch.draw(sprite, x-spriteWidth/2, y, spriteWidth, spriteHeight);
     }
+
+    public void setVelocity(float xVelocity, float yVelocity) {
+        speedX = xVelocity;
+        speedY = yVelocity;
+    }
 }
