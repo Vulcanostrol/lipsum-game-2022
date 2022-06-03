@@ -1,14 +1,17 @@
 package gamejam;
 
+import gamejam.levels.Level;
+
+import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.TestEntityFactory;
-import gamejam.rooms.Room;
 
 public class Game {
 
-    private Room room;
+    private ArrayList<Level> levels = new ArrayList<>();
+    private Level currentLevel;
 
     long previousTime;
 
@@ -16,7 +19,9 @@ public class Game {
 
 
     public Game() {
-        room = new Room();
+        // Initialize a base level
+        currentLevel = new Level();
+        levels.add(currentLevel);
 
         spriteBatch = new SpriteBatch();
         //time
@@ -24,7 +29,8 @@ public class Game {
     }
 
     public void render() {
-        room.draw();
+        currentLevel.render();
+
         //Update
         long newTime = System.currentTimeMillis();
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
@@ -37,7 +43,6 @@ public class Game {
         spriteBatch.begin();
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
         spriteBatch.end();
-
     }
 
     private void checkCollisions(){
@@ -49,5 +54,7 @@ public class Game {
             });
         });
     }
+
+
 
 }
