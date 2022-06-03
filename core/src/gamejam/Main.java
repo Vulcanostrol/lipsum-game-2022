@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import gamejam.factories.EntityFactory;
+import gamejam.objects.Entity;
 
 public class Main extends Game {
 
@@ -25,6 +28,11 @@ public class Main extends Game {
 	TextButton button;
 
 	boolean visible;
+
+	EntityFactory entityFactory;
+	SpriteBatch spriteBatch;
+
+	long previousTime;
 
 	@Override
 	public void create () {
@@ -62,6 +70,19 @@ public class Main extends Game {
 			}
 		});
 		stage.addActor(button);
+
+		spriteBatch = new SpriteBatch();
+		// Entity creation
+		entityFactory = new EntityFactory();
+		Entity e1 = new Entity(100, 200);
+		Entity e2 = new Entity(100, 250);
+		Entity e3 = new Entity(500, 200, -100, 0);
+		entityFactory.addManagedObject(e1);
+		entityFactory.addManagedObject(e2);
+		entityFactory.addManagedObject(e3);
+
+		//time
+		previousTime = System.currentTimeMillis();
 	}
 
 	public void resize (int width, int height) {
@@ -73,6 +94,15 @@ public class Main extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
 		stage.draw();
+
+		long newTime = System.currentTimeMillis();
+		entityFactory.update(newTime-previousTime);
+		previousTime = newTime;
+
+		spriteBatch.begin();
+		entityFactory.draw(spriteBatch);
+		spriteBatch.end();
+
 	}
 	
 	@Override
