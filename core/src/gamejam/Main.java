@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import gamejam.rooms.Room;
 
 public class Main extends Game {
 
@@ -24,44 +25,56 @@ public class Main extends Game {
 	TextButton.TextButtonStyle textButtonStyle;
 	TextButton button;
 
+	Room room;
+
 	boolean visible;
 
 	@Override
 	public void create () {
-		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
+		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+		Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 
-		font = new BitmapFont();
+		this.room = new Room();
 
-		// Table
-		table = new Table();
-		table.setFillParent(true);
-		stage.addActor(table);
 
-		// Container
-		labelStyle = new Label.LabelStyle();
-		labelStyle.font = font;
-		labelStyle.fontColor = Color.WHITE;
-		label = new Label("Hello, Lipsum!", labelStyle);
-		wrapper = new Container<>(label);
-		wrapper.setTransform(true);
-		wrapper.setPosition(500, 500);
-		wrapper.setRotation(45);
-//		wrapper.setScaleX(1.5f);
-		table.addActor(wrapper);
 
-		// Button
-		textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = font;
-		button = new TextButton("Sample button", textButtonStyle);
-		button.addListener(new ClickListener() {
-			@Override
-			public void clicked (InputEvent event, float x, float y) {
-				visible = !visible;
-				table.setVisible(visible);
-			}
-		});
-		stage.addActor(button);
+//		stage = new Stage();
+//		Gdx.input.setInputProcessor(stage);
+//
+//		font = new BitmapFont();
+//
+//		// Table
+//		table = new Table();
+//		table.setFillParent(true);
+//		stage.addActor(table);
+//
+//		// Container
+//		labelStyle = new Label.LabelStyle();
+//		labelStyle.font = font;
+//		labelStyle.fontColor = Color.WHITE;
+//		label = new Label("Hello, Lipsum!", labelStyle);
+//		wrapper = new Container<>(label);
+//		wrapper.setTransform(true);
+//		wrapper.setPosition(500, 500);
+//		wrapper.setRotation(45);
+////		wrapper.setScaleX(1.5f);
+//		table.addActor(wrapper);
+//
+//		// Button
+//		textButtonStyle = new TextButton.TextButtonStyle();
+//		textButtonStyle.font = font;
+//		button = new TextButton("Sample button", textButtonStyle);
+//		button.addListener(new ClickListener() {
+//			@Override
+//			public void clicked (InputEvent event, float x, float y) {
+//				visible = !visible;
+//				table.setVisible(visible);
+//			}
+//		});
+//		stage.addActor(button);
+
+
+
 	}
 
 	public void resize (int width, int height) {
@@ -73,6 +86,7 @@ public class Main extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
 		stage.draw();
+		room.draw();
 	}
 	
 	@Override

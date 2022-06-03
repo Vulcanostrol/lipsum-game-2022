@@ -1,10 +1,9 @@
-package com.mygdx.game.rooms;
+package gamejam.rooms;
 
 public enum RoomTileType {
 
     FLOOR,
     OBSTACLE,
-    WALL_LEFT,
-    WALL_RIGHT
+    WALL
 
 }
