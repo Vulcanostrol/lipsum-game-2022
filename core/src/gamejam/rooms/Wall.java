@@ -36,6 +36,21 @@ public class Wall extends RoomTile {
             case WALL_SOUTHWEST:
                 this.tileTexture = TextureStore.getTileTextureByName("southwestwall");
                 break;
+            case SOUTH_DOOR:
+                this.tileTexture = TextureStore.getTileTextureByName("southdoor");
+                break;
+            case NORTH_DOOR:
+                this.tileTexture = TextureStore.getTileTextureByName("northdoor");
+                break;
+            case EAST_DOOR:
+                this.tileTexture = TextureStore.getTileTextureByName("eastdoor");
+                break;
+            case WEST_DOOR:
+                this.tileTexture = TextureStore.getTileTextureByName("westdoor");
+                break;
+            default:
+                this.tileTexture = TextureStore.getTileTextureByName("bobbysoepkip");
+                break;
         }
     }
 

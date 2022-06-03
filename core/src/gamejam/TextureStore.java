@@ -19,6 +19,10 @@ public class TextureStore {
         textures.put("southeastwall", new Texture("assets/terrain/southeastwall.png"));
         textures.put("southwestwall", new Texture("assets/terrain/southwestwall.png"));
         textures.put("floor", new Texture("assets/terrain/floor.png"));
+        textures.put("northdoor", new Texture("assets/terrain/door.png"));
+        textures.put("southdoor", new Texture("assets/terrain/door.png"));
+        textures.put("westdoor", new Texture("assets/terrain/door.png"));
+        textures.put("eastdoor", new Texture("assets/terrain/door.png"));
     }
 
     public static Texture getTileTextureByName(String name) {
