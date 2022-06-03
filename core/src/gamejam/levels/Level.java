@@ -53,6 +53,8 @@ public class Level {
         currentRoom.northRoom.createBranches(nNorthRooms, Direction.NORTH);
         currentRoom.southRoom.createBranches(nSouthRooms, Direction.SOUTH);
 
+        currentRoom.updateLayout();
+
 //        for (int i = 0; i < this.rooms.length; i++) {
 //            for (int j = 0; j < this.rooms[0].length; j++) {
 //                System.out.print(this.rooms[i][j]);

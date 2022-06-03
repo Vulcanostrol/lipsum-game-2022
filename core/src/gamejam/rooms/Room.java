@@ -168,6 +168,34 @@ public class Room {
                 int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
                 int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
 
+                if (i == 0 && j == Math.round((max_tile_y / 2)) && westRoom != null) {
+                    // West door
+                    tiles[i][j] = new Wall(WallTileType.WEST_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
+                    continue;
+                }
+
+                if (i == max_tile_x && j == Math.round((max_tile_y / 2)) && eastRoom != null) {
+                    // East door
+                    tiles[i][j] = new Wall(WallTileType.EAST_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
+                    continue;
+                }
+
+                if (i == Math.round((max_tile_x / 2)) && j == 0 && southRoom != null) {
+                    // South door
+                    tiles[i][j] = new Wall(WallTileType.SOUTH_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
+                    continue;
+                }
+
+                if (i == Math.round((max_tile_x / 2)) && j == max_tile_y && northRoom != null) {
+                    // North door
+                    tiles[i][j] = new Wall(WallTileType.NORTH_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
+                    continue;
+                }
+
                 if (i == 0 && j == 0) {
                     tiles[i][j] = new Wall(WallTileType.WALL_SOUTHWEST, minX, maxX, minY, maxY);
                     continue;
@@ -205,6 +233,53 @@ public class Room {
         }
 
         // After this one can choose how to randomly instantiate rest objects in the room
+    }
+
+    public void updateLayout() {
+        eastRoom = levelParent.rooms[levelX + 1][levelY];
+        westRoom = levelParent.rooms[levelX - 1][levelY];
+        northRoom = levelParent.rooms[levelX][levelY + 1];
+        southRoom = levelParent.rooms[levelX][levelY - 1];
+
+        // Setup base room tiles
+        int max_tile_x = tiles.length - 1;
+        int max_tile_y = tiles[0].length - 1;
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[0].length; j++) {
+                int minX = i * RoomConfiguration.TILE_PIXEL_WIDTH;
+                int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
+                int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
+                int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
+
+                if (i == 0 && j == Math.round((max_tile_y / 2)) && westRoom != null) {
+                    // West door
+                    tiles[i][j] = new Wall(WallTileType.WEST_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
+                    continue;
+                }
+
+                if (i == max_tile_x && j == Math.round((max_tile_y / 2)) && eastRoom != null) {
+                    // East door
+                    tiles[i][j] = new Wall(WallTileType.EAST_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
+                    continue;
+                }
+
+                if (i == Math.round((max_tile_x / 2)) && j == 0 && southRoom != null) {
+                    // South door
+                    tiles[i][j] = new Wall(WallTileType.SOUTH_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
+                    continue;
+                }
+
+                if (i == Math.round((max_tile_x / 2)) && j == max_tile_y && northRoom != null) {
+                    // North door
+                    tiles[i][j] = new Wall(WallTileType.NORTH_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
+                    continue;
+                }
+            }
+        }
     }
 
     public void draw() {

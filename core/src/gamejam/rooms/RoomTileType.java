@@ -4,6 +4,7 @@ public enum RoomTileType {
 
     FLOOR,
     OBSTACLE,
-    WALL
+    WALL,
+    DOOR
 
 }

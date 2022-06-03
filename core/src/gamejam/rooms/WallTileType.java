@@ -9,6 +9,10 @@ public enum WallTileType {
     WALL_NORTHEAST,
     WALL_NORTHWEST,
     WALL_SOUTHEAST,
-    WALL_SOUTHWEST
+    WALL_SOUTHWEST,
+    EAST_DOOR,
+    WEST_DOOR,
+    NORTH_DOOR,
+    SOUTH_DOOR,
 
 }
