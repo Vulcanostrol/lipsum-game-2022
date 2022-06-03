@@ -2,34 +2,29 @@ package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import gamejam.RoomConfiguration;
 
 public class Room {
 
-    private final int TILE_PIXEL_WIDTH = 80;
-    private final int TILE_PIXEL_HEIGHT = 80;
-
     private SpriteBatch batch;
-    private ShapeRenderer shapeRenderer;
     // Assuming 1920x1080
     // MAX_TILE_WIDTH = 24;
     // MAX_TILE_HEIGHT = 13.5;
     // 0, 0 is bottom left
-    private RoomTile[][] tiles = new RoomTile[24][13];
+    private RoomTile[][] tiles = new RoomTile[RoomConfiguration.ROOM_TILE_WIDTH][RoomConfiguration.ROOM_TILE_HEIGHT];
 
     public Room() {
-        System.out.print("initializing room");
         batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
 
         // Setup base room tiles
         int max_tile_x = tiles.length - 1;
         int max_tile_y = tiles[0].length - 1;
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[0].length; j++) {
-                int minX = i * TILE_PIXEL_WIDTH;
-                int maxX = (i + 1) * TILE_PIXEL_WIDTH;
-                int minY = j * TILE_PIXEL_HEIGHT;
-                int maxY = (j + 1) * TILE_PIXEL_HEIGHT;
+                int minX = i * RoomConfiguration.TILE_PIXEL_WIDTH;
+                int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
+                int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
+                int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
 
                 if (i == 0 && j == 0) {
                     tiles[i][j] = new Wall(WallTileType.WALL_SOUTHWEST, minX, maxX, minY, maxY);
@@ -66,7 +61,6 @@ public class Room {
                 tiles[i][j] = new Floor(minX, maxX, minY, maxY);
             }
         }
-        System.out.print("done initializing room");
 
         // After this one can choose how to randomly instantiate rest objects in the room
     }
@@ -74,7 +68,7 @@ public class Room {
     public void draw() {
         for (RoomTile[] roomTiles : this.tiles) {
             for (RoomTile roomTile : roomTiles) {
-                roomTile.draw(batch, shapeRenderer);
+                roomTile.draw(batch);
             }
         }
     }

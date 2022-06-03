@@ -31,6 +31,7 @@ public class Main extends Game {
 
 	@Override
 	public void create () {
+		TextureStore.instantiate();
 		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 

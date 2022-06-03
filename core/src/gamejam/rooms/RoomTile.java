@@ -3,12 +3,12 @@ package gamejam.rooms;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import gamejam.RoomConfiguration;
 
 public class RoomTile {
 
     protected RoomTileType roomTileType;
     protected boolean impassible;
-    protected String texturePath;
     protected Texture tileTexture;
 
     protected int minX;
@@ -24,10 +24,9 @@ public class RoomTile {
         this.maxY = maxY;
     }
 
-    public void draw(SpriteBatch batch, ShapeRenderer shapeRenderer) {
-        // TODO: Unmagic these numbers
+    public void draw(SpriteBatch batch) {
         batch.begin();
-        batch.draw(tileTexture, minX, minY, 80, 80);
+        batch.draw(tileTexture, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT);
         batch.end();
     }
 

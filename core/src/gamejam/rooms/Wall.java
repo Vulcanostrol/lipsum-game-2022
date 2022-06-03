@@ -1,6 +1,7 @@
 package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.Texture;
+import gamejam.TextureStore;
 
 public class Wall extends RoomTile {
 
@@ -12,31 +13,30 @@ public class Wall extends RoomTile {
 
         switch(wallTileType) {
             case WALL_EAST:
-                this.texturePath = "assets/terrain/eastwall.png";
+                this.tileTexture = TextureStore.getTileTextureByName("eastwall");
                 break;
             case WALL_WEST:
-                this.texturePath = "assets/terrain/westwall.png";
+                this.tileTexture = TextureStore.getTileTextureByName("westwall");
                 break;
             case WALL_SOUTH:
-                this.texturePath = "assets/terrain/southwall.png";
+                this.tileTexture = TextureStore.getTileTextureByName("southwall");
                 break;
             case WALL_NORTH:
-                this.texturePath = "assets/terrain/northwall.png";
+                this.tileTexture = TextureStore.getTileTextureByName("northwall");
                 break;
             case WALL_NORTHEAST:
-                this.texturePath = "assets/terrain/northeastwall.png";
+                this.tileTexture = TextureStore.getTileTextureByName("northeastwall");
                 break;
             case WALL_NORTHWEST:
-                this.texturePath = "assets/terrain/northwestwall.png";
+                this.tileTexture = TextureStore.getTileTextureByName("northwestwall");
                 break;
             case WALL_SOUTHEAST:
-                this.texturePath = "assets/terrain/southeastwall.png";
+                this.tileTexture = TextureStore.getTileTextureByName("southeastwall");
                 break;
             case WALL_SOUTHWEST:
-                this.texturePath = "assets/terrain/southwestwall.png";
+                this.tileTexture = TextureStore.getTileTextureByName("southwestwall");
                 break;
         }
-        this.tileTexture = new Texture(this.texturePath);
     }
 
 
