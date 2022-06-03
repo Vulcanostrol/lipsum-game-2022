@@ -36,20 +36,26 @@ public class EventQueue {
 
     /**
      * haal een event uit de queue, En passt hem door naar alle listeners.
-     * @return Optional met de volgende Event uit de queue of een empty optional. Dit
-     * zodat je als aanroepende mainloop ook nog iets met een event kan doen als je wil.
+     * @return true als er een event werd gehandeld, anders false.
      */
-    public Optional<Event> handleNext() {
+    public boolean handleNext() {
         final Event e = this.getInstance().eventQueue.poll();
         if (e == null) {
-            return Optional.empty();
-
+            return false;
         }
         final ArrayList<EventListener> listeners = listenersByType.get(e.getType());
         for (EventListener listener : listeners) {
             listener.onEvent(e);
         }
-        return Optional.of(e);
+        return true;
+    }
+
+    /**
+     * Haalt alle events uit de queue, en passt ze door naar de listeners.
+     */
+    public void handleAll() {
+        // is niet een typo.
+        while(this.handleNext());
     }
 
     /**
