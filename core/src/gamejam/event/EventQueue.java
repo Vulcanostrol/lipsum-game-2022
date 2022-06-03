@@ -50,8 +50,8 @@ public class EventQueue {
         if (e == null) {
             return false;
         }
-        final ArrayList<EventConsumer<?>> consumers = eventConsumersByType.get(e.getType());
-        for (EventConsumer<?> consumer : consumers) {
+        final ArrayList<EventConsumer<? extends Event>> consumers = eventConsumersByType.get(e.getType());
+        for (EventConsumer<? extends Event> consumer : consumers) {
             consumer.internalEventHandle(e);
         }
         return true;
@@ -65,14 +65,14 @@ public class EventQueue {
         while(this.handleNext());
     }
 
-    public void registerConsumer(EventConsumer<?> consumer, String eventType) {
+    public void registerConsumer(EventConsumer<? extends Event> consumer, String eventType) {
         if (this.eventConsumersByType.containsKey(eventType)) {
-            ArrayList<EventConsumer<?>> currentConsumer = this.eventConsumersByType.get(eventType);
+            ArrayList<EventConsumer<? extends Event>> currentConsumer = this.eventConsumersByType.get(eventType);
             currentConsumer.add(consumer);
             this.eventConsumersByType.put(eventType, currentConsumer);
             return;
         }
-        ArrayList<EventConsumer<?>> listWithTheConsumer = new ArrayList<>();
+        ArrayList<EventConsumer<? extends Event>> listWithTheConsumer = new ArrayList<>();
         listWithTheConsumer.add(consumer);
         this.eventConsumersByType.put(eventType, listWithTheConsumer);
     }
@@ -82,8 +82,8 @@ public class EventQueue {
      * @param eventConsumer De consumer (wooh documentatie).
      * @param eventType moet corresponderen aan een {@link Event}.getType() - type van het event
      */
-    public void deregisterConsumer(EventConsumer<?> eventConsumer, String eventType) {
-        ArrayList<EventConsumer<?>> consumers = this.eventConsumersByType.get(eventType);
+    public void deregisterConsumer(EventConsumer<? extends Event> eventConsumer, String eventType) {
+        ArrayList<EventConsumer<? extends Event>> consumers = this.eventConsumersByType.get(eventType);
         if (consumers.contains(eventConsumer)) {
             consumers.remove(eventConsumer);
             this.eventConsumersByType.put(eventType, consumers);
