@@ -4,12 +4,8 @@ import java.util.function.Consumer;
 
 public class EventListener {
 
-    private Consumer<Event> callback;
-    private String eventType;
-
-    public void onEvent(Event e) {
-        this.callback.accept(e);
-    }
+    private final Consumer<Event> callback;
+    private final String eventType;
 
     /**
      * Maakt een Event Listener die koele dingen kan doen als er een bepaald event is gebeurd.
@@ -19,5 +15,13 @@ public class EventListener {
     public EventListener(Consumer<Event> callback, String eventType) {
         this.callback = callback;
         this.eventType = eventType;
+    }
+
+    public void onEvent(Event e) {
+        this.callback.accept(e);
+    }
+
+    public String getEventType() {
+        return eventType;
     }
 }
