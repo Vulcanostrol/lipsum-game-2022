@@ -18,7 +18,7 @@ public class EventQueue {
         this.listenersByType = new HashMap<>();
     }
 
-    private EventQueue getInstance() {
+    public static EventQueue getInstance() {
         if (EventQueue.instance != null) {
             return EventQueue.instance;
         }
@@ -31,7 +31,10 @@ public class EventQueue {
      * @param event
      */
     public void add(Event event) {
-        this.getInstance().eventQueue.add(event);
+        EventQueue.getInstance().eventQueue.add(event);
+        if (!this.listenersByType.containsKey(event.getType())) {
+            this.listenersByType.put(event.getType(), new ArrayList<EventListener>());
+        }
     }
 
     /**
@@ -39,7 +42,7 @@ public class EventQueue {
      * @return true als er een event werd gehandeld, anders false.
      */
     public boolean handleNext() {
-        final Event e = this.getInstance().eventQueue.poll();
+        final Event e = EventQueue.getInstance().eventQueue.poll();
         if (e == null) {
             return false;
         }

@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import gamejam.event.Event;
+import gamejam.event.EventQueue;
 
 public class Main extends Game {
 
@@ -25,6 +27,8 @@ public class Main extends Game {
 	TextButton button;
 
 	boolean visible;
+
+	EventQueue eventQueue = EventQueue.getInstance();
 
 	@Override
 	public void create () {
@@ -62,6 +66,15 @@ public class Main extends Game {
 			}
 		});
 		stage.addActor(button);
+
+		// event queue dinkie
+		eventQueue.add(new Event() {
+			@Override
+			public String getType() {
+				return "ik ben een event";
+			}
+		});
+		eventQueue.handleAll();
 	}
 
 	public void resize (int width, int height) {
