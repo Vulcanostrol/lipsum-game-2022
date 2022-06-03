@@ -10,7 +10,7 @@ public class Entity {
 
     private Texture hitBoxRedTexture;
     private Texture hitBoxGreenTexture;
-    private Texture hitBoxTexture;
+    private boolean hasCollided;
     private float collisionWidth;
     private float collisionHeight;
 
@@ -26,7 +26,7 @@ public class Entity {
         this.y = y;
         this.hitBoxRedTexture = new Texture("HitboxRed.png");
         this.hitBoxGreenTexture = new Texture("HitboxGreen.png");
-        this.hitBoxTexture = hitBoxGreenTexture;
+        this.hasCollided = false;
         this.collisionHeight = 25;
         this.collisionWidth = 25;
         this.sprite = new Texture("badlogic.jpg");
@@ -49,6 +49,24 @@ public class Entity {
 
     public void draw(SpriteBatch spriteBatch){
         spriteBatch.draw(sprite, x-spriteWidth/2, y, spriteWidth, spriteHeight);
-        spriteBatch.draw(hitBoxTexture, x-collisionWidth/2, y, collisionHeight, collisionWidth);
+        if(hasCollided){
+            spriteBatch.draw(hitBoxRedTexture, x-collisionWidth/2, y, collisionHeight, collisionWidth);
+        } else {
+            spriteBatch.draw(hitBoxGreenTexture, x-collisionWidth/2, y, collisionHeight, collisionWidth);
+        }
     }
+
+    public void updateHasCollided(){
+        this.hasCollided = true;
+    }
+
+    public boolean checkCollision(Entity e){
+        return  hasCollided ||
+                (this.x < e.x + e.collisionWidth &&
+                this.x + this.collisionWidth > e.x &&
+                this.y < e.y + e.collisionHeight &&
+                this.collisionHeight + this.y > e.y);
+    }
+
+
 }

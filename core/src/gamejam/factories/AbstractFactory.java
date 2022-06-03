@@ -61,32 +61,4 @@ public abstract class AbstractFactory<T> {
     public void addSubFactory(AbstractFactory<? extends T> subFactory) {
         subFactories.add(subFactory);
     }
-
-    /**
-     * updates all the entities and all the subFactories
-     */
-    public void update(float timeDeltaMillis){
-        for(T t:managedObjects){
-            if(t instanceof Entity){
-                ((Entity) t).update(timeDeltaMillis);
-            }
-        }
-        for(AbstractFactory f:subFactories){
-            f.update(timeDeltaMillis);
-        }
-    }
-
-    /**
-     * draws all the entities and all the subFactories
-     */
-    public void draw(SpriteBatch spriteBatch){
-        for(T t:managedObjects){
-            if(t instanceof Entity){
-                ((Entity) t).draw(spriteBatch);
-            }
-        }
-        for(AbstractFactory f:subFactories){
-            f.draw(spriteBatch);
-        }
-    }
 }

@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import gamejam.factories.EntityFactory;
 import gamejam.objects.Entity;
 
+import java.util.stream.Stream;
+
 public class Main extends Game {
 
 	Stage stage;
@@ -95,16 +97,31 @@ public class Main extends Game {
 		super.render();
 		stage.draw();
 
+		//Update
 		long newTime = System.currentTimeMillis();
-		entityFactory.update(newTime-previousTime);
+		entityFactory.getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
 		previousTime = newTime;
 
+		//Collision
+		this.checkCollisions();
+
+		//Draw
 		spriteBatch.begin();
-		entityFactory.draw(spriteBatch);
+		entityFactory.getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
 		spriteBatch.end();
 
 	}
-	
+
+	private void checkCollisions(){
+		entityFactory.getAllManagedObjects().forEach(e1 -> {
+			entityFactory.getAllManagedObjects().forEach(e2 -> {
+				if(e1!=e2 && e1.checkCollision(e2)){
+					e1.updateHasCollided();
+				}
+			});
+		});
+	}
+
 	@Override
 	public void dispose () {
 		stage.dispose();
