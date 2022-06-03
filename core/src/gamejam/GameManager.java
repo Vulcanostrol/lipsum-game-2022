@@ -1,6 +1,7 @@
 package gamejam;
 
 import gamejam.Game;
+import gamejam.factories.EntityFactory;
 
 public class GameManager {
 
