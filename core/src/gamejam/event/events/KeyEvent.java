@@ -1,6 +1,7 @@
 package gamejam.event.events;
 
 import gamejam.event.Event;
+import gamejam.event.EventType;
 
 public class KeyEvent implements Event {
     private final boolean isKeyDown;
@@ -25,6 +26,6 @@ public class KeyEvent implements Event {
 
     @Override
     public String getType() {
-        return "KeyEvent";
+        return EventType.KEY_EVENT;
     }
 }

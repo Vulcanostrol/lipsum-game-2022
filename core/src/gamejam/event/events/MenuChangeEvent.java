@@ -1,6 +1,7 @@
 package gamejam.event.events;
 
 import gamejam.event.Event;
+import gamejam.event.EventType;
 
 public class MenuChangeEvent implements Event {
 
@@ -12,7 +13,7 @@ public class MenuChangeEvent implements Event {
 
     @Override
     public String getType() {
-        return "MenuChange";
+        return EventType.MENU_CHANGE;
     }
 
     public int getMenuId() {

@@ -1,28 +1,39 @@
 package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class TestEntity extends Collidable{
+public class TestEntity extends Collidable implements Damageable {
 
-    public TestEntity(float x, float y){
-        this.x = x;
-        this.y = y;
-        this.hitBoxRedTexture = new Texture("HitboxRed.png");
-        this.hitBoxGreenTexture = new Texture("HitboxGreen.png");
-        this.hasCollided = false;
-        this.collisionHeight = 25;
-        this.collisionWidth = 25;
+    private float health = 100;
+
+    public TestEntity(float x, float y) {
+        super(25, 50, 25, 25);
+        setPosition(x, y);
+        setVelocity(0 ,0);
         this.sprite = new Texture("badlogic.jpg");
-        this.spriteWidth = 25;
-        this.spriteHeight = 50;
-        this.speedX = 0;
-        this.speedY = 0;
     }
 
-    public TestEntity(float x, float y, float speedX, float speedY){
+    public TestEntity(float x, float y, float speedX, float speedY) {
         this(x, y);
-        this.speedX = speedX;
-        this.speedY = speedY;
+        setVelocity(speedX, speedY);
+    }
+
+    @Override
+    public void damage(float damage) {
+        health -= damage;
+        if (health < 0) {
+            // DEATH
+            despawn();
+        }
+    }
+
+    @Override
+    public float getHealth() {
+        return health;
+    }
+
+    @Override
+    public float getMaxHealth() {
+        return 100;
     }
 }

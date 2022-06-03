@@ -6,6 +6,10 @@ import gamejam.objects.Entity;
 public class CollidableFactory extends AbstractFactory<Collidable> {
     private static CollidableFactory instance = null;
 
+    static {
+        EntityFactory.getInstance().addSubFactory(CollidableFactory.getInstance());
+    }
+
     public static CollidableFactory getInstance() {
         if (instance == null) {
             instance = new CollidableFactory();
