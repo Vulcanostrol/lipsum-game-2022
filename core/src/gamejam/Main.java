@@ -42,6 +42,8 @@ public class Main extends Game {
 
 	@Override
 	public void create () {
+		menuManager.switchMenu(0);
+
 		spriteBatch = new SpriteBatch();
 		// Entity creation
 		EntityFactory.getInstance().addSubFactory(CollidableFactory.getInstance());
