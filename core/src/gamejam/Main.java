@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import gamejam.event.Event;
 import gamejam.event.EventQueue;
+import gamejam.input.InputHandler;
 
 public class Main extends Game {
 
@@ -29,11 +30,13 @@ public class Main extends Game {
 	boolean visible;
 
 	EventQueue eventQueue = EventQueue.getInstance();
+	InputHandler inputHandler = new InputHandler();
 
 	@Override
 	public void create () {
 		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
+
+		// Gdx.input.setInputProcessor(stage);
 
 		font = new BitmapFont();
 
