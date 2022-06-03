@@ -11,9 +11,11 @@ The theme for the Game Jam is:\
 Clone the repository, either via the IntelliJ `Get from VCS` option, or just command-line git. 
 
 Open IntelliJ, navigate to `File > Open`.
+
 ![open.png](README_FILES/installations_open.png)
 
 Navigate to the place where you cloned the repository, and open the `build.gradle` file.
+
 ![gradle.png](README_FILES/installations_gradle.png)
 
 IntelliJ is based, so it will do everything for you after this.
