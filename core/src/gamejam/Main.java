@@ -17,6 +17,8 @@ import gamejam.factories.EntityFactory;
 import gamejam.objects.Entity;
 
 import java.util.stream.Stream;
+import gamejam.event.Event;
+import gamejam.event.EventQueue;
 
 public class Main extends Game {
 
@@ -30,6 +32,8 @@ public class Main extends Game {
 	TextButton button;
 
 	boolean visible;
+
+	EventQueue eventQueue = EventQueue.getInstance();
 
 	EntityFactory entityFactory;
 	SpriteBatch spriteBatch;
@@ -72,6 +76,15 @@ public class Main extends Game {
 			}
 		});
 		stage.addActor(button);
+
+		// event queue dinkie
+		eventQueue.add(new Event() {
+			@Override
+			public String getType() {
+				return "ik ben een event";
+			}
+		});
+		eventQueue.handleAll();
 
 		spriteBatch = new SpriteBatch();
 		// Entity creation
