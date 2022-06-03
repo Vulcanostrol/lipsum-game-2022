@@ -2,52 +2,54 @@ package gamejam;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import gamejam.rooms.Room;
+import gamejam.event.EventQueue;
+import gamejam.ui.MainMenu;
+import gamejam.ui.MenuManager;
+import gamejam.ui.OptionsMenu;
 
 public class Main extends Game {
 
-	Stage stage;
-	Table table;
-	BitmapFont font;
-	Label.LabelStyle labelStyle;
-	Label label;
-	Container<Label> wrapper;
-	TextButton.TextButtonStyle textButtonStyle;
-	TextButton button;
+	private final MenuManager menuManager;
 
+	public Main() {
+		super();
+		menuManager = new MenuManager();
+		menuManager.registerMenu(new MainMenu());
+		menuManager.registerMenu(new OptionsMenu());
+	}
 	Room room;
 
 	boolean visible;
 
 	@Override
 	public void create () {
+		menuManager.switchMenu(0);
+
 		TextureStore.instantiate();
 		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 
-		this.room = new Room();
+//		this.room = new Room();
+	}
+
+	public void resize (int width, int height) {
+		menuManager.onResize(width, height);
 	}
 
 	@Override
 	public void render () {
+		// Event handling
+		EventQueue.getInstance().handleAll();
+
+		// Rendering
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
-		room.draw();
+		menuManager.draw();
 	}
 	
 	@Override
 	public void dispose () {
-//		stage.dispose();
-
+		menuManager.switchMenu(-1);
 	}
 }
