@@ -64,18 +64,17 @@ public class EventQueue {
     /**
      * Voeg een nieuwe listener toe die iets gaat doen met een event als ie langskomt
      * @param eventListener De listener (wooh documentatie).
-     * @param eventType moet corresponderen aan een {@link Event}.getType() - type van het event
      */
-    public void registerListener(EventListener eventListener, String eventType) {
-        if (this.listenersByType.containsKey(eventType)) {
-            ArrayList<EventListener> currentListeners = this.listenersByType.get(eventType);
+    public void registerListener(EventListener eventListener) {
+        if (this.listenersByType.containsKey(eventListener.getEventType())) {
+            ArrayList<EventListener> currentListeners = this.listenersByType.get(eventListener.getEventType());
             currentListeners.add(eventListener);
-            this.listenersByType.put(eventType, currentListeners);
+            this.listenersByType.put(eventListener.getEventType(), currentListeners);
             return;
         }
         ArrayList<EventListener> listWithTheListener = new ArrayList<>();
         listWithTheListener.add(eventListener);
-        this.listenersByType.put(eventType, listWithTheListener);
+        this.listenersByType.put(eventListener.getEventType(), listWithTheListener);
     }
 
     /**
