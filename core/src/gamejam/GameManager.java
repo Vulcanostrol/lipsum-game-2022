@@ -1,10 +1,5 @@
 package gamejam;
 
-import com.badlogic.gdx.Gdx;
-import gamejam.Game;
-import gamejam.factories.EntityFactory;
-import gamejam.input.InputHandler;
-
 public class GameManager {
 
     private static Game game;
@@ -23,7 +18,4 @@ public class GameManager {
         if (!gameActive) return;
         game.render();
     }
-
-
-
 }

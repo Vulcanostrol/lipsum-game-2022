@@ -1,19 +1,14 @@
 package gamejam.input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import gamejam.event.EventQueue;
 import gamejam.event.events.KeyEvent;
 import gamejam.event.events.KeyTypedEvent;
-import gamejam.factories.EntityFactory;
-
-import java.util.function.Function;
 
 public class InputHandler implements InputProcessor {
 
     EventQueue eventQueue = EventQueue.getInstance();
-
 
     private static InputHandler instance = null;
 
@@ -26,19 +21,19 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        this.eventQueue.add(new KeyEvent(true, keycode));
+        this.eventQueue.invoke(new KeyEvent(true, keycode));
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        this.eventQueue.add(new KeyEvent(false, keycode));
+        this.eventQueue.invoke(new KeyEvent(false, keycode));
         return true;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        this.eventQueue.add(new KeyTypedEvent(character));
+        this.eventQueue.invoke(new KeyTypedEvent(character));
         return false;
     }
 

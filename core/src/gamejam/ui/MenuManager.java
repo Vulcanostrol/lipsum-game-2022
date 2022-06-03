@@ -1,10 +1,10 @@
 package gamejam.ui;
 
-import gamejam.event.EventConsumer;
 import com.badlogic.gdx.Gdx;
-import gamejam.event.Event;
-import gamejam.event.EventListener;
+import com.badlogic.gdx.Input;
+import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
+import gamejam.event.events.KeyEvent;
 import gamejam.event.events.MenuChangeEvent;
 import gamejam.input.InputHandler;
 
@@ -23,10 +23,20 @@ public class MenuManager {
         // Menu change listeners
         EventConsumer<MenuChangeEvent> consumer = this::handleMenuChangeEvent;
         EventQueue.getInstance().registerConsumer(consumer, "MenuChange");
+
+        // Pause menu
+        EventConsumer<KeyEvent> keyConsumer = this::onKeyEvent;
+        EventQueue.getInstance().registerConsumer(keyConsumer, "KeyEvent");
     }
 
     public void handleMenuChangeEvent(MenuChangeEvent event) {
         switchMenu(event.getMenuId());
+    }
+
+    private void onKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == Input.Keys.ESCAPE && event.isKeyDown()) {
+            EventQueue.getInstance().invoke(new MenuChangeEvent(2));
+        }
     }
 
     public void registerMenu(Menu menuToRegister) {
@@ -38,11 +48,11 @@ public class MenuManager {
         if (currentMenuId >= 0) {
             registeredMenus.get(currentMenuId).dispose();
         }
+        currentMenuId = id;
         if (id < 0) {
             Gdx.input.setInputProcessor(InputHandler.getInstance());
             return;
         }
-        currentMenuId = id;
         registeredMenus.get(currentMenuId).create();
     }
 

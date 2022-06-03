@@ -24,6 +24,7 @@ import gamejam.objects.TestEntity;
 import gamejam.ui.MainMenu;
 import gamejam.ui.MenuManager;
 import gamejam.ui.OptionsMenu;
+import gamejam.ui.PausedMenu;
 
 public class Main extends Game {
 
@@ -36,6 +37,7 @@ public class Main extends Game {
 		menuManager = new MenuManager();
 		menuManager.registerMenu(new MainMenu());
 		menuManager.registerMenu(new OptionsMenu());
+		menuManager.registerMenu(new PausedMenu());
 		gameManager = new GameManager();
 	}
 
@@ -69,8 +71,8 @@ public class Main extends Game {
 		// Rendering
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
-		menuManager.draw();
 		gameManager.draw();
+		menuManager.draw();
 	}
 
 	@Override
