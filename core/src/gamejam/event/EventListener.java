@@ -1,4 +1,4 @@
-package com.mygdx.game.event;
+package gamejam.event;
 
 import java.util.function.Function;
 
@@ -17,6 +17,6 @@ public class EventListener {
      */
     public EventListener(Function<Event, ?> callback, String eventType) {
         this.callback = callback;
-        this.eventType = eventType
+        this.eventType = eventType;
     }
 }

@@ -1,4 +1,4 @@
-package com.mygdx.game.event;
+package gamejam.event;
 
 /**
  * Extend dit met events die betekenisvol zijn (bijv. InputEvent ofzo).

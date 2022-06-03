@@ -1,4 +1,4 @@
-package com.mygdx.game.event;
+package gamejam.event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
