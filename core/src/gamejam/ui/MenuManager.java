@@ -47,6 +47,7 @@ public class MenuManager {
     }
 
     public void onResize(int width, int height) {
+        if (currentMenuId < 0) return;
         registeredMenus.get(currentMenuId).onResize(width, height);
     }
 }
