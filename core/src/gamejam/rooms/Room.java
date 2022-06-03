@@ -17,6 +17,7 @@ public class Room {
     private RoomTile[][] tiles = new RoomTile[24][13];
 
     public Room() {
+        System.out.print("initializing room");
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
@@ -59,12 +60,13 @@ public class Room {
                     continue;
                 }
                 if (j == max_tile_y) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_EAST, minX, maxX, minY, maxY);
+                    tiles[i][j] = new Wall(WallTileType.WALL_NORTH, minX, maxX, minY, maxY);
                     continue;
                 }
                 tiles[i][j] = new Floor(minX, maxX, minY, maxY);
             }
         }
+        System.out.print("done initializing room");
 
         // After this one can choose how to randomly instantiate rest objects in the room
     }

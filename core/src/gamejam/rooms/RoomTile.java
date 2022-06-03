@@ -26,7 +26,9 @@ public class RoomTile {
 
     public void draw(SpriteBatch batch, ShapeRenderer shapeRenderer) {
         // TODO: Unmagic these numbers
+        batch.begin();
         batch.draw(tileTexture, minX, minY, 80, 80);
+        batch.end();
     }
 
 }
