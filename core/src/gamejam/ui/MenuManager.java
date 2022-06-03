@@ -1,5 +1,6 @@
 package gamejam.ui;
 
+import gamejam.event.EventConsumer;
 import com.badlogic.gdx.Gdx;
 import gamejam.event.Event;
 import gamejam.event.EventListener;
@@ -20,13 +21,12 @@ public class MenuManager {
         currentMenuId = -1;
 
         // Menu change listeners
-        EventListener listener = new EventListener(this::handleMenuChangeEvent, "MenuChange");
-        EventQueue.getInstance().registerListener(listener);
+        EventConsumer<MenuChangeEvent> consumer = this::handleMenuChangeEvent;
+        EventQueue.getInstance().registerConsumer(consumer, "MenuChange");
     }
 
-    public void handleMenuChangeEvent(Event event) {
-        MenuChangeEvent menuChangeEvent = (MenuChangeEvent) event;
-        switchMenu(menuChangeEvent.getMenuId());
+    public void handleMenuChangeEvent(MenuChangeEvent event) {
+        switchMenu(event.getMenuId());
     }
 
     public void registerMenu(Menu menuToRegister) {
