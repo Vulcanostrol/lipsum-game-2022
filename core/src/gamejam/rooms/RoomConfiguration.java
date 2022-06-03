@@ -1,4 +1,4 @@
-package gamejam;
+package gamejam.rooms;
 
 public class RoomConfiguration {
 

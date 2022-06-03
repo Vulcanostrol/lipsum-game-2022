@@ -12,25 +12,23 @@ public class Main extends Game {
 
 	private final MenuManager menuManager;
 
+	private final GameManager gameManager;
+
 	public Main() {
 		super();
 		menuManager = new MenuManager();
 		menuManager.registerMenu(new MainMenu());
 		menuManager.registerMenu(new OptionsMenu());
+		gameManager = new GameManager();
 	}
-	Room room;
 
 	boolean visible;
 
 	@Override
 	public void create () {
-		menuManager.switchMenu(0);
-
 		TextureStore.instantiate();
-		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-		Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 
-//		this.room = new Room();
+		menuManager.switchMenu(0);
 	}
 
 	public void resize (int width, int height) {
@@ -46,6 +44,7 @@ public class Main extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
 		menuManager.draw();
+		gameManager.draw();
 	}
 	
 	@Override

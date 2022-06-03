@@ -1,8 +1,6 @@
 package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import gamejam.RoomConfiguration;
 
 public class Room {
 
