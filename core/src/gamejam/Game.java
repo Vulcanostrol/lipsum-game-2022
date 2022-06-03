@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.TestEntityFactory;
-import gamejam.rooms.Room;
 
 public class Game {
 
