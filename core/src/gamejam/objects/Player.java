@@ -25,7 +25,7 @@ public class Player extends Collidable implements Damageable {
     private final float maxHealth = 100;
     private float health = maxHealth;
 
-    public Player(float x, float y) {💥
+    public Player(float x, float y) {
         super(40, 60, 25, 25);
         this.x = x;
         this.y = y;

@@ -1,14 +1,13 @@
 package gamejam;
 
-import gamejam.levels.Level;
-
-import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.event.EventQueue;
 import gamejam.event.events.CollisionEvent;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
-import gamejam.factories.TestEntityFactory;
+import gamejam.levels.Level;
+
+import java.util.ArrayList;
 
 public class Game {
 
@@ -52,6 +51,7 @@ public class Game {
             CollidableFactory.getInstance().getAllManagedObjects().forEach(e2 -> {
                 if(e1 != e2 && e1.checkCollision(e2)){
                     e1.setHasCollided();
+                    e2.setHasCollided();
                     CollisionEvent event = new CollisionEvent(e1, e2);
                     EventQueue.getInstance().invoke(event);
                 }
