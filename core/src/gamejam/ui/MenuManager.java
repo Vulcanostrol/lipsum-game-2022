@@ -1,9 +1,11 @@
 package gamejam.ui;
 
+import com.badlogic.gdx.Gdx;
 import gamejam.event.Event;
 import gamejam.event.EventListener;
 import gamejam.event.EventQueue;
 import gamejam.event.events.MenuChangeEvent;
+import gamejam.input.InputHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,10 @@ public class MenuManager {
         if (currentMenuId >= 0) {
             registeredMenus.get(currentMenuId).dispose();
         }
-        if (id < 0) return;
+        if (id < 0) {
+            Gdx.input.setInputProcessor(InputHandler.getInstance());
+            return;
+        }
         currentMenuId = id;
         registeredMenus.get(currentMenuId).create();
     }

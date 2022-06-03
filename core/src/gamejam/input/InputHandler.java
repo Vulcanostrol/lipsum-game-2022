@@ -6,12 +6,23 @@ import com.badlogic.gdx.InputProcessor;
 import gamejam.event.EventQueue;
 import gamejam.event.events.KeyEvent;
 import gamejam.event.events.KeyTypedEvent;
+import gamejam.factories.EntityFactory;
 
 import java.util.function.Function;
 
 public class InputHandler implements InputProcessor {
 
     EventQueue eventQueue = EventQueue.getInstance();
+
+
+    private static InputHandler instance = null;
+
+    public static InputHandler getInstance() {
+        if (instance == null) {
+            instance = new InputHandler();
+        }
+        return instance;
+    }
 
     @Override
     public boolean keyDown(int keycode) {

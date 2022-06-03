@@ -1,7 +1,9 @@
 package gamejam;
 
+import com.badlogic.gdx.Gdx;
 import gamejam.Game;
 import gamejam.factories.EntityFactory;
+import gamejam.input.InputHandler;
 
 public class GameManager {
 
@@ -10,7 +12,6 @@ public class GameManager {
     private static boolean gameActive = false;
 
     public GameManager() {
-
     }
 
     public static void setupGame() {
