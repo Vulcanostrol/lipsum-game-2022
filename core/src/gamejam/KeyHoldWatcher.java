@@ -12,7 +12,7 @@ public class KeyHoldWatcher {
     public KeyHoldWatcher() {
         heldKeys = new HashMap<>();
         EventListener listener = new EventListener(this::onKeyEvent, "KeyEvent");
-        EventQueue.getInstance().registerListener(listener, "KeyEvent");
+        EventQueue.getInstance().registerListener(listener);
     }
 
     private void onKeyEvent(Event keyEvent) {
