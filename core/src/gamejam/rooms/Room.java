@@ -301,7 +301,7 @@ public class Room {
         if (!visited) {
             visited = true;
             // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
-//            new PyramidEnemy(200, 200);
+            new PyramidEnemy(200, 200);
         }
     }
 
