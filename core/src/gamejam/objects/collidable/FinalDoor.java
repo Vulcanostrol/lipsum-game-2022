@@ -12,7 +12,8 @@ import gamejam.levels.Direction;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
 
-public class Door extends Collidable {
+public class FinalDoor
+        extends Collidable {
 
     private Direction direction;
 
@@ -20,17 +21,20 @@ public class Door extends Collidable {
 
     private EventConsumer<CollisionEvent> collisionConsumer;
 
-    public Door(float x, float y, Direction direction, boolean isUpgradeDoor) {
+    public FinalDoor
+            (float x, float y, Direction direction) {
         super(80, 80, 80, 80);
         setPosition(x, y);
         setVelocity(0 ,0);
-        if (isUpgradeDoor) {
-            this.sprite = new Texture("terrain/upgradedoor.png");
-        } else {
-            this.sprite = new Texture("terrain/door.png");
-        }
+        this.sprite = new Texture("terrain/finaldoor.png");
         this.direction = direction;
 
+        collisionConsumer = this::onCollisionEvent;
+        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
+    }
+
+    public void dispose() {
+        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 
     @Override
@@ -42,13 +46,14 @@ public class Door extends Collidable {
     public void onCollisionEvent(CollisionEvent event) {
         if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Player ||
                 event.getCollidesWith() == this && event.getCollidingObject() instanceof Player) {
-            onPlayerCollidedWithThisDoor();
+            onPlayerCollidedWithThisFinalDoor();
         }
     }
 
-    private void onPlayerCollidedWithThisDoor() {
+    private void onPlayerCollidedWithThisFinalDoor
+            () {
         if (!collided) {
-            GameManager.getInstance().moveToRoomByDirection(direction);
+            GameManager.getInstance().moveToNextLevel();
             collided = true;
         }
     }
