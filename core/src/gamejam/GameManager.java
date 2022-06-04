@@ -125,4 +125,8 @@ public class GameManager {
     public int getCurrentNLevel() {
         return currentNLevel;
     }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
 }
