@@ -9,4 +9,7 @@ public class RoomConfiguration {
     public static final int ROOM_TILE_HEIGHT = 13;
 
 
+    public static final int MAX_PILLARS = 20;
+
+
 }
