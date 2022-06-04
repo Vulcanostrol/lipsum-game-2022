@@ -1,7 +1,11 @@
 package gamejam.levels;
 
 import gamejam.Util;
+import gamejam.factories.EntityFactory;
+import gamejam.factories.WallFactory;
+import gamejam.objects.Wall;
 import gamejam.rooms.Room;
+import gamejam.rooms.RoomConfiguration;
 
 import java.util.List;
 
@@ -23,6 +27,8 @@ public class Level {
         // Create a base room
         currentRoom = new Room(this, initX, initY);
         rooms[initX][initY] = currentRoom;
+
+        initializeWallCollisionBoxes();
 
         // 4 For the number of directions one can branch, for the initial room we can branch in every direction
         List<Integer> branchNs = Util.n_random(LevelConfiguration.N_ROOMS - 1, 4);
@@ -53,7 +59,7 @@ public class Level {
         currentRoom.northRoom.createBranches(nNorthRooms, Direction.NORTH);
         currentRoom.southRoom.createBranches(nSouthRooms, Direction.SOUTH);
 
-        currentRoom.updateLayout();
+//        currentRoom.updateLayout();
 
 //        for (int i = 0; i < this.rooms.length; i++) {
 //            for (int j = 0; j < this.rooms[0].length; j++) {
@@ -61,6 +67,38 @@ public class Level {
 //            }
 //            System.out.println("");
 //        }
+    }
+
+    private void initializeWallCollisionBoxes() {
+        WallFactory.getInstance().removeManagedObjects();
+
+        // South wall
+        WallFactory.getInstance().addManagedObject(new Wall(
+                0,
+                0,
+                RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.TILE_PIXEL_HEIGHT));
+
+        // North wall
+        WallFactory.getInstance().addManagedObject(new Wall(
+                0,
+                (RoomConfiguration.ROOM_TILE_HEIGHT - 1) * RoomConfiguration.TILE_PIXEL_HEIGHT,
+                RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.TILE_PIXEL_HEIGHT));
+
+        // West wall
+        WallFactory.getInstance().addManagedObject(new Wall(
+                0,
+                0,
+                RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT));
+
+        // East wall
+        WallFactory.getInstance().addManagedObject(new Wall(
+                (RoomConfiguration.ROOM_TILE_WIDTH - 1) * RoomConfiguration.TILE_PIXEL_WIDTH,
+                0,
+                RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT));
     }
 
     public void render() {
