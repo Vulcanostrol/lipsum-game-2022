@@ -81,6 +81,9 @@ public class Main extends Game {
 		if (event.getKeyCode() == Input.Keys.NUM_3 && event.isKeyDown()) {
 			ChipManager.getInstance().activateChip(new SniperChip());
 		}
+		if (event.getKeyCode() == Input.Keys.NUM_4 && event.isKeyDown()) {
+			ChipManager.getInstance().activateChip(new BulletChip());
+		}
 	 }
 
 	public void resize (int width, int height) {
