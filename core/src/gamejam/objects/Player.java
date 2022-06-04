@@ -16,7 +16,7 @@ import gamejam.factories.BulletFactory;
  * The player entity. Is NOT meant to hold the inventory etc!
  */
 public class Player extends SelfCollidable implements Damageable {
-    public static final float SPEED = 0.3f;
+    public static final float SPEED = 300f;
     public static final float BULLET_SHOOT_SPEED = 1000;
 
 
