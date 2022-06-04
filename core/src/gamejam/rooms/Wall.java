@@ -1,6 +1,5 @@
 package gamejam.rooms;
 
-import com.badlogic.gdx.graphics.Texture;
 import gamejam.TextureStore;
 
 public class Wall extends RoomTile {

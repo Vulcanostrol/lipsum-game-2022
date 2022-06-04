@@ -2,6 +2,7 @@ package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.w3c.dom.Text;
 
 public class RoomTile {
 

@@ -7,4 +7,5 @@ public class EventType {
     public static final String MENU_CHANGE = "MenuChange";
     public static final String PLAYER_DEATH = "PlayerDeath";
     public static final String SETUP_GAME = "SetupGame";
+    public static final String DOOR_HIT = "DoorHit";
 }

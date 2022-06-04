@@ -11,6 +11,9 @@ public class Bullet extends Collidable {
 
     private final float damage = 30;
 
+    // TODO: When we want bullets that can damage the player, we can fuck with this. FOr now, leave this as is PLEASE!
+    private final boolean damagePlayer = false;
+
     public Bullet(float x, float y, float xVelocity, float yVelocity) {
         super(25, 25, 25, 25);
         setPosition(x, y);
@@ -26,10 +29,16 @@ public class Bullet extends Collidable {
      */
     private void onCollisionEvent(CollisionEvent event) {
         if (event.getCollidesWith() == this && event.getCollidingObject() instanceof Damageable) {
-            ((Damageable) event.getCollidingObject()).damage(damage);
+            tryDamageEntity(((Damageable) event.getCollidingObject()));
         } else if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Damageable) {
-            ((Damageable) event.getCollidesWith()).damage(damage);
+            tryDamageEntity(((Damageable) event.getCollidesWith()));
         }
+    }
+
+    private void tryDamageEntity(Damageable entity) {
+        if (!damagePlayer && entity instanceof Player) return;
+        entity.damage(damage);
+        despawn();
     }
 
     @Override

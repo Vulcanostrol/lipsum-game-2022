@@ -3,16 +3,11 @@ package gamejam;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import gamejam.event.Event;
-import gamejam.event.EventConsumer;
-import gamejam.event.EventType;
-import gamejam.event.events.CollisionEvent;
-import gamejam.factories.CollidableFactory;
-import gamejam.factories.EntityFactory;
+import gamejam.event.EventQueue;
+import gamejam.factories.DoorFactory;
 import gamejam.factories.PlayerFactory;
 import gamejam.factories.TestEntityFactory;
-
-import gamejam.event.EventQueue;
+import gamejam.objects.Door;
 import gamejam.objects.Player;
 import gamejam.objects.TestEntity;
 import gamejam.ui.MainMenu;
@@ -24,15 +19,12 @@ public class Main extends Game {
 
 	private final MenuManager menuManager;
 
-	private final GameManager gameManager;
-
 	public Main() {
 		super();
 		menuManager = new MenuManager();
 		menuManager.registerMenu(new MainMenu());
 		menuManager.registerMenu(new OptionsMenu());
 		menuManager.registerMenu(new PausedMenu());
-		gameManager = new GameManager();
 	}
 
 	boolean visible;
@@ -65,7 +57,7 @@ public class Main extends Game {
 		// Rendering
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
-		gameManager.draw();
+		GameManager.getInstance().draw();
 		menuManager.draw();
 	}
 

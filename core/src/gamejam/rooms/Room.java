@@ -2,9 +2,11 @@ package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Util;
+import gamejam.factories.DoorFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
+import gamejam.objects.Door;
 
 import java.util.ArrayList;
 import java.util.List;
