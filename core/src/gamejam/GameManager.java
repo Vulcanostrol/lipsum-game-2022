@@ -38,8 +38,6 @@ public class GameManager {
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
-
-        new DroneEnemy(400, 600);
     }
 
     public void moveToNextLevel() {
@@ -51,8 +49,6 @@ public class GameManager {
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
-
-        new DroneEnemy(400, 600);
     }
 
     public void moveToRoomByDirection(Direction direction) {
@@ -94,6 +90,11 @@ public class GameManager {
     }
 
     private ArrayList<Level> levels = new ArrayList<>();
+
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
+
     private Level currentLevel;
     private long previousTime;
     private Camera camera;

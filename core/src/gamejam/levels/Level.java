@@ -170,4 +170,7 @@ public class Level {
         }
     }
 
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
 }

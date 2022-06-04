@@ -32,10 +32,10 @@ public class Room {
     public Room westRoom;
 
     public boolean visited;
+    public boolean cleared;
+    public boolean isUpgradeRoom;
 
     private boolean isFinalRoom;
-
-    private boolean isUpgradeRoom;
 
     private static Random random = new Random(LevelConfiguration.SEED);
 

@@ -20,7 +20,6 @@ public class OptionsMenu extends Menu {
         Gdx.input.setInputProcessor(stage);
 
         VerticalGroup verticalGroup = new VerticalGroup();
-        verticalGroup.setPosition(640, 300);
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.WHITE;
@@ -48,6 +47,11 @@ public class OptionsMenu extends Menu {
             }
         });
         verticalGroup.addActor(backButton);
+
+        verticalGroup.setPosition(
+                Gdx.graphics.getWidth() * 0.5f,
+                Gdx.graphics.getHeight() * 0.5f + verticalGroup.getPrefHeight() * 0.5f
+        );
 
         stage.addActor(verticalGroup);
     }

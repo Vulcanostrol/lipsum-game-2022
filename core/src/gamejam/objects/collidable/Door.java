@@ -1,25 +1,20 @@
 package gamejam.objects.collidable;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import gamejam.GameManager;
 import gamejam.Camera;
-import gamejam.event.EventConsumer;
+import gamejam.GameManager;
 import gamejam.event.EventQueue;
-import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.event.events.RoomChangeEvent;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
-import gamejam.objects.collidable.Collidable;
-import gamejam.objects.collidable.Player;
+import gamejam.rooms.Room;
 
 public class Door extends Collidable {
 
-    private Direction direction;
+    private final Direction direction;
 
-    private boolean collided = false;
-
-    private EventConsumer<CollisionEvent> collisionConsumer;
+    private boolean collided;
 
     public Door(float x, float y, Direction direction, boolean isUpgradeDoor) {
         super(80, 80, 80, 80);
@@ -31,6 +26,7 @@ public class Door extends Collidable {
             this.sprite = new Texture("terrain/door.png");
         }
         this.direction = direction;
+        collided = false;
     }
 
     @Override
@@ -40,8 +36,7 @@ public class Door extends Collidable {
     }
 
     public void onCollisionEvent(CollisionEvent event) {
-        if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Player ||
-                event.getCollidesWith() == this && event.getCollidingObject() instanceof Player) {
+        if (event.getCollidingObject() instanceof Player || event.getCollidesWith() instanceof Player) {
             onPlayerCollidedWithThisDoor();
         }
     }
@@ -49,7 +44,13 @@ public class Door extends Collidable {
     private void onPlayerCollidedWithThisDoor() {
         if (!AbstractEnemyFactory.getInstance().getAllManagedObjects().findAny().isPresent()) {
             if (!collided) {
-                GameManager.getInstance().moveToRoomByDirection(direction);
+                Room room = GameManager.getInstance().getCurrentLevel().getCurrentRoom();
+                if (!room.cleared && room.isUpgradeRoom) {
+                    room.cleared = true;
+                    EventQueue.getInstance().invoke(new RoomChangeEvent(direction, true));
+                } else {
+                    EventQueue.getInstance().invoke(new RoomChangeEvent(direction, false));
+                }
                 collided = true;
             }
         }

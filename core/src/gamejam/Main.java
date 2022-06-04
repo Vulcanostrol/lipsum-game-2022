@@ -5,11 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import gamejam.chips.BuffChip;
+import gamejam.chips.BulletChip;
+import gamejam.chips.ChipManager;
 import gamejam.chips.WeirdChip;
 import gamejam.chips.effects.SniperChip;
 import gamejam.event.EfficientCollisionHandler;
-import gamejam.chips.BulletChip;
-import gamejam.chips.ChipManager;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -20,11 +20,7 @@ import gamejam.factories.bullets.PyramidEnemyBulletFactory;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.factories.enemies.DroneEnemyFactory;
 import gamejam.factories.enemies.PyramidEnemyFactory;
-import gamejam.objects.collidable.enemies.PyramidEnemy;
-import gamejam.ui.MainMenu;
-import gamejam.ui.MenuManager;
-import gamejam.ui.OptionsMenu;
-import gamejam.ui.PausedMenu;
+import gamejam.ui.*;
 
 public class Main extends Game {
 
@@ -50,12 +46,12 @@ public class Main extends Game {
 	public Main() {
 		super();
 		menuManager = new MenuManager();
-		menuManager.registerMenu(new MainMenu());
-		menuManager.registerMenu(new OptionsMenu());
-		menuManager.registerMenu(new PausedMenu());
+		menuManager.registerMenu(new MainMenu()); // 0
+		menuManager.registerMenu(new OptionsMenu()); // 1
+		menuManager.registerMenu(new PausedMenu()); // 2
+		menuManager.registerMenu(new LevelFadeMenu()); // 3
+		menuManager.registerMenu(new LevelFadeUpgradeMenu()); // 4
 	}
-
-	boolean visible;
 
 	@Override
 	public void create () {
