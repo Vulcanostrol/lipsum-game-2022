@@ -9,7 +9,8 @@ import gamejam.event.events.CollisionEvent;
 
 public class Bullet extends Collidable {
 
-    private final float damage = 30;
+    public static final float DAMAGE = 30;
+    public final float BULLET_DESPAWN_RANGE = 5000;
 
     // TODO: When we want bullets that can damage the player, we can fuck with this. FOr now, leave this as is PLEASE!
     private final boolean damagePlayer = false;
@@ -37,7 +38,7 @@ public class Bullet extends Collidable {
 
     private void tryDamageEntity(Damageable entity) {
         if (!damagePlayer && entity instanceof Player) return;
-        entity.damage(damage);
+        entity.damage(DAMAGE);
         despawn();
     }
 
