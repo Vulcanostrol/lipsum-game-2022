@@ -4,14 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import gamejam.event.events.MousePressEvent;
 import gamejam.rooms.RoomConfiguration;
 
 import java.util.Random;
 
 public class Camera {
     private SpriteBatch spriteBatch;
-    private float factorX = 1f;
-    private float factorY = 1f;
+    private float factorX = 0.75f;
+    private float factorY = 0.75f;
     private float windowFactorX = 1f;
     private float windowFactorY = 1f;
     private float START_WIDTH = RoomConfiguration.ROOM_TILE_WIDTH*RoomConfiguration.TILE_PIXEL_WIDTH;
@@ -72,6 +73,15 @@ public class Camera {
         spriteBatch.draw(region, newX, newY, newOriginX, newOriginY, newWidth, newHeight, xScale, yScale, 0f);
     }
 
+    public float getXfromEvent(MousePressEvent event){
+        return (event.getScreenX() / (factorX*windowFactorX)) - movementOffsetX;
+    }
+
+    public float getYfromEvent(MousePressEvent event){
+//        return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorX*windowFactorX)) - movementOffsetX;
+        return ((event.getScreenY()) / (factorX*windowFactorX)) - movementOffsetX;
+    }
+
     private void updateShake(){
         shakeY = random.nextInt(2*shake)-shake;
         shakeX = random.nextInt(2*shake)-shake;
@@ -120,7 +130,7 @@ public class Camera {
 
     public void begin(long deltaTimeMillis){
         timingCounter += deltaTimeMillis;
-//        updateMovement(deltaTimeMillis);
+        updateMovement(deltaTimeMillis);
         updateLoop();
         spriteBatch.begin();
     }
