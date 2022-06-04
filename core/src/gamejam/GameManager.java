@@ -39,7 +39,7 @@ public class GameManager {
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
 
-        new DroneEnemy(400, 600);
+//        new DroneEnemy(400, 600);
     }
 
     public void moveToNextLevel() {
@@ -52,7 +52,7 @@ public class GameManager {
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
 
-        new DroneEnemy(400, 600);
+//        new DroneEnemy(400, 600);
     }
 
     public void moveToRoomByDirection(Direction direction) {
@@ -63,30 +63,30 @@ public class GameManager {
 //        TestEntityFactory.getInstance().removeManagedObjects();
 
         if (success) {
-            int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
-            int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
+            double newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
+            double newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
 
             switch (direction) {
                 case EAST:
-                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * 2;
-                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
+                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * 1.5;
+                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2 - RoomConfiguration.TILE_PIXEL_HEIGHT/2;
                     break;
                 case WEST:
-                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * (RoomConfiguration.ROOM_TILE_WIDTH - 2);
-                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
+                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * (RoomConfiguration.ROOM_TILE_WIDTH - 1.5);
+                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2 - RoomConfiguration.TILE_PIXEL_HEIGHT/2;
                     break;
                 case NORTH:
-                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
-                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * 2;
+                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2 - RoomConfiguration.TILE_PIXEL_WIDTH/2;
+                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * 1;
                     break;
                 case SOUTH:
-                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
+                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2 - RoomConfiguration.TILE_PIXEL_WIDTH/2;
                     newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * (RoomConfiguration.ROOM_TILE_HEIGHT - 2);
                     break;
             }
 
             // Entity creation
-            Player player = new Player(newPlayerX, newPlayerY);
+            Player player = new Player((float) newPlayerX,(float) newPlayerY);
             TestEntity e1 = new TestEntity(100, 200);
             TestEntity e2 = new TestEntity(100, 250);
             TestEntity e3 = new TestEntity(500, 200, 0, 0);
