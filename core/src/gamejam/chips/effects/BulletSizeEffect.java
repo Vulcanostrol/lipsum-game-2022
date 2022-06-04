@@ -1,9 +1,7 @@
 package gamejam.chips.effects;
 
-import gamejam.GameManager;
 import gamejam.factories.PlayerFactory;
-import gamejam.objects.Bullet;
-import gamejam.objects.Player;
+import gamejam.objects.collidable.Player;
 import gamejam.weapons.augmentation.BulletSizeAugmenter;
 
 public class BulletSizeEffect implements ChipEffect {

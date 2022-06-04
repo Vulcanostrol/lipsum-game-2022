@@ -1,9 +1,7 @@
 package gamejam.weapons;
 
 import com.badlogic.gdx.math.Vector2;
-import gamejam.objects.Bullet;
-import gamejam.weapons.augmentation.BulletSizeAugmenter;
-import gamejam.weapons.augmentation.WeaponAugmenter;
+import gamejam.objects.collidable.Bullet;
 
 public class BasicWeapon extends Weapon {
 
