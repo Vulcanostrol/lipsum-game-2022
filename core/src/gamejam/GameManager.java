@@ -104,25 +104,9 @@ public class GameManager {
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
         previousTime = newTime;
 
-        // Collision
-        checkCollisions();
-
         //Draw
         spriteBatch.begin();
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
         spriteBatch.end();
-    }
-
-    private void checkCollisions(){
-        SelfCollidableFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
-            CollidableFactory.getInstance().getAllManagedObjects().forEach(e2 -> {
-                if(e1 != e2 && e1.checkCollision(e2)){
-                    e1.setHasCollided();
-                    e2.setHasCollided();
-                    CollisionEvent event = new CollisionEvent(e1, e2);
-                    EventQueue.getInstance().invoke(event);
-                }
-            });
-        });
     }
 }

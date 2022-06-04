@@ -93,6 +93,7 @@ public class Level {
     }
 
     private void initializeWallCollisionBoxes() {
+        int PIXEL_CHIP = 20;
         WallFactory.getInstance().removeManagedObjects();
 
         // South wall
@@ -100,27 +101,27 @@ public class Level {
                 RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH / 2,
                 0,
                 RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH,
-                RoomConfiguration.TILE_PIXEL_HEIGHT);
+                RoomConfiguration.TILE_PIXEL_HEIGHT - PIXEL_CHIP);
 
         // North wall
         new Wall(
                 RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH / 2,
-                (RoomConfiguration.ROOM_TILE_HEIGHT - 1) * RoomConfiguration.TILE_PIXEL_HEIGHT,
+                (RoomConfiguration.ROOM_TILE_HEIGHT - 1) * RoomConfiguration.TILE_PIXEL_HEIGHT + PIXEL_CHIP,
                 RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH,
-                RoomConfiguration.TILE_PIXEL_HEIGHT);
+                RoomConfiguration.TILE_PIXEL_HEIGHT - PIXEL_CHIP);
 
         // West wall
        new Wall(
-                RoomConfiguration.TILE_PIXEL_WIDTH / 2,
+                RoomConfiguration.TILE_PIXEL_WIDTH / 2 - PIXEL_CHIP / 2,
                 0,
-                RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.TILE_PIXEL_WIDTH - PIXEL_CHIP,
                 RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT);
 
         // East wall
        new Wall(
-                (RoomConfiguration.ROOM_TILE_WIDTH - 1) * RoomConfiguration.TILE_PIXEL_WIDTH + RoomConfiguration.TILE_PIXEL_WIDTH / 2,
+                (RoomConfiguration.ROOM_TILE_WIDTH - 1) * RoomConfiguration.TILE_PIXEL_WIDTH + RoomConfiguration.TILE_PIXEL_WIDTH / 2 + PIXEL_CHIP / 2,
                 0,
-                RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.TILE_PIXEL_WIDTH - PIXEL_CHIP,
                 RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT);
     }
 
