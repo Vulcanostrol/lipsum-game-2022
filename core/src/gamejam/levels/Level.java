@@ -62,7 +62,38 @@ public class Level {
         currentRoom.northRoom.createBranches(nNorthRooms, Direction.NORTH);
         currentRoom.southRoom.createBranches(nSouthRooms, Direction.SOUTH);
 
+        Room outerRoom = getOuterRoom();
+
+        outerRoom.setFinalRoom();
+
         currentRoom.setup();
+    }
+
+    /**
+     * Get room farthest from the center.
+     */
+    public Room getOuterRoom() {
+        Room currentOuterRoom = currentRoom;
+        int distanceCurrentOuterRoom = 1;
+
+        int centerX = Math.round(rooms.length / 2);
+        int centerY = Math.round(rooms[0].length / 2);
+        for (int i = 0; i < rooms.length; i++) {
+            for (int j = 0; j < rooms[0].length; j++) {
+                Room _currentRoom = rooms[i][j];
+                if (_currentRoom != null) {
+                    int xDist = Math.abs(centerX - i);
+                    int yDist = Math.abs(centerY - j);
+                    int manhattanDist = xDist + yDist;
+
+                    if (manhattanDist > distanceCurrentOuterRoom) {
+                        distanceCurrentOuterRoom = manhattanDist;
+                        currentOuterRoom = _currentRoom;
+                    }
+                }
+            }
+        }
+        return currentOuterRoom;
     }
 
     public boolean moveToRoomByDirection(Direction direction) {

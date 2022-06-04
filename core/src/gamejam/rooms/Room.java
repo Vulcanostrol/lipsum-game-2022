@@ -2,12 +2,9 @@ package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Util;
-import gamejam.factories.DoorFactory;
-import gamejam.factories.WallFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
-import gamejam.objects.Wall;
 import gamejam.objects.collidable.Door;
 
 import java.util.ArrayList;
@@ -32,6 +29,8 @@ public class Room {
     public Room westRoom;
 
     public boolean visited;
+
+    private boolean isFinalRoom;
 
     private static Random random = new Random(LevelConfiguration.SEED);
 
@@ -155,6 +154,10 @@ public class Room {
     }
 
     public void setup() {
+        if (isFinalRoom) {
+            System.out.println("final room");
+        }
+
         // Setup base room tiles
         int max_tile_x = tiles.length - 1;
         int max_tile_y = tiles[0].length - 1;
@@ -221,7 +224,7 @@ public class Room {
                     tiles[i][j] = new WallTile(WallTileType.WALL_NORTH, minX, maxX, minY, maxY);
                     continue;
                 }
-                tiles[i][j] = new Floor(minX, maxX, minY, maxY);
+                tiles[i][j] = new FloorTile(minX, maxX, minY, maxY);
             }
         }
 
@@ -272,4 +275,7 @@ public class Room {
         return "(" + String.valueOf(levelX) + ", " + String.valueOf(levelY) + ")";
     }
 
+    public void setFinalRoom() {
+        isFinalRoom = true;
+    }
 }
