@@ -49,8 +49,8 @@ public class Main extends Game {
 		menuManager.registerMenu(new MainMenu()); // 0
 		menuManager.registerMenu(new OptionsMenu()); // 1
 		menuManager.registerMenu(new PausedMenu()); // 2
-		menuManager.registerMenu(new LevelFadeMenu()); // 3
-		menuManager.registerMenu(new LevelFadeUpgradeMenu()); // 4
+		menuManager.registerMenu(new RoomFadeMenu()); // 3
+		menuManager.registerMenu(new RoomFadeUpgradeMenu()); // 4
 	}
 
 	@Override
