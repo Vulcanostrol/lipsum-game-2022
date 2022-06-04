@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import gamejam.Camera;
 import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
@@ -94,7 +95,6 @@ public class Player extends SelfCollidable implements Damageable {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        // Update animation
         float xScale = lookingLeft ? -1f : 1f;
 
         spriteBatch.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth / 2, spriteHeight, spriteWidth, spriteHeight, xScale, 1f, 0f);

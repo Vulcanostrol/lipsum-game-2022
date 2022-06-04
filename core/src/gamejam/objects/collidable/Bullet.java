@@ -2,6 +2,7 @@ package gamejam.objects.collidable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.Camera;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -49,8 +50,8 @@ public class Bullet extends Collidable {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
-        super.draw(spriteBatch);
+    public void draw(Camera camera) {
+        super.draw(camera);
     }
 
     @Override

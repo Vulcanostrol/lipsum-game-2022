@@ -37,7 +37,7 @@ public class GameManager {
         currentLevel = new Level();
         levels.add(currentLevel);
 
-        spriteBatch = new SpriteBatch();
+        camera = new Camera();
         //time
         previousTime = System.currentTimeMillis();
 
@@ -95,21 +95,22 @@ public class GameManager {
 
     long previousTime;
 
-    SpriteBatch spriteBatch;
+    Camera camera;
 
     public void draw() {
         if (!gameActive) return;
 
-        currentLevel.render();
 
         // Update
         long newTime = System.currentTimeMillis();
-        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
+        long deltaTimeMillis = newTime - previousTime;
+        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(deltaTimeMillis));
+        camera.begin(deltaTimeMillis);
         previousTime = newTime;
 
         //Draw
-        spriteBatch.begin();
-        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
-        spriteBatch.end();
+        currentLevel.render(camera);
+        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
+        camera.end();
     }
 }
