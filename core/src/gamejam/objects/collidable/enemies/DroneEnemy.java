@@ -31,7 +31,6 @@ public class DroneEnemy extends AbstractEnemy {
     private float playerY = -Float.MAX_VALUE;
 
     private EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer;
-    private EventConsumer<CollisionEvent> collisionEventEventConsumer;
 
     public DroneEnemy(float x, float y) {
         super(x, y, 32, 26, 32, 26, 1000);
@@ -40,15 +39,11 @@ public class DroneEnemy extends AbstractEnemy {
         playerMoveEventEventConsumer = this::onPlayerMoveEvent;
         EventQueue.getInstance().registerConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
 
-        //todo: only listen to collisions with self
-        collisionEventEventConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionEventEventConsumer, EventType.COLLISION_EVENT);
     }
 
-    private void onCollisionEvent(CollisionEvent collisionEvent) {
-        Collidable self = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidesWith() :
-                (collisionEvent.getCollidingObject() == this ? collisionEvent.getCollidingObject() : null);
-        if (self == null) {
+    public void onCollisionEvent(CollisionEvent collisionEvent) {
+        if (playerPositionKnown) {
+            // flying towards player, don't really care
             return;
         }
         Collidable other = collisionEvent.getCollidesWith() == self ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
@@ -66,12 +61,12 @@ public class DroneEnemy extends AbstractEnemy {
         this.playerX = playerMoveEvent.newX;
         this.playerY = playerMoveEvent.newY;
 
-        System.out.printf("x distance %f y distance %f%n", Math.abs(playerX - x), Math.abs(playerY - y));
         boolean playerStillInRange = Math.abs(playerX - x) < RANGE_OF_SIGHT && Math.abs(playerY - y) < RANGE_OF_SIGHT;
         if (!playerStillInRange && playerPositionKnown)  {
             // lost track of player, just go fly somewhere
             playerPositionKnown = false;
             roamingDirection = (float) Math.random();
+            System.out.printf("roamingdirection is now %f%n", roamingDirection);
         } else if (playerStillInRange) {
             this.playerPositionKnown = true;
         }
@@ -105,6 +100,5 @@ public class DroneEnemy extends AbstractEnemy {
         super.onDispose();
         EventQueue eventQueue = EventQueue.getInstance();
         eventQueue.deregisterConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
-        eventQueue.deregisterConsumer(collisionEventEventConsumer, EventType.COLLISION_EVENT);
     }
 }
