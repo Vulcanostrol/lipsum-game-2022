@@ -34,7 +34,7 @@ public class Camera {
     private int movementY = 0;
     private int movementXDirection = 1;
     private int movementYDirection = 1;
-    private float movementOffsetX = 0;
+    private float movementOffsetX = 600;
     private float movementOffsetY = 0;
 
 
@@ -79,7 +79,7 @@ public class Camera {
 
     public float getYfromEvent(MousePressEvent event){
 //        return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorX*windowFactorX)) - movementOffsetX;
-        return ((event.getScreenY()) / (factorX*windowFactorX)) - movementOffsetX;
+        return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY;
     }
 
     private void updateShake(){
@@ -130,7 +130,7 @@ public class Camera {
 
     public void begin(long deltaTimeMillis){
         timingCounter += deltaTimeMillis;
-        updateMovement(deltaTimeMillis);
+//        updateMovement(deltaTimeMillis);
         updateLoop();
         spriteBatch.begin();
     }

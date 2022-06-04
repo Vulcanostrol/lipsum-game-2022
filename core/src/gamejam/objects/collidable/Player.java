@@ -103,7 +103,7 @@ public class Player extends SelfCollidable implements Damageable {
     private void onMousePress(MousePressEvent event) {
         // TODO: Translate the screen coordinates of the mouse to world coordinates.
         float dx = GameManager.getInstance().getCamera().getXfromEvent(event) - getX();
-        float dy = -(GameManager.getInstance().getCamera().getYfromEvent(event) - getY());
+        float dy = GameManager.getInstance().getCamera().getYfromEvent(event) - getY();
         System.out.println("press");
         System.out.println(event.getScreenX());
         System.out.println(event.getScreenY());
