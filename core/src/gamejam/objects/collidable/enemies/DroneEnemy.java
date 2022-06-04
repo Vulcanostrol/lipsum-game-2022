@@ -7,6 +7,9 @@ import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
 import gamejam.event.events.PlayerMoveEvent;
 import gamejam.objects.collidable.Collidable;
+import gamejam.objects.collidable.Player;
+
+import java.util.Random;
 
 /**
  * The Drone Enemy tries to fly straight to the player, to collide with it and
@@ -28,7 +31,6 @@ public class DroneEnemy extends AbstractEnemy {
     private float playerY = -Float.MAX_VALUE;
 
     private EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer;
-    private EventConsumer<CollisionEvent> collisionEventEventConsumer;
 
     public DroneEnemy(float x, float y) {
         super(x, y, 32, 26, 32, 26, 1000);
@@ -37,25 +39,22 @@ public class DroneEnemy extends AbstractEnemy {
         playerMoveEventEventConsumer = this::onPlayerMoveEvent;
         EventQueue.getInstance().registerConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
 
-        //todo: only listen to collisions with self
-        collisionEventEventConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionEventEventConsumer, EventType.COLLISION_EVENT);
     }
 
-    private void onCollisionEvent(CollisionEvent collisionEvent) {
+    public void onCollisionEvent(CollisionEvent collisionEvent) {
         if (playerPositionKnown) {
             // flying towards player, don't really care
             return;
         }
+        Collidable other = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
 
-        if (collisionEvent.getCollidesWith() == this || collisionEvent.getCollidingObject() == this) {
-            Collidable collidedWith = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
-            float dx = Math.abs(collidedWith.getX() - x);
-            float dy = Math.abs(collidedWith.getY() - y);
-
-            this.roamingDirection = (float) (dy/Math.sqrt(Math.pow(dy, 2) + Math.pow(dx, 2)));
-            System.out.printf("roamingdirection is now %f%n", roamingDirection);
+        if (other instanceof Player) {
+            //don't care about collision with player
+            return;
         }
+
+        Random random = new Random();
+        this.roamingDirection = (this.roamingDirection + 0.5f + (random.nextFloat() / 5f)) % 1f;
     }
 
     private void onPlayerMoveEvent(PlayerMoveEvent playerMoveEvent) {
@@ -101,6 +100,5 @@ public class DroneEnemy extends AbstractEnemy {
         super.onDispose();
         EventQueue eventQueue = EventQueue.getInstance();
         eventQueue.deregisterConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
-        eventQueue.deregisterConsumer(collisionEventEventConsumer, EventType.COLLISION_EVENT);
     }
 }

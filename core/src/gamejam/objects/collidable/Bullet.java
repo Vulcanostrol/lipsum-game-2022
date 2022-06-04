@@ -19,7 +19,6 @@ public class Bullet extends Collidable {
 
     // TODO: When we want bullets that can damage the player, we can fuck with this. FOr now, leave this as is PLEASE!
     private final boolean damagePlayer = false;
-    EventConsumer<CollisionEvent> collisionConsumer;
 
     public Bullet(float x, float y, float xVelocity, float yVelocity, float damage, float bulletSize) {
         super(bulletSize, bulletSize, bulletSize, bulletSize);
@@ -28,14 +27,12 @@ public class Bullet extends Collidable {
         sprite = new Texture("bullet.png");
         this.damage = damage;
 
-        collisionConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 
     /**
      * Checks if this bullet has collided with something, and if the other object is damageable. If so: damage it.
      */
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
         if (event.getCollidesWith() == this && event.getCollidingObject() instanceof Damageable) {
             tryDamageEntity(((Damageable) event.getCollidingObject()));
         } else if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Damageable) {
@@ -54,9 +51,4 @@ public class Bullet extends Collidable {
         super.draw(camera);
     }
 
-    @Override
-    public void onDispose() {
-        super.onDispose();
-        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
-    }
 }
