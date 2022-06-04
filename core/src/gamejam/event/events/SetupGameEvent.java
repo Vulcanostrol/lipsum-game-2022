@@ -7,7 +7,7 @@ import gamejam.event.EventType;
 public class SetupGameEvent implements Event {
 
     public SetupGameEvent() {
-        GameManager.setupGame();
+        GameManager.getInstance().setupGame();
     }
 
     @Override

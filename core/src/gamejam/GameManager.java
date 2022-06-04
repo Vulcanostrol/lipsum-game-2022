@@ -1,28 +1,75 @@
 package gamejam;
 
-import gamejam.Game;
-import gamejam.event.EventConsumer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.event.EventQueue;
-import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
+import gamejam.levels.Level;
+
+import java.util.ArrayList;
 
 public class GameManager {
 
-    private static Game game;
+    private static GameManager instance = null;
 
-    private static boolean gameActive = false;
-
-    public GameManager() {
+    public static GameManager getInstance() {
+        if (instance == null) {
+            instance = new GameManager();
+        }
+        return instance;
     }
 
-    public static void setupGame() {
+    private boolean gameActive;
+
+    public void setupGame() {
         gameActive = true;
-        game = new Game();
+
+        // Initialize a base level
+        currentLevel = new Level();
+        levels.add(currentLevel);
+
+        spriteBatch = new SpriteBatch();
+        //time
+        previousTime = System.currentTimeMillis();
     }
 
-    public static void draw() {
+    private ArrayList<Level> levels = new ArrayList<>();
+    private Level currentLevel;
+
+    long previousTime;
+
+    SpriteBatch spriteBatch;
+
+    public void draw() {
         if (!gameActive) return;
-        game.render();
+
+        currentLevel.render();
+
+        // Update
+        long newTime = System.currentTimeMillis();
+        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
+        previousTime = newTime;
+
+        // Collision
+        checkCollisions();
+
+        //Draw
+        spriteBatch.begin();
+        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
+        spriteBatch.end();
+    }
+
+    private void checkCollisions(){
+        CollidableFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
+            CollidableFactory.getInstance().getAllManagedObjects().forEach(e2 -> {
+                if(e1 != e2 && e1.checkCollision(e2)){
+                    e1.setHasCollided();
+                    e2.setHasCollided();
+                    CollisionEvent event = new CollisionEvent(e1, e2);
+                    EventQueue.getInstance().invoke(event);
+                }
+            });
+        });
     }
 }

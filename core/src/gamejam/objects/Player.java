@@ -76,7 +76,7 @@ public class Player extends Collidable implements Damageable {
 
     private void onKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == Input.Keys.SPACE && event.isKeyDown()) {
-            BulletFactory.getInstance().addManagedObject(new Bullet(this.x, this.y, 0, 100));
+            BulletFactory.getInstance().addManagedObject(new Bullet(this.x, this.y, 0, 1000));
         }
     }
 
