@@ -3,6 +3,7 @@ package gamejam;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.rooms.RoomConfiguration;
 
 import java.util.Random;
@@ -50,13 +51,25 @@ public class Camera {
         float newHeight = height*factorY*windowFactorY;
         spriteBatch.draw(sprite, newX, newY, newWidth, newHeight);
     }
+
     public void draw(Texture sprite, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
         float newX = (x+ movementOffsetX)*factorX*windowFactorX;
         float newY = (y+ movementOffsetY)*factorY*windowFactorY;
         float newWidth = width*factorX*windowFactorX;
         float newHeight = height*factorY*windowFactorY;
         spriteBatch.draw(sprite, newX, newY, newWidth, newHeight, srcX, srcY, srcWidth, srcHeight, flipX, flipY);
+    }
 
+    public void draw(TextureRegion region, float x, float y, float width, float height, boolean flipX, boolean flipY){
+        float newX = (x + movementOffsetX) * factorX * windowFactorX;
+        float newY = (y + movementOffsetY) * factorY * windowFactorY;
+        float newWidth = width * factorX * windowFactorX;
+        float newHeight = height * factorY * windowFactorY;
+        float newOriginX = newWidth / 2f; // Origin in middle.
+        float newOriginY = newHeight; // Origin on the bottom.
+        float xScale = flipX ? -1f : 1f;
+        float yScale = flipY ? -1f : 1f;
+        spriteBatch.draw(region, newX, newY, newOriginX, newOriginY, newWidth, newHeight, xScale, yScale, 0f);
     }
 
     private void updateShake(){

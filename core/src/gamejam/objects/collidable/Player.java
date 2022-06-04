@@ -3,20 +3,23 @@ package gamejam.objects.collidable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
 import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
-import gamejam.event.events.*;
-import gamejam.factories.BulletFactory;
+import gamejam.event.events.CollisionEvent;
+import gamejam.event.events.MousePressEvent;
+import gamejam.event.events.PlayerDeathEvent;
+import gamejam.event.events.PlayerMoveEvent;
+import gamejam.objects.Damageable;
 import gamejam.weapons.BasicWeapon;
 import gamejam.weapons.Weapon;
-import gamejam.objects.Damageable;
-import gamejam.objects.collidable.Bullet;
-import gamejam.objects.collidable.SelfCollidable;
+
+import java.util.Random;
 
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
@@ -26,31 +29,33 @@ public class Player extends SelfCollidable implements Damageable {
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
-    private final Texture texture;
+
+    private Animation<TextureRegion> walkAnimation;
+    private Texture spriteSheet;
+    private TextureRegion currentSprite;
+    private float animationTime = 0f;
 
     private final float maxHealth = 100;
     private float health = maxHealth;
 
     private Weapon weapon;
 
-    private EventConsumer<CollisionEvent> collisionConsumer;
-
     private EventConsumer<MousePressEvent> mousePressConsumer;
 
     public Player(float x, float y) {
-        super(40, 60, 25, 25);
+        super(65, 125, 50, 50);
         this.x = x;
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
-        texture = new Texture("entity/Robot.png");
-
-        collisionConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
+        spriteSheet = new Texture("entity/Robot.png");
 
         mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
 
         this.weapon = new BasicWeapon();
+
+        TextureRegion[] walkFrames = TextureRegion.split(spriteSheet, 13, 25)[0];
+        walkAnimation = new Animation<>(0.2f, walkFrames);
     }
 
 
@@ -73,23 +78,25 @@ public class Player extends SelfCollidable implements Damageable {
             dy -= 1;
         }
 
-        super.setVelocity(SPEED*dx, SPEED*dy);
+        super.setVelocity(SPEED * dx, SPEED * dy);
 
         /* publish new position to listeners */
-        if (dx > 0 || dy > 0) {
+        if (Math.abs(dx) > 0.0f || Math.abs(dy) > 0.0f) {
             EventQueue.getInstance().invoke(new PlayerMoveEvent(x, y));
+            animationTime += timeDeltaMillis * 0.001;
         }
+        currentSprite = walkAnimation.getKeyFrame(animationTime,true);
 
         super.update(timeDeltaMillis);
     }
 
     @Override
     public void draw(Camera camera) {
-        camera.draw(texture, x - spriteWidth / 2, y, spriteWidth, spriteHeight, 0, 0, 20, 30, lookingLeft, false);
+        camera.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight, lookingLeft, false);
         super.drawHitBox(camera);
     }
 
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
     }
 
     private void onMousePress(MousePressEvent event) {
@@ -122,7 +129,6 @@ public class Player extends SelfCollidable implements Damageable {
     public void onDispose() {
         super.onDispose();
         keyHoldWatcher.dispose();
-        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
         EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
     }
 

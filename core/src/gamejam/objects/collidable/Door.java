@@ -31,12 +31,6 @@ public class Door extends Collidable {
         }
         this.direction = direction;
 
-        collisionConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
-    }
-
-    public void dispose() {
-        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 
     @Override
@@ -45,7 +39,7 @@ public class Door extends Collidable {
 //        camera.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
     }
 
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
         if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Player ||
                 event.getCollidesWith() == this && event.getCollidingObject() instanceof Player) {
             onPlayerCollidedWithThisDoor();

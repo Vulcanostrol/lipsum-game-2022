@@ -26,8 +26,6 @@ public abstract class Collidable extends Entity {
     protected float collisionHeight;
     protected List<Collidable> collisions;
 
-    private final EventConsumer<CollisionEvent> collisionConsumer;
-
     public Collidable(float spriteWidth, float spriteHeight, float collisionWidth, float collisionHeight) {
         super(spriteWidth, spriteHeight);
         this.collisionWidth = collisionWidth;
@@ -36,9 +34,6 @@ public abstract class Collidable extends Entity {
         this.hitBoxRedTexture = new Texture("HitboxRed.png");
         this.hitBoxGreenTexture = new Texture("HitboxGreen.png");
 
-
-        collisionConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
 
         this.collisions = new ArrayList<>();
     }
@@ -49,7 +44,7 @@ public abstract class Collidable extends Entity {
         resetCollisions();
     }
 
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
 
     }
 
@@ -83,11 +78,5 @@ public abstract class Collidable extends Entity {
                 this.x + this.collisionWidth / 2 > e.x - e.collisionWidth / 2 &&
                 this.y < e.y + e.collisionHeight &&
                 this.collisionHeight + this.y > e.y);
-    }
-
-    @Override
-    public void onDispose() {
-        super.onDispose();
-        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 }
