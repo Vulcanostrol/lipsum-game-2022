@@ -30,7 +30,7 @@ public class Wall extends Collidable {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-
+        super.drawHitBox(spriteBatch);
     }
 
 }
