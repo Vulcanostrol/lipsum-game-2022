@@ -1,6 +1,7 @@
 package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.Camera;
 import gamejam.Util;
 import gamejam.factories.DoorFactory;
 import gamejam.levels.Direction;
@@ -13,8 +14,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Room {
-
-    private SpriteBatch batch;
     // Assuming 1920x1080
     // MAX_TILE_WIDTH = 24;
     // MAX_TILE_HEIGHT = 13.5;
@@ -150,7 +149,6 @@ public class Room {
     }
 
     public Room(Level levelParent, int levelX, int levelY) {
-        batch = new SpriteBatch();
         this.levelX = levelX;
         this.levelY = levelY;
         this.levelParent = levelParent;
@@ -290,10 +288,10 @@ public class Room {
         DoorFactory.getInstance().removeManagedObjects();
     }
 
-    public void draw() {
+    public void draw(Camera camera) {
         for (RoomTile[] roomTiles : this.tiles) {
             for (RoomTile roomTile : roomTiles) {
-                roomTile.draw(batch);
+                roomTile.draw(camera);
             }
         }
     }

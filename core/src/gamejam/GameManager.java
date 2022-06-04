@@ -45,7 +45,6 @@ public class GameManager {
     public void draw() {
         if (!gameActive) return;
 
-        currentLevel.render();
 
         // Update
         long newTime = System.currentTimeMillis();
@@ -57,6 +56,7 @@ public class GameManager {
 
         //Draw
         camera.begin();
+        currentLevel.render(camera);
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
         camera.end();
     }

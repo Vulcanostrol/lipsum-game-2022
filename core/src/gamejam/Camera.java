@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.rooms.RoomConfiguration;
 
+import java.util.Random;
+
 public class Camera {
     SpriteBatch spriteBatch;
     float factorX = 1f;
@@ -16,9 +18,16 @@ public class Camera {
     float START_WIDTH = RoomConfiguration.ROOM_TILE_WIDTH*RoomConfiguration.TILE_PIXEL_WIDTH;
     float START_HEIGHT = RoomConfiguration.ROOM_TILE_HEIGHT*RoomConfiguration.TILE_PIXEL_HEIGHT;
 
+    //debuffs
+    Random random;
+    int shake = 10;
+
 
     public Camera(){
         spriteBatch = new SpriteBatch();
+        random = new Random();
+        windowFactorX = Gdx.graphics.getWidth()/START_WIDTH;
+        windowFactorY = Gdx.graphics.getHeight()/START_HEIGHT;
     }
 
     public void draw(Texture sprite, float x, float y, float width, float height){
@@ -38,10 +47,8 @@ public class Camera {
     }
 
     public void begin(){
-        System.out.println(Gdx.graphics.getWidth());
-        System.out.println(Gdx.graphics.getHeight());
-        windowFactorX = Gdx.graphics.getWidth()/START_WIDTH;
-        windowFactorY = Gdx.graphics.getHeight()/START_HEIGHT;
+        offsetY = random.nextInt(shake);
+        offsetX = random.nextInt(shake);
         spriteBatch.begin();
     }
     public void end(){

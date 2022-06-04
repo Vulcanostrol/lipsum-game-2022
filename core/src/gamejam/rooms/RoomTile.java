@@ -2,6 +2,7 @@ package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.Camera;
 import org.w3c.dom.Text;
 
 public class RoomTile {
@@ -23,10 +24,8 @@ public class RoomTile {
         this.maxY = maxY;
     }
 
-    public void draw(SpriteBatch batch) {
-        batch.begin();
-        batch.draw(tileTexture, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT);
-        batch.end();
+    public void draw(Camera camera) {
+        camera.draw(tileTexture, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT);
     }
 
 }

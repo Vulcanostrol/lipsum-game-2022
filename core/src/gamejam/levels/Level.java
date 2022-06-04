@@ -1,5 +1,6 @@
 package gamejam.levels;
 
+import gamejam.Camera;
 import gamejam.Util;
 import gamejam.rooms.Room;
 
@@ -63,8 +64,8 @@ public class Level {
 //        }
     }
 
-    public void render() {
-        currentRoom.draw();
+    public void render(Camera camera) {
+        currentRoom.draw(camera);
     }
 
 }
