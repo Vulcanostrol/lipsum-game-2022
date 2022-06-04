@@ -20,7 +20,6 @@ import gamejam.factories.bullets.PyramidEnemyBulletFactory;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.factories.enemies.DroneEnemyFactory;
 import gamejam.factories.enemies.PyramidEnemyFactory;
-import gamejam.objects.collidable.enemies.PyramidEnemy;
 import gamejam.ui.MainMenu;
 import gamejam.ui.MenuManager;
 import gamejam.ui.OptionsMenu;
@@ -43,6 +42,7 @@ public class Main extends Game {
 		DroneEnemyFactory.getInstance();
 		PyramidEnemyFactory.getInstance();
 		PyramidEnemyBulletFactory.getInstance();
+		EntityDeathManager.init();
 	}
 
 	private final MenuManager menuManager;

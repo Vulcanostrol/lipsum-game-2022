@@ -7,6 +7,7 @@ import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.event.events.EntityDeathEvent;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.Damageable;
 import gamejam.objects.collidable.Player;
@@ -52,4 +53,11 @@ public class Bullet extends Collidable {
         super.draw(camera);
     }
 
+    @Override
+    public void update(float timeDeltaMillis) {
+        super.update(timeDeltaMillis);
+        if (Math.abs(x) + Math.abs(y) > BULLET_DESPAWN_RANGE) {
+            despawn();
+        }
+    }
 }
