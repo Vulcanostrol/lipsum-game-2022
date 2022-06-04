@@ -22,7 +22,7 @@ public class DroneEnemy extends AbstractEnemy {
     // angle at which the robot moves once it collides with something, and it is not following the player.
     private float roamingDirection = (float) Math.random();
 
-    public static final float SPEED = 0.1f;
+    public static final float SPEED = 100f;
 
     private float playerX = -Float.MAX_VALUE;
     private float playerY = -Float.MAX_VALUE;
@@ -72,7 +72,6 @@ public class DroneEnemy extends AbstractEnemy {
 
     @Override
     public void update(float deltaTimeMilis) {
-        super.update(deltaTimeMilis);
         float dx = 0;
         float dy = 0;
 
@@ -88,7 +87,9 @@ public class DroneEnemy extends AbstractEnemy {
             dy += Math.sin(roamingDirection * 2 * Math.PI);
         }
 
-        x += SPEED * dx * deltaTimeMilis;
-        y += SPEED * dy * deltaTimeMilis;
+        super.setVelocity(SPEED*dx, SPEED*dy);
+        super.update(deltaTimeMilis);
+//        x += SPEED * dx * deltaTimeMilis;
+//        y += SPEED * dy * deltaTimeMilis;
     }
 }
