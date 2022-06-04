@@ -37,8 +37,8 @@ public class MainMenu extends Menu {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                EventQueue.getInstance().add(new MenuChangeEvent(-1));
-                EventQueue.getInstance().add(new SetupGameEvent());
+                EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.INGAME_OVERLAY));
+                EventQueue.getInstance().invoke(new SetupGameEvent());
             }
         });
         verticalGroup.addActor(playButton);
@@ -47,7 +47,7 @@ public class MainMenu extends Menu {
         optionsButton.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                EventQueue.getInstance().invoke(new MenuChangeEvent(1));
+                EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.OPTIONS_MENU));
             }
         });
         verticalGroup.addActor(optionsButton);

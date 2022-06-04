@@ -1,5 +1,11 @@
 package gamejam;
 
+import gamejam.chips.ChipManager;
+import gamejam.event.EventConsumer;
+import gamejam.event.EventQueue;
+import gamejam.event.EventType;
+import gamejam.event.events.MenuChangeEvent;
+import gamejam.event.events.PlayerDeathEvent;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.PlayerFactory;
 import gamejam.levels.Direction;
@@ -8,6 +14,7 @@ import gamejam.levels.LevelConfiguration;
 import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
 import gamejam.rooms.RoomConfiguration;
+import gamejam.ui.MenuManager;
 
 import java.util.ArrayList;
 
@@ -35,6 +42,7 @@ public class GameManager {
         // Initialize a base level
         currentLevel = new Level();
         currentNLevel = 1;
+        levels.clear();
         levels.add(currentLevel);
 
         camera = new Camera();
@@ -45,6 +53,19 @@ public class GameManager {
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
+
+        EventConsumer<PlayerDeathEvent> consumer = this::resetEntireGame;
+        EventQueue.getInstance().registerConsumer(consumer, EventType.PLAYER_DEATH);
+    }
+
+    private void resetEntireGame(PlayerDeathEvent event) {
+        if (gameActive) {
+            ChipManager.getInstance().resetChips();
+            PlayerFactory.getInstance().getPlayer().hardDisposePlayer();
+            EntityFactory.getInstance().recursiveRemoveManagedObjects();
+            EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.MAIN_MENU));
+            gameActive = false;
+        }
     }
 
     public void spawnEnemies() {

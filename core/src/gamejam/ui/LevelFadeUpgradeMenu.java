@@ -32,7 +32,7 @@ public class LevelFadeUpgradeMenu extends Menu {
     }
 
     private static void onLevelChangeEvent(LevelChangeEvent event) {
-        EventQueue.getInstance().invoke(new MenuChangeEvent(5));
+        EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.LEVEL_FADE_UPGRADE));
     }
 
     // Menu itself, no static stuff anymore.
@@ -158,6 +158,6 @@ public class LevelFadeUpgradeMenu extends Menu {
     }
 
     private void onComplete() {
-        EventQueue.getInstance().invoke(new MenuChangeEvent(-1));
+        EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.INGAME_OVERLAY));
     }
 }

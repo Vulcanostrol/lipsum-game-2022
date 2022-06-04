@@ -26,7 +26,7 @@ public class RoomFadeMenu extends Menu {
     private static void onRoomChangeEvent(RoomChangeEvent event) {
         roomChangeDirection = event.getDirection();
         if (!event.isUpgrade()) {
-            EventQueue.getInstance().invoke(new MenuChangeEvent(3));
+            EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.ROOM_FADE_MENU));
         }
     }
 
@@ -72,6 +72,6 @@ public class RoomFadeMenu extends Menu {
     }
 
     private void onComplete() {
-        EventQueue.getInstance().invoke(new MenuChangeEvent(-1));
+        EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.INGAME_OVERLAY));
     }
 }
