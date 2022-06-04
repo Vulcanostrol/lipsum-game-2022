@@ -7,6 +7,7 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
 import gamejam.objects.Damageable;
+import gamejam.objects.collidable.Player;
 
 public class Bullet extends Collidable {
 

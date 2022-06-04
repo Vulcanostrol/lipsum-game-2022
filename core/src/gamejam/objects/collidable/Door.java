@@ -8,6 +8,7 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
 import gamejam.levels.Direction;
+import gamejam.objects.collidable.Player;
 
 public class Door extends Collidable {
 

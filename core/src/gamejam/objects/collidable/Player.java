@@ -1,4 +1,4 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

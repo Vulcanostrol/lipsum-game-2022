@@ -10,8 +10,8 @@ import gamejam.factories.TestEntityFactory;
 import gamejam.levels.Direction;
 import gamejam.factories.SelfCollidableFactory;
 import gamejam.levels.Level;
-import gamejam.objects.Player;
-import gamejam.objects.TestEntity;
+import gamejam.objects.collidable.Player;
+import gamejam.objects.collidable.TestEntity;
 import gamejam.rooms.RoomConfiguration;
 
 import java.util.ArrayList;

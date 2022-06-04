@@ -35,6 +35,7 @@ public class DroneEnemy extends AbstractEnemy {
 
         //todo: only listen to collisions with self
         EventConsumer<CollisionEvent> collisionEventEventConsumer = this::onCollisionEvent;
+        EventQueue.getInstance().registerConsumer(collisionEventEventConsumer, EventType.COLLISION_EVENT);
     }
 
     private void onCollisionEvent(CollisionEvent collisionEvent) {
@@ -47,11 +48,13 @@ public class DroneEnemy extends AbstractEnemy {
         this.playerX = playerMoveEvent.newX;
         this.playerY = playerMoveEvent.newY;
 
-        this.playerPositionKnown = Math.abs(playerX - x) < RANGE_OF_SIGHT && Math.abs(playerY - y) < RANGE_OF_SIGHT;
-
-
-        if (this.playerPositionKnown) {
-            System.out.println(String.format("Drone sees player at %s, %s", playerX, playerY));
+        boolean playerStillInRange = Math.abs(playerX - x) < RANGE_OF_SIGHT && Math.abs(playerY - y) < RANGE_OF_SIGHT;
+        if (!playerStillInRange && playerPositionKnown)  {
+            // lost track of player, just go fly somewhere
+            playerPositionKnown = false;
+            roamingDirection = (float) Math.random();
+        } else if (playerStillInRange) {
+            this.playerPositionKnown = true;
         }
     }
 
@@ -61,8 +64,12 @@ public class DroneEnemy extends AbstractEnemy {
         float dy = 0;
 
         if (playerPositionKnown) {
-            dx += x < playerX ? 1 : -1;
-            dy += y < playerY ? 1 : -1;
+            if (Math.abs(x - playerX) > 0.1f) {
+                dx += x < playerX ? 1 : -1;
+            }
+            if (Math.abs(y - playerY) > 0.1f) {
+                dy += y < playerY ? 1 : -1;
+            }
         } else {
             dx += Math.cos(roamingDirection * 2 * Math.PI);
             dy += Math.sin(roamingDirection * 2 * Math.PI);
@@ -71,5 +78,4 @@ public class DroneEnemy extends AbstractEnemy {
         x += SPEED * dx * deltaTimeMilis;
         y += SPEED * dy * deltaTimeMilis;
     }
-
 }
