@@ -8,12 +8,12 @@ import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
 
-public class FinalDoor
-        extends Collidable {
+public class FinalDoor extends Collidable {
 
     private Direction direction;
 
@@ -50,11 +50,12 @@ public class FinalDoor
         }
     }
 
-    private void onPlayerCollidedWithThisFinalDoor
-            () {
-        if (!collided) {
-            GameManager.getInstance().moveToNextLevel();
-            collided = true;
+    private void onPlayerCollidedWithThisFinalDoor() {
+        if (!AbstractEnemyFactory.getInstance().getAllManagedObjects().findAny().isPresent()) {
+            if (!collided) {
+                GameManager.getInstance().moveToNextLevel();
+                collided = true;
+            }
         }
     }
 }

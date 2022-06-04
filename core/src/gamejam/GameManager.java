@@ -38,9 +38,6 @@ public class GameManager {
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
-        new TestEntity(100, 200);
-        new TestEntity(100, 250);
-        new TestEntity(500, 200, 0, 0);
 
         new DroneEnemy(400, 600);
     }
@@ -54,12 +51,8 @@ public class GameManager {
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
-        new TestEntity(100, 200);
-        new TestEntity(100, 250);
-        new TestEntity(500, 200, 0, 0);
 
         new DroneEnemy(400, 600);
-
     }
 
     public void moveToRoomByDirection(Direction direction) {
