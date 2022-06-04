@@ -12,6 +12,10 @@ public class PlayerFactory extends AbstractFactory<Player> {
         SelfCollidableFactory.getInstance().addSubFactory(PlayerFactory.getInstance());
     }
 
+    public PlayerFactory() {
+        super(Player.class);
+    }
+
     public static PlayerFactory getInstance() {
         if (instance == null) {
             instance = new PlayerFactory();

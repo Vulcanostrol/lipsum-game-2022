@@ -10,6 +10,10 @@ public class SelfCollidableFactory extends AbstractFactory<SelfCollidable> {
         CollidableFactory.getInstance().addSubFactory(SelfCollidableFactory.getInstance());
     }
 
+    public SelfCollidableFactory() {
+        super(SelfCollidable.class);
+    }
+
     public static SelfCollidableFactory getInstance() {
         if (instance == null) {
             instance = new SelfCollidableFactory();

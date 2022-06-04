@@ -9,6 +9,10 @@ public class BulletFactory extends AbstractFactory<Bullet> {
         CollidableFactory.getInstance().addSubFactory(BulletFactory.getInstance());
     }
 
+    public BulletFactory() {
+        super(Bullet.class);
+    }
+
     public static BulletFactory getInstance() {
         if (instance == null) {
             instance = new BulletFactory();

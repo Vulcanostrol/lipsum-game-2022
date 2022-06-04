@@ -9,6 +9,10 @@ public class DoorFactory extends AbstractFactory<Door> {
         CollidableFactory.getInstance().addSubFactory(DoorFactory.getInstance());
     }
 
+    public DoorFactory() {
+        super(Door.class);
+    }
+
     public static DoorFactory getInstance() {
         if (instance == null) {
             instance = new DoorFactory();

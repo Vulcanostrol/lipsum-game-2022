@@ -4,18 +4,28 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import gamejam.event.EventQueue;
-import gamejam.factories.DroneEnemyFactory;
-import gamejam.factories.PlayerFactory;
-import gamejam.factories.TestEntityFactory;
-import gamejam.objects.collidable.TestEntity;
-import gamejam.objects.collidable.enemies.DroneEnemy;
-import gamejam.objects.collidable.Player;
+import gamejam.factories.*;
+import gamejam.objects.Player;
+import gamejam.objects.TestEntity;
 import gamejam.ui.MainMenu;
 import gamejam.ui.MenuManager;
 import gamejam.ui.OptionsMenu;
 import gamejam.ui.PausedMenu;
 
 public class Main extends Game {
+
+	static {
+		// Force loading of all factories, otherwise java will pretend they don't exist
+		EntityFactory.getInstance();
+		BulletFactory.getInstance();
+		CollidableFactory.getInstance();
+		DoorFactory.getInstance();
+		EntityFactory.getInstance();
+		PlayerFactory.getInstance();
+		SelfCollidableFactory.getInstance();
+		TestEntityFactory.getInstance();
+		WallFactory.getInstance();
+	}
 
 	private final MenuManager menuManager;
 
@@ -34,14 +44,6 @@ public class Main extends Game {
 		TextureStore.instantiate();
 
 		menuManager.switchMenu(0);
-		// Entity creation
-		Player player = new Player(300, 100);
-		TestEntity e1 = new TestEntity(100, 200);
-
-		PlayerFactory.getInstance().addManagedObject(player);
-		TestEntityFactory.getInstance().addManagedObject(e1);
-
-		DroneEnemyFactory.getInstance().addManagedObject(new DroneEnemy(150, 250));
  	}
 
 	public void resize (int width, int height) {
