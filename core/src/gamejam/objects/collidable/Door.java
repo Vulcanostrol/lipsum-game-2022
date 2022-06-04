@@ -25,7 +25,7 @@ public class Door extends Collidable {
         setPosition(x, y);
         setVelocity(0 ,0);
         if (isUpgradeDoor) {
-            this.sprite = new Texture("terrain/upgradedoor.png");
+            this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("upgradedoor") : TextureStore.getTileTextureByName("upgradedoor_vertical");;
         } else {
             this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("door") : TextureStore.getTileTextureByName("door_vertical");
         }

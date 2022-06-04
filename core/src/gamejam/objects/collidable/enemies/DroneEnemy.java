@@ -38,7 +38,6 @@ public class DroneEnemy extends AbstractEnemy {
 
         playerMoveEventEventConsumer = this::onPlayerMoveEvent;
         EventQueue.getInstance().registerConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
-
     }
 
     public void onCollisionEvent(CollisionEvent collisionEvent) {
