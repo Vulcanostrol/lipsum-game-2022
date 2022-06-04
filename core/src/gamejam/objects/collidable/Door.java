@@ -8,6 +8,7 @@ import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
@@ -30,7 +31,6 @@ public class Door extends Collidable {
             this.sprite = new Texture("terrain/door.png");
         }
         this.direction = direction;
-
     }
 
     @Override
@@ -47,9 +47,11 @@ public class Door extends Collidable {
     }
 
     private void onPlayerCollidedWithThisDoor() {
-        if (!collided) {
-            GameManager.getInstance().moveToRoomByDirection(direction);
-            collided = true;
+        if (!AbstractEnemyFactory.getInstance().getAllManagedObjects().findAny().isPresent()) {
+            if (!collided) {
+                GameManager.getInstance().moveToRoomByDirection(direction);
+                collided = true;
+            }
         }
     }
 }
