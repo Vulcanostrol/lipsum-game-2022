@@ -56,9 +56,11 @@ public class RoomFadeMenu extends Menu {
         overlay.setColor(new Color(0f, 0f, 0f, currentAlpha));
         if (currentAlpha >= 1) {
             onOverlayComplete();
+            currentAlpha = 1f;
         }
         if (currentAlpha <= 0) {
             onComplete();
+            currentAlpha = 0f;
         }
         super.draw();
     }

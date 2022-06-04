@@ -106,7 +106,7 @@ public class RoomFadeUpgradeMenu extends Menu {
         stage.addActor(overlay);
 
         horizontalGroup.setPosition(
-                Gdx.graphics.getWidth() * 0.5f,
+                Gdx.graphics.getWidth() * 0.5f - horizontalGroup.getPrefWidth() * 0.5f,
                 Gdx.graphics.getHeight() * 0.5f + horizontalGroup.getPrefHeight() * 0.5f
         );
 
@@ -119,9 +119,11 @@ public class RoomFadeUpgradeMenu extends Menu {
         overlay.setColor(new Color(0f, 0f, 0f, currentAlpha));
         if (currentAlpha >= 1) {
             onOverlayComplete();
+            currentAlpha = 1f;
         }
         if (currentAlpha <= 0) {
             onComplete();
+            currentAlpha = 0f;
         }
         super.draw();
     }
