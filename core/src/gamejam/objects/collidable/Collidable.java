@@ -40,7 +40,6 @@ public abstract class Collidable extends Entity {
     @Override
     public void update(float timeDeltaMillis){
         super.update(timeDeltaMillis);
-        resetCollisions();
     }
 
     public void afterDraw() {

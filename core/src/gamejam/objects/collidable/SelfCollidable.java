@@ -21,6 +21,7 @@ public abstract class SelfCollidable extends Collidable {
 
     @Override
     public void update(float timeDeltaMillis){
+        // WARNING: Do not call super.update here. It will break shit
         float movement_x = speedX * timeDeltaMillis / 1000;
         float movement_y = speedY * timeDeltaMillis / 1000;
 
