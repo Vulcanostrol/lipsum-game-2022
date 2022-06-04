@@ -7,6 +7,9 @@ import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
 import gamejam.event.events.PlayerMoveEvent;
 import gamejam.objects.collidable.Collidable;
+import gamejam.objects.collidable.Player;
+
+import java.util.Random;
 
 /**
  * The Drone Enemy tries to fly straight to the player, to collide with it and
@@ -43,19 +46,20 @@ public class DroneEnemy extends AbstractEnemy {
     }
 
     private void onCollisionEvent(CollisionEvent collisionEvent) {
-        if (playerPositionKnown) {
-            // flying towards player, don't really care
+        Collidable self = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidesWith() :
+                (collisionEvent.getCollidingObject() == this ? collisionEvent.getCollidingObject() : null);
+        if (self == null) {
+            return;
+        }
+        Collidable other = collisionEvent.getCollidesWith() == self ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
+
+        if (other instanceof Player) {
+            //don't care about collision with player
             return;
         }
 
-        if (collisionEvent.getCollidesWith() == this || collisionEvent.getCollidingObject() == this) {
-            Collidable collidedWith = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
-            float dx = Math.abs(collidedWith.getX() - x);
-            float dy = Math.abs(collidedWith.getY() - y);
-
-            this.roamingDirection = (float) (dy/Math.sqrt(Math.pow(dy, 2) + Math.pow(dx, 2)));
-            System.out.printf("roamingdirection is now %f%n", roamingDirection);
-        }
+        Random random = new Random();
+        this.roamingDirection = (this.roamingDirection + 0.5f + (random.nextFloat() / 5f)) % 1f;
     }
 
     private void onPlayerMoveEvent(PlayerMoveEvent playerMoveEvent) {
@@ -67,7 +71,6 @@ public class DroneEnemy extends AbstractEnemy {
             // lost track of player, just go fly somewhere
             playerPositionKnown = false;
             roamingDirection = (float) Math.random();
-            System.out.printf("roamingdirection is now %f%n", roamingDirection);
         } else if (playerStillInRange) {
             this.playerPositionKnown = true;
         }
