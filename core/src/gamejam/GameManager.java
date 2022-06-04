@@ -69,14 +69,9 @@ public class GameManager {
     }
 
     public void moveToRoomByDirection(Direction direction) {
-        Player player = PlayerFactory.getInstance().getPlayer();
-        EntityFactory.getInstance().recursiveRemoveManagedObjects();
-        boolean success = currentLevel.moveToRoomByDirection(direction);
-
-//        PlayerFactory.getInstance().removeManagedObjects();
-//        TestEntityFactory.getInstance().removeManagedObjects();
-
-        if (success) {
+        if (currentLevel.moveToRoomByDirection(direction)) {
+            Player player = PlayerFactory.getInstance().getPlayer();
+            EntityFactory.getInstance().recursiveRemoveManagedObjects();
             double newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
             double newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
 
@@ -97,12 +92,14 @@ public class GameManager {
                     newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2 - RoomConfiguration.TILE_PIXEL_WIDTH/2;
                     newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * (RoomConfiguration.ROOM_TILE_HEIGHT - 2);
                     break;
-            }
 
+            }
             // Entity creation
             PlayerFactory.getInstance().addManagedObject(player);
             player.setVelocity(0, 0);
             player.setPosition((float) newPlayerX,(float) newPlayerY);
+        } else {
+            System.err.println("Tried to move to an invalid room location. Staying in the current room(?)");
         }
     }
 
