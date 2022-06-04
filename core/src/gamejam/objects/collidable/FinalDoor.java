@@ -43,7 +43,7 @@ public class FinalDoor
 //        camera.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
     }
 
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
         if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Player ||
                 event.getCollidesWith() == this && event.getCollidingObject() instanceof Player) {
             onPlayerCollidedWithThisFinalDoor();
