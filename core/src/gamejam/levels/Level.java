@@ -66,6 +66,7 @@ public class Level {
     }
 
     public boolean moveToRoomByDirection(Direction direction) {
+        initializeWallCollisionBoxes();
         Room newRoom = null;
         switch (direction) {
             case SOUTH:
