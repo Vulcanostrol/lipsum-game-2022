@@ -70,6 +70,7 @@ public class GameManager {
     }
 
     public void moveToRoomByDirection(Direction direction) {
+        Player player = PlayerFactory.getInstance().getPlayer();
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         boolean success = currentLevel.moveToRoomByDirection(direction);
 
@@ -100,7 +101,9 @@ public class GameManager {
             }
 
             // Entity creation
-            Player player = new Player((float) newPlayerX,(float) newPlayerY);
+            PlayerFactory.getInstance().addManagedObject(player);
+            player.setVelocity(0, 0);
+            player.setPosition((float) newPlayerX,(float) newPlayerY);
         }
     }
 

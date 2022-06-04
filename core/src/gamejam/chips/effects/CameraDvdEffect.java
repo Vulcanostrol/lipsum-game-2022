@@ -30,6 +30,8 @@ public class CameraDvdEffect implements ChipEffect {
 
     @Override
     public void dispose() {
+        GameManager.getInstance().getCamera().setMovementSpeed(0);
+        GameManager.getInstance().getCamera().resetMovementOffset();
     }
 
     @Override

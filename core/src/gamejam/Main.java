@@ -8,7 +8,7 @@ import gamejam.chips.BuffChip;
 import gamejam.chips.BulletChip;
 import gamejam.chips.ChipManager;
 import gamejam.chips.WeirdChip;
-import gamejam.chips.effects.SniperChip;
+import gamejam.chips.SniperChip;
 import gamejam.event.EfficientCollisionHandler;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
@@ -80,6 +80,9 @@ public class Main extends Game {
 		if (event.getKeyCode() == Input.Keys.NUM_4 && event.isKeyDown()) {
 			ChipManager.getInstance().activateChip(new BulletChip());
 		}
+		 if (event.getKeyCode() == Input.Keys.NUM_0 && event.isKeyDown()) {
+			 ChipManager.getInstance().resetChips();
+		 }
 	 }
 
 	public void resize (int width, int height) {

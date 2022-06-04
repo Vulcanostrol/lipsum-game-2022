@@ -1,10 +1,8 @@
 package gamejam.objects.collidable;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
 import gamejam.GameManager;
@@ -19,8 +17,6 @@ import gamejam.event.events.PlayerMoveEvent;
 import gamejam.objects.Damageable;
 import gamejam.weapons.BasicWeapon;
 import gamejam.weapons.Weapon;
-
-import java.util.Random;
 
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
@@ -141,8 +137,9 @@ public class Player extends SelfCollidable implements Damageable {
     @Override
     public void onDispose() {
         super.onDispose();
-        keyHoldWatcher.dispose();
-        EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+        // We intentionally do not do anything here anymore, because the player persists between rooms / levels. We only
+        // reset the input handling.
+        keyHoldWatcher.releaseAll();
     }
 
     public Weapon getWeapon() {
