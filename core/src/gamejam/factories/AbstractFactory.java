@@ -55,6 +55,23 @@ public abstract class AbstractFactory<T> {
     }
 
     /**
+     * Removes all objects from the managedObjects set
+     */
+    public void removeManagedObjects(){
+        managedObjects.clear();
+    }
+
+    /**
+     * Removes all objects from the managedObjects set and also does this for all the subFactories
+     */
+    public void recursiveRemoveManagedObjects(){
+        removeManagedObjects();
+        for (AbstractFactory factory: subFactories) {
+            factory.recursiveRemoveManagedObjects();
+        }
+    }
+
+    /**
      * Adds a sub-factory to this factory. Please don't make cycles.
      * @param subFactory the sub-factory to add
      */

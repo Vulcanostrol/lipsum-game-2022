@@ -22,18 +22,27 @@ public abstract class Collidable extends Entity {
     @Override
     public void update(float timeDeltaMillis){
         super.update(timeDeltaMillis);
+        resetCollision();
+    }
+
+    protected void resetCollision(){
         hasCollided = false;
     }
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
         super.draw(spriteBatch);
+        drawHitBox(spriteBatch);
+    }
+
+    protected void drawHitBox(SpriteBatch spriteBatch){
         if (hasCollided) {
             spriteBatch.draw(hitBoxRedTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
         } else {
             spriteBatch.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
         }
     }
+
 
     public void setHasCollided() {
         this.hasCollided = true;

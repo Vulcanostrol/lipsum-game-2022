@@ -238,6 +238,8 @@ public class Room {
     }
 
     public void updateLayout() {
+        this.resetFactoriesForRoomObjects();
+
         eastRoom = levelParent.rooms[levelX + 1][levelY];
         westRoom = levelParent.rooms[levelX - 1][levelY];
         northRoom = levelParent.rooms[levelX][levelY + 1];
@@ -282,6 +284,10 @@ public class Room {
                 }
             }
         }
+    }
+
+    private void resetFactoriesForRoomObjects(){
+        DoorFactory.getInstance().removeManagedObjects();
     }
 
     public void draw() {
