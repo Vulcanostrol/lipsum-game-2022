@@ -45,6 +45,10 @@ public abstract class Entity {
         EntityFactory.getInstance().removeManagedObject(this);
     }
 
+    public void onDispose() {
+
+    }
+
     public float getX(){
         return x;
     }

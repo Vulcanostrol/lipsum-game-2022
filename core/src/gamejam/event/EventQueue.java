@@ -81,6 +81,9 @@ public class EventQueue {
         for (EventConsumer<? extends Event> consumer : toDeregisterConsumersByType.keySet()) {
             deregisterConsumer(consumer, toDeregisterConsumersByType.get(consumer));
         }
+
+        toRegisterConsumersByType.clear();
+        toDeregisterConsumersByType.clear();
     }
 
     public void registerConsumer(EventConsumer<? extends Event> consumer, String eventType) {
