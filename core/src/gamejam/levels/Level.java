@@ -1,5 +1,7 @@
 package gamejam.levels;
 
+import com.badlogic.gdx.Game;
+import gamejam.GameManager;
 import gamejam.Util;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.WallFactory;
@@ -28,6 +30,7 @@ public class Level {
         currentRoom = new Room(this, initX, initY);
         rooms[initX][initY] = currentRoom;
 
+        // Initialize wall collision boxes so a player can't move out of the map
         initializeWallCollisionBoxes();
 
         // 4 For the number of directions one can branch, for the initial room we can branch in every direction
@@ -59,14 +62,33 @@ public class Level {
         currentRoom.northRoom.createBranches(nNorthRooms, Direction.NORTH);
         currentRoom.southRoom.createBranches(nSouthRooms, Direction.SOUTH);
 
-//        currentRoom.updateLayout();
+        currentRoom.setup();
+    }
 
-//        for (int i = 0; i < this.rooms.length; i++) {
-//            for (int j = 0; j < this.rooms[0].length; j++) {
-//                System.out.print(this.rooms[i][j]);
-//            }
-//            System.out.println("");
-//        }
+    public boolean moveToRoomByDirection(Direction direction) {
+        Room newRoom = null;
+        switch (direction) {
+            case SOUTH:
+                newRoom = rooms[currentRoom.levelX][currentRoom.levelY - 1];
+                break;
+            case NORTH:
+                newRoom = rooms[currentRoom.levelX][currentRoom.levelY + 1];
+                break;
+            case EAST:
+                newRoom = rooms[currentRoom.levelX + 1][currentRoom.levelY];
+                break;
+            case WEST:
+                newRoom = rooms[currentRoom.levelX - 1][currentRoom.levelY];
+                break;
+        }
+        if (newRoom != null) {
+            currentRoom = newRoom;
+            currentRoom.setup();
+            return true;
+        } else {
+            System.err.println("Trying to move to a location where there is no room! Direction: " + direction.toString());
+            return false;
+        }
     }
 
     private void initializeWallCollisionBoxes() {
@@ -103,6 +125,16 @@ public class Level {
 
     public void render() {
         currentRoom.draw();
+        System.out.println(currentRoom);
+    }
+
+    public void printLevelLayout() {
+        for (int i = 0; i < this.rooms.length; i++) {
+            for (int j = 0; j < this.rooms[0].length; j++) {
+                System.out.print(this.rooms[i][j]);
+            }
+            System.out.println("");
+        }
     }
 
 }

@@ -5,7 +5,12 @@ import gamejam.event.EventQueue;
 import gamejam.event.events.CollisionEvent;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
+import gamejam.factories.PlayerFactory;
+import gamejam.factories.TestEntityFactory;
+import gamejam.levels.Direction;
 import gamejam.levels.Level;
+import gamejam.objects.Player;
+import gamejam.objects.TestEntity;
 
 import java.util.ArrayList;
 
@@ -32,6 +37,26 @@ public class GameManager {
         spriteBatch = new SpriteBatch();
         //time
         previousTime = System.currentTimeMillis();
+    }
+
+    public void moveToRoomByDirection(Direction direction) {
+        EntityFactory.getInstance().recursiveRemoveManagedObjects();
+        boolean success = currentLevel.moveToRoomByDirection(direction);
+
+//        PlayerFactory.getInstance().removeManagedObjects();
+//        TestEntityFactory.getInstance().removeManagedObjects();
+
+        if (success) {
+            // Entity creation
+            Player player = new Player(300, 100);
+            TestEntity e1 = new TestEntity(100, 200);
+            TestEntity e2 = new TestEntity(100, 250);
+            TestEntity e3 = new TestEntity(500, 200, 0, 0);
+            PlayerFactory.getInstance().addManagedObject(player);
+            TestEntityFactory.getInstance().addManagedObject(e1);
+            TestEntityFactory.getInstance().addManagedObject(e2);
+            TestEntityFactory.getInstance().addManagedObject(e3);
+        }
     }
 
     private ArrayList<Level> levels = new ArrayList<>();
