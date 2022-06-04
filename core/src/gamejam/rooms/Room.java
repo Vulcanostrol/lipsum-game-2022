@@ -1,18 +1,27 @@
 package gamejam.rooms;
 
 import gamejam.Camera;
+import gamejam.GameManager;
 import gamejam.Util;
+import gamejam.factories.CollidableFactory;
+import gamejam.factories.enemies.AbstractEnemyFactory;
+import gamejam.factories.enemies.PyramidEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
+import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Door;
 import gamejam.objects.collidable.FinalDoor;
 import gamejam.objects.collidable.Pillar;
+import gamejam.objects.collidable.enemies.AbstractEnemy;
 import gamejam.objects.collidable.enemies.PyramidEnemy;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class Room {
     // Assuming 1920x1080
@@ -301,7 +310,42 @@ public class Room {
         if (!visited) {
             visited = true;
             // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
-            new PyramidEnemy(200, 200);
+            GameManager.getInstance().spawnEnemies();
+        }
+    }
+
+    public void spawnEnemies(float currentSpawnRate) {
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[0].length; j++) {
+                if (pillars[i][j]) {
+                    continue;
+                }
+
+                int xOffset = Math.round(random.nextFloat() * RoomConfiguration.TILE_PIXEL_WIDTH / 2) - RoomConfiguration.TILE_PIXEL_WIDTH / 2;
+                int yOffset = Math.round(random.nextFloat() * RoomConfiguration.TILE_PIXEL_HEIGHT / 2) - RoomConfiguration.TILE_PIXEL_HEIGHT / 2;
+
+                if (random.nextFloat() < currentSpawnRate) {
+                    ArrayList<Class<? extends AbstractEnemy>> spawnTable = EnemySpawnTable.getInstance().getSpawnTable();
+                    Class<? extends AbstractEnemy> cls = spawnTable.get(Math.round(random.nextFloat() * (spawnTable.size() - 1)));
+                    AbstractEnemy potentialNewEnemy = null;
+                    try {
+                        potentialNewEnemy = cls.getDeclaredConstructor(float.class, float.class).newInstance((float) i * RoomConfiguration.TILE_PIXEL_WIDTH + xOffset, (float) j * RoomConfiguration.TILE_PIXEL_HEIGHT + yOffset);
+                        AbstractEnemy finalPotentialNewEnemy = potentialNewEnemy;
+                        Stream<Collidable> collidedEnemies = CollidableFactory.getInstance().getAllManagedObjects().filter(collidable -> collidable.checkCollision(finalPotentialNewEnemy));
+                        if (collidedEnemies.count() >= 2) {
+                            AbstractEnemyFactory.getInstance().removeManagedObject(potentialNewEnemy);
+                        }
+                    } catch (InstantiationException e) {
+                        throw new RuntimeException(e);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    } catch (InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    } catch (NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
     }
 

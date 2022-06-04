@@ -124,6 +124,10 @@ public class Level {
         }
     }
 
+    public void spawnEnemies(float currentSpawnRate) {
+        currentRoom.spawnEnemies(currentSpawnRate);
+    }
+
     private void initializeWallCollisionBoxes() {
         int PIXEL_CHIP = 20;
         WallFactory.getInstance().removeManagedObjects();

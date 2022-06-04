@@ -3,6 +3,7 @@ package gamejam;
 import gamejam.factories.EntityFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
+import gamejam.levels.LevelConfiguration;
 import gamejam.objects.collidable.Player;
 import gamejam.objects.collidable.TestEntity;
 import gamejam.objects.collidable.enemies.DroneEnemy;
@@ -13,6 +14,11 @@ import java.util.ArrayList;
 public class GameManager {
 
     private static GameManager instance = null;
+    private ArrayList<Level> levels = new ArrayList<>();
+    private Level currentLevel;
+    private int currentNLevel;
+    private long previousTime;
+    private Camera camera;
 
     public static GameManager getInstance() {
         if (instance == null) {
@@ -28,6 +34,7 @@ public class GameManager {
 
         // Initialize a base level
         currentLevel = new Level();
+        currentNLevel = 1;
         levels.add(currentLevel);
 
         camera = new Camera();
@@ -38,21 +45,25 @@ public class GameManager {
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
+    }
 
-        new DroneEnemy(400, 600);
+    public void spawnEnemies() {
+        float currentSpawnRate = LevelConfiguration.SPAWN_RATE * currentNLevel * LevelConfiguration.SPAWN_RATE_GROWTH;
+        if (currentLevel != null) {
+            currentLevel.spawnEnemies(currentSpawnRate);
+        }
     }
 
     public void moveToNextLevel() {
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         currentLevel = new Level();
+        currentNLevel += 1;
         levels.add(currentLevel);
 
         // Entity creation
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
-
-        new DroneEnemy(400, 600);
     }
 
     public void moveToRoomByDirection(Direction direction) {
@@ -87,16 +98,8 @@ public class GameManager {
 
             // Entity creation
             Player player = new Player((float) newPlayerX,(float) newPlayerY);
-            TestEntity e1 = new TestEntity(100, 200);
-            TestEntity e2 = new TestEntity(100, 250);
-            TestEntity e3 = new TestEntity(500, 200, 0, 0);
         }
     }
-
-    private ArrayList<Level> levels = new ArrayList<>();
-    private Level currentLevel;
-    private long previousTime;
-    private Camera camera;
 
     public void draw() {
         if (!gameActive) return;
@@ -117,5 +120,9 @@ public class GameManager {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public int getCurrentNLevel() {
+        return currentNLevel;
     }
 }
