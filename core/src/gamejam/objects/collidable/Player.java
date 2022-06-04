@@ -11,6 +11,8 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.*;
 import gamejam.factories.BulletFactory;
+import gamejam.weapons.BasicWeapon;
+import gamejam.weapons.Weapon;
 import gamejam.objects.Damageable;
 import gamejam.objects.collidable.Bullet;
 import gamejam.objects.collidable.SelfCollidable;
@@ -20,8 +22,6 @@ import gamejam.objects.collidable.SelfCollidable;
  */
 public class Player extends SelfCollidable implements Damageable {
     public static final float SPEED = 300f;
-    public static final float BULLET_SHOOT_SPEED = 1000;
-
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
@@ -29,6 +29,8 @@ public class Player extends SelfCollidable implements Damageable {
 
     private final float maxHealth = 100;
     private float health = maxHealth;
+
+    private Weapon weapon;
 
     private EventConsumer<CollisionEvent> collisionConsumer;
 
@@ -46,6 +48,8 @@ public class Player extends SelfCollidable implements Damageable {
 
         mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+
+        this.weapon = new BasicWeapon();
     }
 
 
@@ -91,8 +95,7 @@ public class Player extends SelfCollidable implements Damageable {
         // TODO: Translate the screen coordinates of the mouse to world coordinates.
         float dx = event.getScreenX() - getX();
         float dy = (Gdx.graphics.getHeight() - event.getScreenY()) - getY();
-        Vector2 vector2 = new Vector2(dx, dy).nor();
-        new Bullet(this.x, this.y, vector2.x * BULLET_SHOOT_SPEED, vector2.y * BULLET_SHOOT_SPEED);
+        weapon.fire(this.x, this.y, dx, dy);
     }
 
     @Override
@@ -120,6 +123,9 @@ public class Player extends SelfCollidable implements Damageable {
         keyHoldWatcher.dispose();
         EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
         EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+    }
 
+    public Weapon getWeapon() {
+        return weapon;
     }
 }
