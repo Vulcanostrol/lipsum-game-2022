@@ -1,12 +1,9 @@
 package gamejam.levels;
 
-import com.badlogic.gdx.Game;
-import gamejam.GameManager;
 import gamejam.Camera;
 import gamejam.Util;
-import gamejam.factories.EntityFactory;
 import gamejam.factories.WallFactory;
-import gamejam.objects.Wall;
+import gamejam.objects.collidable.Wall;
 import gamejam.rooms.Room;
 import gamejam.rooms.RoomConfiguration;
 

@@ -1,10 +1,8 @@
 package gamejam.objects.collidable;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
 import gamejam.GameManager;
@@ -20,12 +18,11 @@ import gamejam.objects.Damageable;
 import gamejam.weapons.BasicWeapon;
 import gamejam.weapons.Weapon;
 
-import java.util.Random;
 
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
  */
-public class Player extends SelfCollidable implements Damageable {
+public class Player extends SelfCollidable implements Damageable, Traversable {
     public static final float SPEED = 300f;
 
     private final KeyHoldWatcher keyHoldWatcher;

@@ -1,18 +1,14 @@
 package gamejam.objects.collidable.bullets;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Camera;
-import gamejam.event.EventConsumer;
-import gamejam.event.EventQueue;
-import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
-import gamejam.event.events.EntityDeathEvent;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.Damageable;
 import gamejam.objects.collidable.Player;
+import gamejam.objects.collidable.Traversable;
 
-public class Bullet extends Collidable {
+public class Bullet extends Collidable implements Traversable {
 
     public final float BULLET_DESPAWN_RANGE = 5000;
 
@@ -39,13 +35,19 @@ public class Bullet extends Collidable {
         } else if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Damageable) {
             tryDamageEntity(((Damageable) event.getCollidesWith()));
         }
+        handleDeSpawn(event);
+    }
+
+    protected void handleDeSpawn(CollisionEvent event) {
+        if (!(event.getCollidingObject() instanceof Player || event.getCollidesWith() instanceof Player)) {
+            despawn();
+        }
     }
 
     private void tryDamageEntity(Damageable entity) {
         if (!damagePlayer && entity instanceof Player) return;
         if (damagePlayer && !(entity instanceof Player)) return;
         entity.damage(damage);
-        despawn();
     }
 
     @Override

@@ -1,12 +1,12 @@
 package gamejam.factories;
 
-import gamejam.objects.Wall;
+import gamejam.objects.collidable.Wall;
 
 public class WallFactory extends AbstractFactory<Wall> {
     private static WallFactory instance = null;
 
     static {
-        CollidableFactory.getInstance().addSubFactory(WallFactory.getInstance());
+        SelfCollidableFactory.getInstance().addSubFactory(WallFactory.getInstance());
     }
 
     public WallFactory() {
