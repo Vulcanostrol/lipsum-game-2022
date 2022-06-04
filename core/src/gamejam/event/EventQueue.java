@@ -1,20 +1,26 @@
 package gamejam.event;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * Singleton die {@link Event}s bewaart om geprocest te worden.
  */
 public class EventQueue {
     private final ConcurrentLinkedQueue<Event> eventQueue;
+    private final HashMap<EventConsumer<? extends Event>, String> toRegisterConsumersByType;
+    private final HashMap<EventConsumer<? extends Event>, String> toDeregisterConsumersByType;
     private final HashMap<String, ArrayList<EventConsumer<? extends Event>>> eventConsumersByType;
     private static EventQueue instance;
 
+    private boolean handling;
+
     private EventQueue() {
         this.eventQueue = new ConcurrentLinkedQueue<>();
+        this.toRegisterConsumersByType = new HashMap<>();
+        this.toDeregisterConsumersByType = new HashMap<>();
         this.eventConsumersByType = new HashMap<>();
     }
 
@@ -62,19 +68,35 @@ public class EventQueue {
      */
     public void handleAll() {
         // is niet een typo.
+        handling = true;
         while(this.handleNext());
+        handling = false;
+        handleRegistries();
+    }
+
+    public void handleRegistries() {
+        for (EventConsumer<? extends Event> consumer : toRegisterConsumersByType.keySet()) {
+            registerConsumer(consumer, toRegisterConsumersByType.get(consumer));
+        }
+        for (EventConsumer<? extends Event> consumer : toDeregisterConsumersByType.keySet()) {
+            deregisterConsumer(consumer, toDeregisterConsumersByType.get(consumer));
+        }
     }
 
     public void registerConsumer(EventConsumer<? extends Event> consumer, String eventType) {
-        if (this.eventConsumersByType.containsKey(eventType)) {
-            ArrayList<EventConsumer<? extends Event>> currentConsumer = this.eventConsumersByType.get(eventType);
-            currentConsumer.add(consumer);
-            this.eventConsumersByType.put(eventType, currentConsumer);
-            return;
+        if (!handling) {
+            if (this.eventConsumersByType.containsKey(eventType)) {
+                ArrayList<EventConsumer<? extends Event>> currentConsumer = this.eventConsumersByType.get(eventType);
+                currentConsumer.add(consumer);
+                this.eventConsumersByType.put(eventType, currentConsumer);
+                return;
+            }
+            ArrayList<EventConsumer<? extends Event>> listWithTheConsumer = new ArrayList<>();
+            listWithTheConsumer.add(consumer);
+            this.eventConsumersByType.put(eventType, listWithTheConsumer);
+        } else {
+            toRegisterConsumersByType.put(consumer, eventType);
         }
-        ArrayList<EventConsumer<? extends Event>> listWithTheConsumer = new ArrayList<>();
-        listWithTheConsumer.add(consumer);
-        this.eventConsumersByType.put(eventType, listWithTheConsumer);
     }
 
     /**
@@ -83,10 +105,15 @@ public class EventQueue {
      * @param eventType moet corresponderen aan een {@link Event}.getType() - type van het event
      */
     public void deregisterConsumer(EventConsumer<? extends Event> eventConsumer, String eventType) {
-        ArrayList<EventConsumer<? extends Event>> consumers = this.eventConsumersByType.get(eventType);
-        if (consumers.contains(eventConsumer)) {
-            consumers.remove(eventConsumer);
-            this.eventConsumersByType.put(eventType, consumers);
+        if (!handling) {
+            ArrayList<EventConsumer<? extends Event>> consumers = this.eventConsumersByType.get(eventType);
+            if (consumers.contains(eventConsumer)) {
+                consumers.remove(eventConsumer);
+                this.eventConsumersByType.put(eventType, consumers);
+            }
+        }
+        else {
+            toDeregisterConsumersByType.put(eventConsumer, eventType);
         }
     }
 }
