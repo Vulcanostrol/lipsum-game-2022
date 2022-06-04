@@ -12,30 +12,32 @@ public class Camera {
     private SpriteBatch spriteBatch;
     private float factorX = 1f;
     private float factorY = 1f;
+
     private float windowFactorX = 1f;
+
     private float windowFactorY = 1f;
     private float START_WIDTH = RoomConfiguration.ROOM_TILE_WIDTH*RoomConfiguration.TILE_PIXEL_WIDTH;
     private float START_HEIGHT = RoomConfiguration.ROOM_TILE_HEIGHT*RoomConfiguration.TILE_PIXEL_HEIGHT;
-
     private long timingCounter = 0;
-    private long updateMillis = 50;
 
+    private long updateMillis = 50;
     //debuffs
+
     private Random random;
+    private int currentShake = 0;
     private int shake = 10;
     private int shakeX = 0;
     private int shakeY = 0;
-    private float updateFactorY = 0.998f;
-    private float updateFactorX = 0.999f;
-
-    private int movementSpeed = 500;
+    private float updateFactorY = 1f;
+    private float updateFactorX = 1f;
+    private int movementSpeed = 0;
     private int movementX = movementSpeed;
+
     private int movementY = 0;
     private int movementXDirection = 1;
     private int movementYDirection = 1;
     private float movementOffsetX = 0;
     private float movementOffsetY = 0;
-
 
     public Camera(){
         spriteBatch = new SpriteBatch();
@@ -45,24 +47,24 @@ public class Camera {
     }
 
     public void draw(Texture sprite, float x, float y, float width, float height){
-        float newX = (x+ movementOffsetX +shakeX)*factorX*windowFactorX;
-        float newY = (y+ movementOffsetY +shakeY)*factorY*windowFactorY;
-        float newWidth = width*factorX*windowFactorX;
-        float newHeight = height*factorY*windowFactorY;
+        float newX = (x + movementOffsetX + shakeX) * factorX * windowFactorX;
+        float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
+        float newWidth = width * factorX * windowFactorX;
+        float newHeight = height * factorY * windowFactorY;
         spriteBatch.draw(sprite, newX, newY, newWidth, newHeight);
     }
 
     public void draw(Texture sprite, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
-        float newX = (x+ movementOffsetX)*factorX*windowFactorX;
-        float newY = (y+ movementOffsetY)*factorY*windowFactorY;
-        float newWidth = width*factorX*windowFactorX;
-        float newHeight = height*factorY*windowFactorY;
+        float newX = (x + movementOffsetX + shakeX) * factorX * windowFactorX;
+        float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
+        float newWidth = width * factorX * windowFactorX;
+        float newHeight = height * factorY * windowFactorY;
         spriteBatch.draw(sprite, newX, newY, newWidth, newHeight, srcX, srcY, srcWidth, srcHeight, flipX, flipY);
     }
 
     public void draw(TextureRegion region, float x, float y, float width, float height, boolean flipX, boolean flipY){
-        float newX = (x + movementOffsetX) * factorX * windowFactorX;
-        float newY = (y + movementOffsetY) * factorY * windowFactorY;
+        float newX = (x + movementOffsetX + shakeX) * factorX * windowFactorX;
+        float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
         float newWidth = width * factorX * windowFactorX;
         float newHeight = height * factorY * windowFactorY;
         float newOriginX = newWidth / 2f; // Origin in middle.
@@ -72,38 +74,49 @@ public class Camera {
         spriteBatch.draw(region, newX, newY, newOriginX, newOriginY, newWidth, newHeight, xScale, yScale, 0f);
     }
 
-    private void updateShake(){
-        shakeY = random.nextInt(2*shake)-shake;
-        shakeX = random.nextInt(2*shake)-shake;
+    public void updateShake(){
+        if (currentShake <= 0) return;
+        shakeY = random.nextInt(2* currentShake)- currentShake;
+        shakeX = random.nextInt(2* currentShake)- currentShake;
+        currentShake *= 0.9;
     }
 
     private void updateHeight(){
         factorY *= updateFactorY;
     }
+
     private void updateWidth(){
         factorX *= updateFactorX;
     }
-
-    private void newMovementSpeeds(){
+    private void newMovementSpeeds() {
         movementX = random.nextInt(movementSpeed);
-        movementY = movementSpeed-movementX;
+        movementY = movementSpeed - movementX;
     }
 
-    private void updateMovement(long deltaTimeMillis){
-        movementOffsetX += movementX*movementXDirection*deltaTimeMillis/1000;
-        movementOffsetY += movementY*movementYDirection*deltaTimeMillis/1000;
+    private void updateMovement(long deltaTimeMillis) {
+        if (movementSpeed <= 0) return;
+        if (movementX == 0 && movementY == 0) {
+            newMovementSpeeds();
+            return;
+        }
+        movementOffsetX += movementX * movementXDirection * deltaTimeMillis / 1000f;
+        movementOffsetY += movementY * movementYDirection * deltaTimeMillis / 1000f;
 
-        if(movementOffsetX < 0){
+        if(movementOffsetX < 0) {
+            movementOffsetX = 0;
             movementXDirection = 1;
             newMovementSpeeds();
-        } else if((START_WIDTH+ movementOffsetX)*factorX >= START_WIDTH){
+        } else if((START_WIDTH + movementOffsetX) * factorX >= START_WIDTH) { // (a + b) * c > d  ===== (d / c) - a
+            movementOffsetX = START_WIDTH / factorX - START_WIDTH;
             movementXDirection = -1;
             newMovementSpeeds();
         }
-        if(movementOffsetY < 0){
+        if(movementOffsetY < 0) {
+            movementOffsetY = 0;
             movementYDirection = 1;
             newMovementSpeeds();
-        } else if((START_HEIGHT+ movementOffsetY)*factorY >= START_HEIGHT){
+        } else if((START_HEIGHT + movementOffsetY) * factorY >= START_HEIGHT) {
+            movementOffsetY = START_HEIGHT / factorY - START_HEIGHT;
             movementYDirection = -1;
             newMovementSpeeds();
         }
@@ -111,20 +124,69 @@ public class Camera {
 
     private void updateLoop(){
         while(timingCounter >= updateMillis) {
-//            updateShake();
-//            updateHeight();
-//            updateWidth();
+            updateShake();
+            updateHeight();
+            updateWidth();
             timingCounter -= updateMillis;
         }
     }
 
     public void begin(long deltaTimeMillis){
         timingCounter += deltaTimeMillis;
-//        updateMovement(deltaTimeMillis);
+        updateMovement(deltaTimeMillis);
         updateLoop();
         spriteBatch.begin();
     }
+
     public void end(){
         spriteBatch.end();
+    }
+
+    public void startShake() {
+        currentShake = shake;
+    }
+
+    public void multiplyShake(float multiplier) {
+        shake = (int) (shake * multiplier);
+    }
+
+    public void scale(float xScale, float yScale) {
+        factorX *= xScale;
+        factorY *= yScale;
+    }
+
+    public float getWindowFactorX() {
+        return windowFactorX;
+    }
+
+    public float getWindowFactorY() {
+        return windowFactorY;
+    }
+
+    public float getWidth() {
+        return START_WIDTH * factorX;
+    }
+
+    public float getHeight() {
+        return START_HEIGHT * factorY;
+    }
+
+    public void addMovementOffset(float xAmount, float yAmount) {
+        movementOffsetX += xAmount;
+        movementOffsetY += yAmount;
+    }
+
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(int speed) {
+        movementSpeed = speed;
+        newMovementSpeeds();
+    }
+
+    public void multiplyMovementSpeed(float multiplier) {
+        movementSpeed = (int) (movementSpeed * multiplier);
+        newMovementSpeeds();
     }
 }

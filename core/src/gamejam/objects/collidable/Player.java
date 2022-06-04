@@ -35,7 +35,7 @@ public class Player extends SelfCollidable implements Damageable {
     private TextureRegion currentSprite;
     private float animationTime = 0f;
 
-    private final float maxHealth = 100;
+    private float maxHealth = 100;
     private float health = maxHealth;
 
     private Weapon weapon;
@@ -116,6 +116,14 @@ public class Player extends SelfCollidable implements Damageable {
     }
 
     @Override
+    public void heal(float hp) {
+        health += hp;
+        if (health >= getMaxHealth()) {
+            health = getMaxHealth();
+        }
+    }
+
+    @Override
     public float getHealth() {
         return health;
     }
@@ -123,6 +131,11 @@ public class Player extends SelfCollidable implements Damageable {
     @Override
     public float getMaxHealth() {
         return maxHealth;
+    }
+
+    public void addMaxHealth(float hp) {
+        maxHealth += hp;
+        System.out.println("new: " + maxHealth);
     }
 
     @Override

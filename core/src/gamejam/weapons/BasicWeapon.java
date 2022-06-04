@@ -18,6 +18,7 @@ public class BasicWeapon extends Weapon {
 
     @Override
     public void fire(float originX, float originY, float dx, float dy) {
+        super.fire(originX, originY, dx, dy);
         Vector2 vector2 = new Vector2(dx, dy).nor();
 //        applyAugmentation(augmenter);
 

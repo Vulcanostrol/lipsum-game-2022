@@ -113,4 +113,8 @@ public class GameManager {
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
         camera.end();
     }
+
+    public Camera getCamera() {
+        return camera;
+    }
 }

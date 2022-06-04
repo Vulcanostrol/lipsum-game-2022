@@ -4,6 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import gamejam.chips.BuffChip;
+import gamejam.chips.WeirdChip;
+import gamejam.chips.effects.SniperChip;
 import gamejam.event.EfficientCollisionHandler;
 import gamejam.chips.BulletChip;
 import gamejam.chips.ChipManager;
@@ -60,9 +63,15 @@ public class Main extends Game {
  	}
 
 	 private void onKeyEvent(KeyEvent event) {
+		// Debugging tests
 		if (event.getKeyCode() == Input.Keys.NUM_1 && event.isKeyDown()) {
-			System.out.println("Activated");
-			ChipManager.getInstance().activateChip(new BulletChip());
+			ChipManager.getInstance().activateChip(new BuffChip());
+		}
+		if (event.getKeyCode() == Input.Keys.NUM_2 && event.isKeyDown()) {
+			ChipManager.getInstance().activateChip(new WeirdChip());
+		}
+		if (event.getKeyCode() == Input.Keys.NUM_3 && event.isKeyDown()) {
+			ChipManager.getInstance().activateChip(new SniperChip());
 		}
 	 }
 
