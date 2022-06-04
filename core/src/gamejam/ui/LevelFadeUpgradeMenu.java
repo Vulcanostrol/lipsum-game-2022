@@ -18,8 +18,6 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.LevelChangeEvent;
 import gamejam.event.events.MenuChangeEvent;
-import gamejam.event.events.RoomChangeEvent;
-import gamejam.levels.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,6 @@ import java.util.List;
 public class LevelFadeUpgradeMenu extends Menu {
 
     public static final float ANIMATION_TIME = 0.5f;
-    private static Direction roomChangeDirection;
 
     static {
         EventConsumer<LevelChangeEvent> consumer = LevelFadeUpgradeMenu::onLevelChangeEvent;
@@ -59,6 +56,18 @@ public class LevelFadeUpgradeMenu extends Menu {
 
         currentAlpha = 0f;
         deltaMultiplier = 1f;
+
+        VerticalGroup mainVerticalGroup = new VerticalGroup();
+
+        BitmapFont fontVeryLarge = new BitmapFont();
+        fontVeryLarge.getData().setScale(4);
+
+        Label.LabelStyle largeLabelStyle = new Label.LabelStyle();
+        largeLabelStyle.fontColor = Color.WHITE;
+        largeLabelStyle.font = fontVeryLarge;
+
+        Label levelLabel = new Label("You beat level " + GameManager.getInstance().getCurrentNLevel() + "!", largeLabelStyle);
+        mainVerticalGroup.addActor(levelLabel);
 
         HorizontalGroup horizontalGroup = new HorizontalGroup();
 
@@ -110,10 +119,18 @@ public class LevelFadeUpgradeMenu extends Menu {
 
         horizontalGroup.setPosition(
                 Gdx.graphics.getWidth() * 0.5f - horizontalGroup.getPrefWidth() * 0.5f,
-                Gdx.graphics.getHeight() * 0.5f + horizontalGroup.getPrefHeight() * 0.5f
+                Gdx.graphics.getHeight() * 0.5f
         );
 
-        stage.addActor(horizontalGroup);
+        mainVerticalGroup.addActor(horizontalGroup);
+        mainVerticalGroup.space(150f);
+
+        mainVerticalGroup.setPosition(
+                Gdx.graphics.getWidth() * 0.5f,
+                Gdx.graphics.getHeight() * 0.5f + mainVerticalGroup.getPrefHeight() * 0.5f
+        );
+
+        stage.addActor(mainVerticalGroup);
     }
 
     public void draw() {
@@ -137,7 +154,7 @@ public class LevelFadeUpgradeMenu extends Menu {
 
     private void nextLevel() {
         deltaMultiplier = -1;
-        GameManager.getInstance().moveToRoomByDirection(roomChangeDirection);
+        GameManager.getInstance().moveToNextLevel();
     }
 
     private void onComplete() {

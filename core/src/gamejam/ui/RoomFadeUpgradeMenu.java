@@ -45,6 +45,7 @@ public class RoomFadeUpgradeMenu extends Menu {
     private Image overlay;
     private float currentAlpha;
     private float deltaMultiplier;
+    private boolean choosing;
 
     private List<Chip> chips;
 
@@ -52,6 +53,7 @@ public class RoomFadeUpgradeMenu extends Menu {
     public void create() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+        choosing = true;
 
         chips = new ArrayList<>();
         chips.add(new RandomChip());
@@ -91,8 +93,11 @@ public class RoomFadeUpgradeMenu extends Menu {
             nextLevelButton.addListener(new ClickListener() {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
-                    ChipManager.getInstance().activateChip(chip);
-                    nextLevel();
+                    if (choosing) {
+                        ChipManager.getInstance().activateChip(chip);
+                        nextLevel();
+                        choosing = false;
+                    }
                 }
             });
             verticalGroup.addActor(nextLevelButton);
@@ -138,6 +143,7 @@ public class RoomFadeUpgradeMenu extends Menu {
     private void nextLevel() {
         deltaMultiplier = -1;
         GameManager.getInstance().moveToRoomByDirection(roomChangeDirection);
+        choosing = false;
     }
 
     private void onComplete() {

@@ -5,11 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import gamejam.chips.*;
-import gamejam.event.EfficientCollisionHandler;
-import gamejam.event.EventConsumer;
-import gamejam.event.EventQueue;
-import gamejam.event.EventType;
+import gamejam.event.*;
 import gamejam.event.events.KeyEvent;
+import gamejam.event.events.LevelChangeEvent;
 import gamejam.factories.*;
 import gamejam.factories.bullets.BulletFactory;
 import gamejam.factories.bullets.PyramidEnemyBulletFactory;
@@ -83,6 +81,11 @@ public class Main extends Game {
 		}
 		if (event.getKeyCode() == Input.Keys.NUM_0 && event.isKeyDown()) {
 			ChipManager.getInstance().resetChips();
+		}
+
+		// Events
+		if (event.getKeyCode() == Input.Keys.NUMPAD_1 && event.isKeyDown()) {
+			EventQueue.getInstance().invoke(new LevelChangeEvent());
 		}
 	}
 
