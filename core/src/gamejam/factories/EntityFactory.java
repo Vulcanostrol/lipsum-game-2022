@@ -17,6 +17,12 @@ public class EntityFactory extends AbstractFactory<Entity> {
     }
 
     @Override
+    public boolean removeManagedObject(Entity managedObject) {
+        managedObject.onDispose();
+        return super.removeManagedObject(managedObject);
+    }
+
+    @Override
     public void removeManagedObjects() {
         getAllManagedObjects().forEach(Entity::onDispose);
         super.removeManagedObjects();
