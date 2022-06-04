@@ -5,6 +5,8 @@ import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.objects.collidable.Collidable;
+import gamejam.objects.collidable.Player;
 
 public class Wall extends Collidable {
     private final EventConsumer<CollisionEvent> collisionConsumer;

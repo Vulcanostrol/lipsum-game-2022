@@ -1,6 +1,6 @@
 package gamejam.factories;
 
-import gamejam.objects.Bullet;
+import gamejam.objects.collidable.Bullet;
 
 public class BulletFactory extends AbstractFactory<Bullet> {
     private static BulletFactory instance = null;
