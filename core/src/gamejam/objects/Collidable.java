@@ -40,37 +40,15 @@ public abstract class Collidable extends Entity {
 
     @Override
     public void update(float timeDeltaMillis){
-        float movement_x = speedX * timeDeltaMillis / 1000;
-        float movement_y = speedY * timeDeltaMillis / 1000;
-        //Should be reworked
-        boolean canMoveX = true;
-        boolean canMoveY = true;
-        for (Collidable c:collisions){
-            float dist_x = x - c.x;
-            float dist_y = y - c.y;
-            if(dist_x > 0 ^ movement_x > 0){
-                canMoveX = false;
-            }
-            if(dist_y > 0 ^ movement_y > 0){
-                canMoveY = false;
-            }
-        }
-        if(canMoveX){
-            x += movement_x;
-        }
-        if(canMoveY){
-            y += movement_y;
-        }
-        resetCollision();
+        super.update(timeDeltaMillis);
+        resetCollisions();
     }
 
     private void onCollisionEvent(CollisionEvent event) {
-        if(event.getCollidingObject() == this){
-            collisions.add(event.getCollidesWith());
-        }
+
     }
 
-    protected void resetCollision(){
+    protected void resetCollisions(){
         collisions.clear();
         hasCollided = false;
     }
@@ -87,6 +65,7 @@ public abstract class Collidable extends Entity {
         } else {
             spriteBatch.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
         }
+        resetCollisions();
     }
 
 
