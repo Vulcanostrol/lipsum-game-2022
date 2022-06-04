@@ -14,8 +14,11 @@ public class PyramidEnemy extends AbstractEnemy {
 
     public static final float BULLET_SPEED = 500;
     public static final float MAX_FIRE_TIME = 1000.0f;
-
     public static final float BULLET_SPAWN_HEIGHT = 12.0f * 5;
+    public static final int SPRITE_WIDTH = 13 * 5;
+    public static final int SPRITE_HEIGHT = 24 * 5;
+    public static final int COLLISION_WIDTH = 11 * 5;
+    public static final int COLLISION_HEIGHT = 9 * 5;
     private static Texture spriteSheet = null;
     private TextureRegion currentSprite;
 
@@ -28,7 +31,7 @@ public class PyramidEnemy extends AbstractEnemy {
     private boolean lookingLeft = false;
 
     public PyramidEnemy(float initialX, float initialY) {
-        super(initialX, initialY, 13*5, 24*5, 11*5, 9*5, 100);
+        super(initialX, initialY, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, 100);
 
         if (spriteSheet == null) {
             spriteSheet = new Texture("entity/pyramid.png");

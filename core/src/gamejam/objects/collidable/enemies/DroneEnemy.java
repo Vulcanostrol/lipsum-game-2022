@@ -33,7 +33,7 @@ public class DroneEnemy extends AbstractEnemy {
     private EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer;
 
     public DroneEnemy(float x, float y) {
-        super(x, y, 32, 26, 32, 26, 1000);
+        super(x, y, 32, 26, 32, 26, 100);
         this.sprite = new Texture("entity/drone.png");
 
         playerMoveEventEventConsumer = this::onPlayerMoveEvent;
