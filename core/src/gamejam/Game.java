@@ -52,11 +52,6 @@ public class Game {
                 if(e1 != e2 && e1.checkCollision(e2)){
                     e1.setHasCollided();
                     e2.setHasCollided();
-                    System.out.println("Collision");
-                    System.out.println(e1.getX());
-                    System.out.println(e1.getY());
-                    System.out.println(e2.getX());
-                    System.out.println(e2.getY());
                     CollisionEvent event = new CollisionEvent(e1, e2);
                     EventQueue.getInstance().invoke(event);
                 }
