@@ -96,28 +96,28 @@ public class Level {
 
         // South wall
         WallFactory.getInstance().addManagedObject(new Wall(
-                0,
+                RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH / 2,
                 0,
                 RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH,
                 RoomConfiguration.TILE_PIXEL_HEIGHT));
 
         // North wall
         WallFactory.getInstance().addManagedObject(new Wall(
-                0,
+                RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH / 2,
                 (RoomConfiguration.ROOM_TILE_HEIGHT - 1) * RoomConfiguration.TILE_PIXEL_HEIGHT,
                 RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH,
                 RoomConfiguration.TILE_PIXEL_HEIGHT));
 
         // West wall
         WallFactory.getInstance().addManagedObject(new Wall(
-                0,
+                RoomConfiguration.TILE_PIXEL_WIDTH / 2,
                 0,
                 RoomConfiguration.TILE_PIXEL_WIDTH,
                 RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT));
 
         // East wall
         WallFactory.getInstance().addManagedObject(new Wall(
-                (RoomConfiguration.ROOM_TILE_WIDTH - 1) * RoomConfiguration.TILE_PIXEL_WIDTH,
+                (RoomConfiguration.ROOM_TILE_WIDTH - 1) * RoomConfiguration.TILE_PIXEL_WIDTH + RoomConfiguration.TILE_PIXEL_WIDTH / 2,
                 0,
                 RoomConfiguration.TILE_PIXEL_WIDTH,
                 RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT));
@@ -125,7 +125,6 @@ public class Level {
 
     public void render() {
         currentRoom.draw();
-        System.out.println(currentRoom);
     }
 
     public void printLevelLayout() {

@@ -88,15 +88,15 @@ public class Player extends Collidable implements Damageable {
     }
 
     private void onMousePress(MousePressEvent event) {
-        System.out.println(event);
+//        System.out.println(event);
     }
 
     private void onMouseRelease(MouseReleaseEvent event) {
-        System.out.println(event);
+//        System.out.println(event);
     }
 
     private void onMouseMove(MouseMoveEvent event) {
-        System.out.println(event);
+//        System.out.println(event);
     }
 
     @Override
