@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.GameManager;
 import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
@@ -101,8 +102,13 @@ public class Player extends SelfCollidable implements Damageable {
 
     private void onMousePress(MousePressEvent event) {
         // TODO: Translate the screen coordinates of the mouse to world coordinates.
-        float dx = event.getScreenX() - getX();
-        float dy = (Gdx.graphics.getHeight() - event.getScreenY()) - getY();
+        float dx = GameManager.getInstance().getCamera().getXfromEvent(event) - getX();
+        float dy = -(GameManager.getInstance().getCamera().getYfromEvent(event) - getY());
+        System.out.println("press");
+        System.out.println(event.getScreenX());
+        System.out.println(event.getScreenY());
+        System.out.println(getX());
+        System.out.println(getY());
         weapon.fire(this.x, this.y, dx, dy);
     }
 

@@ -111,6 +111,10 @@ public class GameManager {
 
     long previousTime;
 
+    public Camera getCamera() {
+        return camera;
+    }
+
     Camera camera;
 
     public void draw() {
