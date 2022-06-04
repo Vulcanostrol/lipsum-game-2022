@@ -27,15 +27,18 @@ public class DroneEnemy extends AbstractEnemy {
     private float playerX = -Float.MAX_VALUE;
     private float playerY = -Float.MAX_VALUE;
 
+    private EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer;
+    private EventConsumer<CollisionEvent> collisionEventEventConsumer;
+
     public DroneEnemy(float x, float y) {
         super(x, y, 32, 26, 32, 26, 1000);
         this.sprite = new Texture("entity/drone.png");
 
-        EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer = this::onPlayerMoveEvent;
+        playerMoveEventEventConsumer = this::onPlayerMoveEvent;
         EventQueue.getInstance().registerConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
 
         //todo: only listen to collisions with self
-        EventConsumer<CollisionEvent> collisionEventEventConsumer = this::onCollisionEvent;
+        collisionEventEventConsumer = this::onCollisionEvent;
         EventQueue.getInstance().registerConsumer(collisionEventEventConsumer, EventType.COLLISION_EVENT);
     }
 
@@ -91,5 +94,13 @@ public class DroneEnemy extends AbstractEnemy {
         super.update(deltaTimeMilis);
 //        x += SPEED * dx * deltaTimeMilis;
 //        y += SPEED * dy * deltaTimeMilis;
+    }
+
+    @Override
+    public void onDispose() {
+        super.onDispose();
+        EventQueue eventQueue = EventQueue.getInstance();
+        eventQueue.deregisterConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
+        eventQueue.deregisterConsumer(collisionEventEventConsumer, EventType.COLLISION_EVENT);
     }
 }
