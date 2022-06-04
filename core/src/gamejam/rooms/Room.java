@@ -1,12 +1,12 @@
 package gamejam.rooms;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Camera;
 import gamejam.Util;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
 import gamejam.objects.collidable.Door;
+import gamejam.objects.collidable.FinalDoor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,25 +75,31 @@ public class Room {
         }
     }
 
+    public ArrayList<Direction> getPossibleBranchDirections() {
+        ArrayList<Direction> result = new ArrayList<>();
+
+        if (eastRoom == null) {
+            result.add(Direction.EAST);
+        }
+        if (westRoom == null) {
+            result.add(Direction.WEST);
+        }
+        if (northRoom == null) {
+            result.add(Direction.NORTH);
+        }
+        if (southRoom == null) {
+            result.add(Direction.SOUTH);
+        }
+
+        return result;
+    }
+
     public void createBranches(int nNewRoomsLeft, Direction growthDirection) {
         if (nNewRoomsLeft <= 0) {
             return;
         }
 
-        List<Direction> possibleBranchDirections = new ArrayList<>();
-
-        if (eastRoom == null) {
-            possibleBranchDirections.add(Direction.EAST);
-        }
-        if (westRoom == null) {
-            possibleBranchDirections.add(Direction.WEST);
-        }
-        if (northRoom == null) {
-            possibleBranchDirections.add(Direction.NORTH);
-        }
-        if (southRoom == null) {
-            possibleBranchDirections.add(Direction.SOUTH);
-        }
+        List<Direction> possibleBranchDirections = getPossibleBranchDirections();
 
         // 80% chance to continue in current direction
         // TODO: Check if there are no rooms blocking
@@ -153,8 +159,10 @@ public class Room {
     }
 
     public void setup() {
+        Direction finalDoorDirection = null;
         if (isFinalRoom) {
-            System.out.println("final room");
+            List<Direction> possibleDirections = getPossibleBranchDirections();
+            finalDoorDirection = possibleDirections.get(new Random().nextInt(possibleDirections.size()));
         }
 
         // Setup base room tiles
@@ -167,28 +175,45 @@ public class Room {
                 int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
                 int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
 
-                if (i == 0 && j == Math.round((max_tile_y / 2)) && westRoom != null) {
+                if (i == 0 && j == Math.round((max_tile_y / 2))) {
                     // West door
-//                    tiles[i][j] = new Wall(WallTileType.WEST_DOOR, minX, maxX, minY, maxY);
-                   new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST);
+                    if (westRoom != null) {
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST);
+                    }
+                    if (finalDoorDirection == Direction.WEST) {
+                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST);
+                    }
                 }
 
-                if (i == max_tile_x && j == Math.round((max_tile_y / 2)) && eastRoom != null) {
+
+                if (i == max_tile_x && j == Math.round((max_tile_y / 2))) {
                     // East door
-//                    tiles[i][j] = new Wall(WallTileType.EAST_DOOR, minX, maxX, minY, maxY);
-                    new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST);
+                    if (eastRoom != null) {
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST);
+                    }
+                    if (finalDoorDirection == Direction.EAST) {
+                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST);
+                    }
                 }
 
-                if (i == Math.round((max_tile_x / 2)) && j == 0 && southRoom != null) {
+                if (i == Math.round((max_tile_x / 2)) && j == 0) {
                     // South door
-//                    tiles[i][j] = new Wall(WallTileType.SOUTH_DOOR, minX, maxX, minY, maxY);
-                   new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH);
+                    if (southRoom != null) {
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH);
+                    }
+                    if (finalDoorDirection == Direction.SOUTH) {
+                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH);
+                    }
                 }
 
-                if (i == Math.round((max_tile_x / 2)) && j == max_tile_y && northRoom != null) {
+                if (i == Math.round((max_tile_x / 2)) && j == max_tile_y) {
                     // North door
-//                    tiles[i][j] = new Wall(WallTileType.NORTH_DOOR, minX, maxX, minY, maxY);
-                    new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH);
+                    if (northRoom != null) {
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH);
+                    }
+                    if (finalDoorDirection == Direction.NORTH) {
+                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH);
+                    }
                 }
 
                 if (i == 0 && j == 0) {
