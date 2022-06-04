@@ -1,10 +1,8 @@
 package gamejam.input;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import gamejam.event.EventQueue;
-import gamejam.event.events.KeyEvent;
-import gamejam.event.events.KeyTypedEvent;
+import gamejam.event.events.*;
 
 public class InputHandler implements InputProcessor {
 
@@ -34,22 +32,19 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
         this.eventQueue.invoke(new KeyTypedEvent(character));
-        return false;
+        return true;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.LEFT) {
-        } else if (button == Input.Buttons.RIGHT) {
-        }
-        return false;
+        this.eventQueue.invoke(new MousePressEvent(screenX, screenY, button));
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.RIGHT) {
-        }
-        return false;
+        this.eventQueue.invoke(new MouseReleaseEvent(screenX, screenY, button));
+        return true;
     }
 
     @Override
@@ -59,7 +54,8 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+        this.eventQueue.invoke(new MouseMoveEvent(screenX, screenY));
+        return true;
     }
 
     @Override
