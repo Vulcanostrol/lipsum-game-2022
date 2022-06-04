@@ -116,4 +116,8 @@ public class Player extends SelfCollidable implements Damageable {
         EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
         EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
     }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
 }
