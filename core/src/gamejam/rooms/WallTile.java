@@ -1,5 +1,7 @@
 package gamejam.rooms;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import gamejam.Camera;
 import gamejam.TextureStore;
 
 public class WallTile extends RoomTile {
@@ -12,28 +14,18 @@ public class WallTile extends RoomTile {
 
         switch(wallTileType) {
             case WALL_EAST:
-                this.tileTexture = TextureStore.getTileTextureByName("eastwall");
-                break;
             case WALL_WEST:
-                this.tileTexture = TextureStore.getTileTextureByName("westwall");
+                this.tileTexture = TextureStore.getTileTextureByName("wall_vertical");
                 break;
             case WALL_SOUTH:
-                this.tileTexture = TextureStore.getTileTextureByName("southwall");
-                break;
             case WALL_NORTH:
-                this.tileTexture = TextureStore.getTileTextureByName("northwall");
+                this.tileTexture = TextureStore.getTileTextureByName("wall");
                 break;
             case WALL_NORTHEAST:
-                this.tileTexture = TextureStore.getTileTextureByName("northeastwall");
-                break;
             case WALL_NORTHWEST:
-                this.tileTexture = TextureStore.getTileTextureByName("northwestwall");
-                break;
             case WALL_SOUTHEAST:
-                this.tileTexture = TextureStore.getTileTextureByName("southeastwall");
-                break;
             case WALL_SOUTHWEST:
-                this.tileTexture = TextureStore.getTileTextureByName("southwestwall");
+                this.tileTexture = TextureStore.getTileTextureByName("cornerwall");
                 break;
             case SOUTH_DOOR:
                 this.tileTexture = TextureStore.getTileTextureByName("southdoor");
@@ -53,5 +45,29 @@ public class WallTile extends RoomTile {
         }
     }
 
+    @Override
+    public void draw(Camera camera) {
+        TextureRegion tr = new TextureRegion(tileTexture);
+        switch (this.wallTileType) {
+            case WALL_NORTHWEST:
+            case WALL_NORTH:
+            case WALL_EAST:
+                camera.draw(tileTexture, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT);
+                break;
+            case WALL_NORTHEAST:
+            case WALL_SOUTH:
+                camera.draw(tr, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, true, false);
+                break;
+            case WALL_SOUTHEAST:
+                camera.draw(tr, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, true, true);
+                break;
+            case WALL_SOUTHWEST:
+            case WALL_WEST:
+                camera.draw(tr, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false, true);
+                break;
+            default:
+                System.err.println("ik weet niet wat deze wall tile type moet voorstellen..");
+        }
 
+    }
 }
