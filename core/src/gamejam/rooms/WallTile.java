@@ -62,7 +62,7 @@ public class WallTile extends RoomTile {
                 camera.draw(tr, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false, true);
                 break;
             default:
-                System.err.println("ik weet niet wat deze wall tile type moet voorstellen..");
+                System.out.printf("ik weet niet wat deze wall tile type moet voorstellen..%s%n", this.wallTileType);
         }
 
     }
