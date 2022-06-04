@@ -43,4 +43,12 @@ public abstract class Entity {
     public void despawn() {
         EntityFactory.getInstance().removeManagedObject(this);
     }
+
+    public float getX(){
+        return x;
+    }
+
+    public float getY(){
+        return y;
+    }
 }

@@ -2,9 +2,11 @@ package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Util;
+import gamejam.factories.DoorFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
+import gamejam.objects.Door;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -236,6 +238,8 @@ public class Room {
     }
 
     public void updateLayout() {
+        this.resetFactoriesForRoomObjects();
+
         eastRoom = levelParent.rooms[levelX + 1][levelY];
         westRoom = levelParent.rooms[levelX - 1][levelY];
         northRoom = levelParent.rooms[levelX][levelY + 1];
@@ -280,6 +284,10 @@ public class Room {
                 }
             }
         }
+    }
+
+    private void resetFactoriesForRoomObjects(){
+        DoorFactory.getInstance().removeManagedObjects();
     }
 
     public void draw() {

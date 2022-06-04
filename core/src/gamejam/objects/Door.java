@@ -21,8 +21,8 @@ public class Door extends Collidable {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
         super.draw(spriteBatch);
+//        spriteBatch.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
     }
 
     private void onCollisionEvent(CollisionEvent event) {

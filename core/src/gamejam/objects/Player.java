@@ -61,11 +61,14 @@ public class Player extends Collidable implements Damageable {
         x += SPEED * dx * timeDeltaMillis;
         y += SPEED * dy * timeDeltaMillis;
 
+        super.resetCollision();
+
     }
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
         spriteBatch.draw(texture, x - spriteWidth / 2, y, spriteWidth, spriteHeight, 0, 0, 20, 30, lookingLeft, false);
+        super.drawHitBox(spriteBatch);
     }
 
     private void onCollisionEvent(CollisionEvent event) {
