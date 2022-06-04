@@ -3,6 +3,12 @@ package gamejam.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * Collidable entities can collide with all SelfCollidable entities.
+ * If an entity is collidable but not SelfCollidable, it will not collide with other collidables.
+ *
+ * Entities that should NOT be SelfCollidable are stuff like bullets and walls.
+ */
 public abstract class Collidable extends Entity {
     protected Texture hitBoxRedTexture;
     protected Texture hitBoxGreenTexture;

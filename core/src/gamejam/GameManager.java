@@ -8,6 +8,7 @@ import gamejam.factories.EntityFactory;
 import gamejam.factories.PlayerFactory;
 import gamejam.factories.TestEntityFactory;
 import gamejam.levels.Direction;
+import gamejam.factories.SelfCollidableFactory;
 import gamejam.levels.Level;
 import gamejam.objects.Player;
 import gamejam.objects.TestEntity;
@@ -109,7 +110,7 @@ public class GameManager {
     }
 
     private void checkCollisions(){
-        CollidableFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
+        SelfCollidableFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
             CollidableFactory.getInstance().getAllManagedObjects().forEach(e2 -> {
                 if(e1 != e2 && e1.checkCollision(e2)){
                     e1.setHasCollided();
