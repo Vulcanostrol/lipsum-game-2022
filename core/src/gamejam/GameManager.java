@@ -3,6 +3,7 @@ package gamejam;
 import gamejam.factories.EntityFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
+import gamejam.levels.LevelConfiguration;
 import gamejam.objects.collidable.Player;
 import gamejam.objects.collidable.TestEntity;
 import gamejam.objects.collidable.enemies.DroneEnemy;
@@ -13,6 +14,11 @@ import java.util.ArrayList;
 public class GameManager {
 
     private static GameManager instance = null;
+    private ArrayList<Level> levels = new ArrayList<>();
+    private Level currentLevel;
+    private int currentNLevel;
+    private long previousTime;
+    private Camera camera;
 
     public static GameManager getInstance() {
         if (instance == null) {
@@ -28,6 +34,7 @@ public class GameManager {
 
         // Initialize a base level
         currentLevel = new Level();
+        currentNLevel = 1;
         levels.add(currentLevel);
 
         camera = new Camera();
@@ -40,9 +47,17 @@ public class GameManager {
         new Player(newPlayerX, newPlayerY);
     }
 
+    public void spawnEnemies() {
+        float currentSpawnRate = LevelConfiguration.SPAWN_RATE * currentNLevel * LevelConfiguration.SPAWN_RATE_GROWTH;
+        if (currentLevel != null) {
+            currentLevel.spawnEnemies(currentSpawnRate);
+        }
+    }
+
     public void moveToNextLevel() {
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         currentLevel = new Level();
+        currentNLevel += 1;
         levels.add(currentLevel);
 
         // Entity creation
@@ -59,45 +74,32 @@ public class GameManager {
 //        TestEntityFactory.getInstance().removeManagedObjects();
 
         if (success) {
-            int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
-            int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
+            double newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
+            double newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
 
             switch (direction) {
                 case EAST:
-                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * 2;
-                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
+                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * 1.5;
+                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2 - RoomConfiguration.TILE_PIXEL_HEIGHT/2;
                     break;
                 case WEST:
-                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * (RoomConfiguration.ROOM_TILE_WIDTH - 2);
-                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
+                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * (RoomConfiguration.ROOM_TILE_WIDTH - 1.5);
+                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2 - RoomConfiguration.TILE_PIXEL_HEIGHT/2;
                     break;
                 case NORTH:
-                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
-                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * 2;
+                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2 - RoomConfiguration.TILE_PIXEL_WIDTH/2;
+                    newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * 1;
                     break;
                 case SOUTH:
-                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
+                    newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2 - RoomConfiguration.TILE_PIXEL_WIDTH/2;
                     newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * (RoomConfiguration.ROOM_TILE_HEIGHT - 2);
                     break;
             }
 
             // Entity creation
-            Player player = new Player(newPlayerX, newPlayerY);
-            TestEntity e1 = new TestEntity(100, 200);
-            TestEntity e2 = new TestEntity(100, 250);
-            TestEntity e3 = new TestEntity(500, 200, 0, 0);
+            Player player = new Player((float) newPlayerX,(float) newPlayerY);
         }
     }
-
-    private ArrayList<Level> levels = new ArrayList<>();
-
-    public Level getCurrentLevel() {
-        return currentLevel;
-    }
-
-    private Level currentLevel;
-    private long previousTime;
-    private Camera camera;
 
     public void draw() {
         if (!gameActive) return;
@@ -118,5 +120,9 @@ public class GameManager {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public int getCurrentNLevel() {
+        return currentNLevel;
     }
 }
