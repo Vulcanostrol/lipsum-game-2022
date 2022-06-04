@@ -16,4 +16,5 @@ public class EventType {
     public static final String WEAPON_FIRED = "WeaponFired";
     public static final String ENTITY_DEATH = "EntityDeath";
     public static final String ROOM_CHANGED = "RoomChanged";
+    public static final String LEVEL_CHANGED = "LevelChanged";
 }
