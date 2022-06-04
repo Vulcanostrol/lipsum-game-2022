@@ -34,7 +34,6 @@ public abstract class Collidable extends Entity {
         this.hitBoxRedTexture = new Texture("HitboxRed.png");
         this.hitBoxGreenTexture = new Texture("HitboxGreen.png");
 
-
         this.collisions = new ArrayList<>();
     }
 
