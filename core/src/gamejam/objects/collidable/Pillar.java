@@ -35,7 +35,7 @@ public class Pillar extends Collidable {
 //        camera.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
     }
 
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
 
     }
 }
