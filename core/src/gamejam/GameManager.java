@@ -96,11 +96,12 @@ public class GameManager {
 
         // Update
         long newTime = System.currentTimeMillis();
-        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(newTime - previousTime));
+        long deltaTimeMillis = newTime - previousTime;
+        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(deltaTimeMillis));
+        camera.begin(deltaTimeMillis);
         previousTime = newTime;
 
         //Draw
-        camera.begin();
         currentLevel.render(camera);
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
         camera.end();
