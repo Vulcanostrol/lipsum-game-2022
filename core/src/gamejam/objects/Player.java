@@ -80,9 +80,7 @@ public class Player extends SelfCollidable implements Damageable {
         float dx = event.getScreenX() - getX();
         float dy = (Gdx.graphics.getHeight() - event.getScreenY()) - getY();
         Vector2 vector2 = new Vector2(dx, dy).nor();
-        BulletFactory.getInstance().addManagedObject(
-                new Bullet(this.x, this.y, vector2.x * BULLET_SHOOT_SPEED, vector2.y * BULLET_SHOOT_SPEED)
-        );
+        new Bullet(this.x, this.y, vector2.x * BULLET_SHOOT_SPEED, vector2.y * BULLET_SHOOT_SPEED);
     }
 
     @Override

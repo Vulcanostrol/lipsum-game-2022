@@ -25,7 +25,7 @@ public class Wall extends Collidable {
     }
 
     private void onPlayerCollidedWithThisWall() {
-        System.out.println("hit a wall!");
+        // System.out.println("hit a wall!");
     }
 
     @Override

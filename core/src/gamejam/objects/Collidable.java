@@ -57,7 +57,7 @@ public abstract class Collidable extends Entity {
     public boolean checkCollision(Collidable e) {
         return (this.x - this.collisionWidth / 2 < e.x + e.collisionWidth / 2 &&
                 this.x + this.collisionWidth / 2 > e.x - e.collisionWidth / 2 &&
-                this.y < e.y + e.collisionHeight / 2 &&
+                this.y < e.y + e.collisionHeight &&
                 this.collisionHeight + this.y > e.y);
     }
 }
