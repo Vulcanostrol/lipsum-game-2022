@@ -23,7 +23,10 @@ import gamejam.weapons.Weapon;
  * The player entity. Is NOT meant to hold the inventory etc!
  */
 public class Player extends SelfCollidable implements Damageable, Traversable {
-    public static final float SPEED = 300f;
+
+    public static final float BASE_SPEED = 300f;
+
+    private float speed;
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
@@ -46,6 +49,7 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
         spriteSheet = new Texture("entity/Robot.png");
+        this.speed = BASE_SPEED;
 
         mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
@@ -76,7 +80,7 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
             dy -= 1;
         }
 
-        super.setVelocity(SPEED * dx, SPEED * dy);
+        super.setVelocity(speed * dx, speed * dy);
 
         /* publish new position to listeners */
         if (Math.abs(dx) > 0.0f || Math.abs(dy) > 0.0f) {
@@ -133,6 +137,14 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
 
     public void addMaxHealth(float hp) {
         maxHealth += hp;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void addSpeed(float speed) {
+        this.speed += speed;
     }
 
     @Override
