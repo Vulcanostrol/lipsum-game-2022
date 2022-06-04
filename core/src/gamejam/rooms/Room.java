@@ -7,10 +7,8 @@ import gamejam.factories.WallFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
-import gamejam.objects.Door;
-import gamejam.objects.Player;
-import gamejam.objects.TestEntity;
 import gamejam.objects.Wall;
+import gamejam.objects.collidable.Door;
 
 import java.util.ArrayList;
 import java.util.List;

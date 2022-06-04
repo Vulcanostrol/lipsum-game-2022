@@ -9,6 +9,8 @@ public class DroneEnemyFactory extends AbstractFactory<DroneEnemy> {
         AbstractEnemyFactory.getInstance().addSubFactory(DroneEnemyFactory.getInstance());
     }
 
+    public DroneEnemyFactory(){super(DroneEnemy.class);}
+
     public static DroneEnemyFactory getInstance() {
         if (instance == null) {
             instance = new DroneEnemyFactory();

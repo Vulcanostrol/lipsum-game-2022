@@ -5,8 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import gamejam.event.EventQueue;
 import gamejam.factories.*;
-import gamejam.objects.Player;
-import gamejam.objects.TestEntity;
+import gamejam.objects.collidable.enemies.AbstractEnemy;
 import gamejam.ui.MainMenu;
 import gamejam.ui.MenuManager;
 import gamejam.ui.OptionsMenu;
@@ -25,6 +24,8 @@ public class Main extends Game {
 		SelfCollidableFactory.getInstance();
 		TestEntityFactory.getInstance();
 		WallFactory.getInstance();
+		AbstractEnemyFactory.getInstance();
+		DroneEnemyFactory.getInstance();
 	}
 
 	private final MenuManager menuManager;

@@ -9,6 +9,8 @@ public class AbstractEnemyFactory extends AbstractFactory<AbstractEnemy> {
         SelfCollidableFactory.getInstance().addSubFactory(AbstractEnemyFactory.getInstance());
     }
 
+    public AbstractEnemyFactory(){super(AbstractEnemy.class);}
+
     public static AbstractEnemyFactory getInstance() {
         if (instance == null) {
             instance = new AbstractEnemyFactory();
