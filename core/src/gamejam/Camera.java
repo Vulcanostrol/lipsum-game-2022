@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class Camera {
     private SpriteBatch spriteBatch;
-    private float factorX = 0.75f;
-    private float factorY = 0.75f;
+    private float factorX = 1f;
+    private float factorY = 1f;
     private float windowFactorX = 1f;
     private float windowFactorY = 1f;
     private float START_WIDTH = RoomConfiguration.ROOM_TILE_WIDTH*RoomConfiguration.TILE_PIXEL_WIDTH;
@@ -97,17 +97,17 @@ public class Camera {
     }
 
     private void updateLoop(){
-        while(timingCounter >= updateMillis){
-            updateShake();
-            updateHeight();
-            updateWidth();
+        while(timingCounter >= updateMillis) {
+//            updateShake();
+//            updateHeight();
+//            updateWidth();
             timingCounter -= updateMillis;
         }
     }
 
     public void begin(long deltaTimeMillis){
         timingCounter += deltaTimeMillis;
-        updateMovement(deltaTimeMillis);
+//        updateMovement(deltaTimeMillis);
         updateLoop();
         spriteBatch.begin();
     }
