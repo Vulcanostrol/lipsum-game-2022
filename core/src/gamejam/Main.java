@@ -3,6 +3,7 @@ package gamejam;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import gamejam.event.EfficientCollisionHandler;
 import gamejam.event.EventQueue;
 import gamejam.factories.*;
 import gamejam.objects.Player;
@@ -42,6 +43,9 @@ public class Main extends Game {
 	@Override
 	public void create () {
 		TextureStore.instantiate();
+
+		// Initiate the Efficient collision handler
+		EfficientCollisionHandler.getInstance();
 
 		menuManager.switchMenu(0);
  	}

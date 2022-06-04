@@ -7,7 +7,6 @@ import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
 
 public class Wall extends Collidable {
-    private final EventConsumer<CollisionEvent> collisionConsumer;
 
 
     public Wall(float x, float y, float width, float height) {
@@ -15,11 +14,9 @@ public class Wall extends Collidable {
         setPosition(x, y);
         setVelocity(0 ,0);
 
-        collisionConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
         if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Player ||
                 event.getCollidesWith() == this && event.getCollidingObject() instanceof Player) {
             onPlayerCollidedWithThisWall();
@@ -35,9 +32,4 @@ public class Wall extends Collidable {
         super.drawHitBox(spriteBatch);
     }
 
-    @Override
-    public void onDispose() {
-        super.onDispose();
-        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
-    }
 }
