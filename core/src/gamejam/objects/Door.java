@@ -2,22 +2,35 @@ package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.GameManager;
 import gamejam.Camera;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.levels.Direction;
 
 public class Door extends Collidable {
 
-    public Door(float x, float y) {
+    private Direction direction;
+
+    private boolean collided = false;
+
+    private EventConsumer<CollisionEvent> collisionConsumer;
+
+    public Door(float x, float y, Direction direction) {
         super(80, 80, 80, 80);
         setPosition(x, y);
         setVelocity(0 ,0);
         this.sprite = new Texture("terrain/door.png");
+        this.direction = direction;
 
-        EventConsumer<CollisionEvent> collisionConsumer = this::onCollisionEvent;
+        collisionConsumer = this::onCollisionEvent;
         EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
+    }
+
+    public void dispose() {
+        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 
     @Override
@@ -34,6 +47,9 @@ public class Door extends Collidable {
     }
 
     private void onPlayerCollidedWithThisDoor() {
-        System.out.println("hit a door!");
+        if (!collided) {
+            GameManager.getInstance().moveToRoomByDirection(direction);
+            collided = true;
+        }
     }
 }
