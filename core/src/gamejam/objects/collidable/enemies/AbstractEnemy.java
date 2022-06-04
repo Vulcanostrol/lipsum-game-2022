@@ -18,6 +18,7 @@ public class AbstractEnemy extends SelfCollidable implements Damageable {
         this.y = initialY;
         this.maxHealth = maxHealth;
         this.health = maxHealth;
+        System.out.println("Spawning in a " + this + " at " + x + " " + y);
     }
 
     @Override
@@ -27,6 +28,11 @@ public class AbstractEnemy extends SelfCollidable implements Damageable {
             // DEATH
             despawn();
         }
+    }
+
+    @Override
+    public void update(float timeDeltaMillis) {
+        super.update(timeDeltaMillis);
     }
 
     @Override
