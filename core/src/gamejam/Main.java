@@ -4,6 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import gamejam.chips.BuffChip;
+import gamejam.chips.WeirdChip;
+import gamejam.chips.effects.SniperChip;
 import gamejam.event.EfficientCollisionHandler;
 import gamejam.chips.BulletChip;
 import gamejam.chips.ChipManager;
@@ -12,6 +15,12 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.KeyEvent;
 import gamejam.factories.*;
+import gamejam.factories.bullets.BulletFactory;
+import gamejam.factories.bullets.PyramidEnemyBulletFactory;
+import gamejam.factories.enemies.AbstractEnemyFactory;
+import gamejam.factories.enemies.DroneEnemyFactory;
+import gamejam.factories.enemies.PyramidEnemyFactory;
+import gamejam.objects.collidable.enemies.PyramidEnemy;
 import gamejam.ui.MainMenu;
 import gamejam.ui.MenuManager;
 import gamejam.ui.OptionsMenu;
@@ -32,6 +41,8 @@ public class Main extends Game {
 		WallFactory.getInstance();
 		AbstractEnemyFactory.getInstance();
 		DroneEnemyFactory.getInstance();
+		PyramidEnemyFactory.getInstance();
+		PyramidEnemyBulletFactory.getInstance();
 	}
 
 	private final MenuManager menuManager;
@@ -60,8 +71,17 @@ public class Main extends Game {
  	}
 
 	 private void onKeyEvent(KeyEvent event) {
+		// Debugging tests
 		if (event.getKeyCode() == Input.Keys.NUM_1 && event.isKeyDown()) {
-			System.out.println("Activated");
+			ChipManager.getInstance().activateChip(new BuffChip());
+		}
+		if (event.getKeyCode() == Input.Keys.NUM_2 && event.isKeyDown()) {
+			ChipManager.getInstance().activateChip(new WeirdChip());
+		}
+		if (event.getKeyCode() == Input.Keys.NUM_3 && event.isKeyDown()) {
+			ChipManager.getInstance().activateChip(new SniperChip());
+		}
+		if (event.getKeyCode() == Input.Keys.NUM_4 && event.isKeyDown()) {
 			ChipManager.getInstance().activateChip(new BulletChip());
 		}
 	 }

@@ -13,4 +13,5 @@ public class EventType {
     public static final String MOUSE_RELEASE_EVENT = "MouseReleaseEvent";
     public static final String MOUSE_MOVE_EVENT = "MouseMoveEvent";
     public static final String ENEMY_DEATH = "EnemyDeath";
+    public static final String WEAPON_FIRED = "WeaponFired";
 }

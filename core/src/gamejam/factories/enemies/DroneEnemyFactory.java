@@ -1,5 +1,6 @@
-package gamejam.factories;
+package gamejam.factories.enemies;
 
+import gamejam.factories.AbstractFactory;
 import gamejam.objects.collidable.enemies.DroneEnemy;
 
 public class DroneEnemyFactory extends AbstractFactory<DroneEnemy> {

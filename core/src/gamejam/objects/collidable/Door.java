@@ -10,6 +10,7 @@ import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
@@ -23,13 +24,18 @@ public class Door extends Collidable {
 
     private TextureRegion tr;
 
-    public Door(float x, float y, Direction direction) {
+    private EventConsumer<CollisionEvent> collisionConsumer;
+
+    public Door(float x, float y, Direction direction, boolean isUpgradeDoor) {
         super(RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, 80, 80);
         setPosition(x, y);
         setVelocity(0 ,0);
-        this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("door") : TextureStore.getTileTextureByName("door_vertical");
+        if (isUpgradeDoor) {
+            this.sprite = new Texture("terrain/upgradedoor.png");
+        } else {
+            this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("door") : TextureStore.getTileTextureByName("door_vertical");
+        }
         this.direction = direction;
-
     }
 
     @Override
@@ -58,9 +64,11 @@ public class Door extends Collidable {
     }
 
     private void onPlayerCollidedWithThisDoor() {
-        if (!collided) {
-            GameManager.getInstance().moveToRoomByDirection(direction);
-            collided = true;
+        if (!AbstractEnemyFactory.getInstance().getAllManagedObjects().findAny().isPresent()) {
+            if (!collided) {
+                GameManager.getInstance().moveToRoomByDirection(direction);
+                collided = true;
+            }
         }
     }
 }

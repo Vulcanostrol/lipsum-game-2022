@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.GameManager;
 import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
@@ -35,7 +36,7 @@ public class Player extends SelfCollidable implements Damageable {
     private TextureRegion currentSprite;
     private float animationTime = 0f;
 
-    private final float maxHealth = 100;
+    private float maxHealth = 100;
     private float health = maxHealth;
 
     private Weapon weapon;
@@ -101,8 +102,8 @@ public class Player extends SelfCollidable implements Damageable {
 
     private void onMousePress(MousePressEvent event) {
         // TODO: Translate the screen coordinates of the mouse to world coordinates.
-        float dx = event.getScreenX() - getX();
-        float dy = (Gdx.graphics.getHeight() - event.getScreenY()) - getY();
+        float dx = GameManager.getInstance().getCamera().getXfromEvent(event) - getX();
+        float dy = GameManager.getInstance().getCamera().getYfromEvent(event) - getY();
         weapon.fire(this.x, this.y, dx, dy);
     }
 
@@ -116,6 +117,14 @@ public class Player extends SelfCollidable implements Damageable {
     }
 
     @Override
+    public void heal(float hp) {
+        health += hp;
+        if (health >= getMaxHealth()) {
+            health = getMaxHealth();
+        }
+    }
+
+    @Override
     public float getHealth() {
         return health;
     }
@@ -123,6 +132,11 @@ public class Player extends SelfCollidable implements Damageable {
     @Override
     public float getMaxHealth() {
         return maxHealth;
+    }
+
+    public void addMaxHealth(float hp) {
+        maxHealth += hp;
+        System.out.println("new: " + maxHealth);
     }
 
     @Override

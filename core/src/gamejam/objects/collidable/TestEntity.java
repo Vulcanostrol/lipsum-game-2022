@@ -30,6 +30,14 @@ public class TestEntity extends SelfCollidable implements Damageable {
     }
 
     @Override
+    public void heal(float hp) {
+        health += hp;
+        if (health >= getMaxHealth()) {
+            health = getMaxHealth();
+        }
+    }
+
+    @Override
     public float getHealth() {
         return health;
     }
