@@ -5,9 +5,8 @@ import gamejam.factories.PlayerFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
+import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
-import gamejam.objects.collidable.TestEntity;
-import gamejam.objects.collidable.enemies.DroneEnemy;
 import gamejam.rooms.RoomConfiguration;
 
 import java.util.ArrayList;
@@ -122,6 +121,9 @@ public class GameManager {
         currentLevel.render(camera);
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
         camera.end();
+
+        // After draw (don't question, just believe)
+        EntityFactory.getInstance().getAllManagedObjects().forEach(Entity::afterDraw);
     }
 
     public Camera getCamera() {

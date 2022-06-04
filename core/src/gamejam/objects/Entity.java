@@ -1,7 +1,6 @@
 package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Camera;
 import gamejam.event.EventQueue;
 import gamejam.event.events.EntityDeathEvent;
@@ -29,6 +28,8 @@ public abstract class Entity {
         x += speedX * timeDeltaMillis / 1000;
         y += speedY * timeDeltaMillis / 1000;
     }
+
+    public void afterDraw() {};
 
     public void draw(Camera camera){
         camera.draw(sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);

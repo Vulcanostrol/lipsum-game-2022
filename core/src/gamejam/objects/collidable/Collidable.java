@@ -43,6 +43,10 @@ public abstract class Collidable extends Entity {
         resetCollisions();
     }
 
+    public void afterDraw() {
+        resetCollisions();
+    }
+
     public void onCollisionEvent(CollisionEvent event) {
 
     }
@@ -64,7 +68,6 @@ public abstract class Collidable extends Entity {
 //        } else {
 //            camera.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
 //        }
-//        resetCollisions();
     }
 
 
