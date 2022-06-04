@@ -2,6 +2,7 @@ package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.Camera;
 import gamejam.factories.EntityFactory;
 
 public abstract class Entity {
@@ -26,8 +27,8 @@ public abstract class Entity {
         y += speedY * timeDeltaMillis / 1000;
     }
 
-    public void draw(SpriteBatch spriteBatch){
-        spriteBatch.draw(sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);
+    public void draw(Camera camera){
+        camera.draw(sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);
     }
 
     public void setPosition(float xPosition, float yPosition) {

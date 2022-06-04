@@ -30,7 +30,7 @@ public class GameManager {
         currentLevel = new Level();
         levels.add(currentLevel);
 
-        spriteBatch = new SpriteBatch();
+        camera = new Camera();
         //time
         previousTime = System.currentTimeMillis();
     }
@@ -40,7 +40,7 @@ public class GameManager {
 
     long previousTime;
 
-    SpriteBatch spriteBatch;
+    Camera camera;
 
     public void draw() {
         if (!gameActive) return;
@@ -56,9 +56,9 @@ public class GameManager {
         checkCollisions();
 
         //Draw
-        spriteBatch.begin();
-        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(spriteBatch));
-        spriteBatch.end();
+        camera.begin();
+        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
+        camera.end();
     }
 
     private void checkCollisions(){
