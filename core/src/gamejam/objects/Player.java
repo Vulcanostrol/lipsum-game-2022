@@ -7,15 +7,13 @@ import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
-import gamejam.event.events.CollisionEvent;
-import gamejam.event.events.KeyEvent;
-import gamejam.event.events.PlayerDeathEvent;
+import gamejam.event.events.*;
 import gamejam.factories.BulletFactory;
 
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
  */
-public class Player extends Collidable implements Damageable {
+public class Player extends SelfCollidable implements Damageable {
     public static final float SPEED = 300f;
 
     private final KeyHoldWatcher keyHoldWatcher;
@@ -37,6 +35,15 @@ public class Player extends Collidable implements Damageable {
 
         EventConsumer<KeyEvent> keyEventConsumer = this::onKeyEvent;
         EventQueue.getInstance().registerConsumer(keyEventConsumer, EventType.KEY_EVENT);
+
+        EventConsumer<MousePressEvent> mousePressConsumer = this::onMousePress;
+        EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+
+        EventConsumer<MouseReleaseEvent> mouseReleaseConsumer = this::onMouseRelease;
+        EventQueue.getInstance().registerConsumer(mouseReleaseConsumer, EventType.MOUSE_RELEASE_EVENT);
+
+        EventConsumer<MouseMoveEvent> mouseMoveConsumer = this::onMouseMove;
+        EventQueue.getInstance().registerConsumer(mouseMoveConsumer, EventType.MOUSE_MOVE_EVENT);
     }
 
     @Override
@@ -76,6 +83,18 @@ public class Player extends Collidable implements Damageable {
         if (event.getKeyCode() == Input.Keys.SPACE && event.isKeyDown()) {
             BulletFactory.getInstance().addManagedObject(new Bullet(this.x, this.y, 0, 1000));
         }
+    }
+
+    private void onMousePress(MousePressEvent event) {
+        System.out.println(event);
+    }
+
+    private void onMouseRelease(MouseReleaseEvent event) {
+        System.out.println(event);
+    }
+
+    private void onMouseMove(MouseMoveEvent event) {
+        System.out.println(event);
     }
 
     @Override

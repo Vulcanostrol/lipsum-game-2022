@@ -10,6 +10,12 @@ import gamejam.event.events.CollisionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Collidable entities can collide with all SelfCollidable entities.
+ * If an entity is collidable but not SelfCollidable, it will not collide with other collidables.
+ *
+ * Entities that should NOT be SelfCollidable are stuff like bullets and walls.
+ */
 public abstract class Collidable extends Entity {
     protected Texture hitBoxRedTexture;
     protected Texture hitBoxGreenTexture;

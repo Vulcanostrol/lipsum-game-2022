@@ -2,7 +2,7 @@ package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class TestEntity extends Collidable implements Damageable {
+public class TestEntity extends SelfCollidable implements Damageable {
 
     private float health = 100;
 
