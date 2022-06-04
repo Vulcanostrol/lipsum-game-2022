@@ -3,6 +3,7 @@ package gamejam.objects.collidable;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.GameManager;
+import gamejam.Camera;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -35,8 +36,9 @@ public class Door extends Collidable {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
-        super.draw(spriteBatch);
+    public void draw(Camera camera) {
+        super.draw(camera);
+//        camera.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
     }
 
     private void onCollisionEvent(CollisionEvent event) {
