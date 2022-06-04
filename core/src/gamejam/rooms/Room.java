@@ -31,10 +31,26 @@ public class Room {
 
     private boolean isFinalRoom;
 
+    private boolean isUpgradeRoom;
+
     private static Random random = new Random(LevelConfiguration.SEED);
 
     private final Level levelParent;
 
+    public Room(Level levelParent, int levelX, int levelY) {
+        if (new Random().nextFloat() < LevelConfiguration.UPGRADE_ROOM_CHANCE) {
+            isUpgradeRoom = true;
+        }
+
+        this.levelX = levelX;
+        this.levelY = levelY;
+        this.levelParent = levelParent;
+
+        eastRoom = levelParent.rooms[levelX + 1][levelY];
+        westRoom = levelParent.rooms[levelX - 1][levelY];
+        northRoom = levelParent.rooms[levelX][levelY + 1];
+        southRoom = levelParent.rooms[levelX][levelY - 1];
+    }
 
     public void grow(int nNewRoomsLeft, Direction growthDirection) {
         if (growthDirection == Direction.EAST) {
@@ -178,7 +194,7 @@ public class Room {
                 if (i == 0 && j == Math.round((max_tile_y / 2))) {
                     // West door
                     if (westRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST);
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST, westRoom.isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.WEST) {
                         new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST);
@@ -189,7 +205,7 @@ public class Room {
                 if (i == max_tile_x && j == Math.round((max_tile_y / 2))) {
                     // East door
                     if (eastRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST);
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST, eastRoom.isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.EAST) {
                         new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST);
@@ -199,7 +215,7 @@ public class Room {
                 if (i == Math.round((max_tile_x / 2)) && j == 0) {
                     // South door
                     if (southRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH);
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH, southRoom.isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.SOUTH) {
                         new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH);
@@ -209,7 +225,7 @@ public class Room {
                 if (i == Math.round((max_tile_x / 2)) && j == max_tile_y) {
                     // North door
                     if (northRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH);
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH, northRoom.isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.NORTH) {
                         new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH);
@@ -257,17 +273,6 @@ public class Room {
             visited = true;
             // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
         }
-    }
-
-    public Room(Level levelParent, int levelX, int levelY) {
-        this.levelX = levelX;
-        this.levelY = levelY;
-        this.levelParent = levelParent;
-
-        eastRoom = levelParent.rooms[levelX + 1][levelY];
-        westRoom = levelParent.rooms[levelX - 1][levelY];
-        northRoom = levelParent.rooms[levelX][levelY + 1];
-        southRoom = levelParent.rooms[levelX][levelY - 1];
     }
 
     public void draw(Camera camera) {

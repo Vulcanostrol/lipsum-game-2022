@@ -20,11 +20,15 @@ public class Door extends Collidable {
 
     private EventConsumer<CollisionEvent> collisionConsumer;
 
-    public Door(float x, float y, Direction direction) {
+    public Door(float x, float y, Direction direction, boolean isUpgradeDoor) {
         super(80, 80, 80, 80);
         setPosition(x, y);
         setVelocity(0 ,0);
-        this.sprite = new Texture("terrain/door.png");
+        if (isUpgradeDoor) {
+            this.sprite = new Texture("terrain/upgradedoor.png");
+        } else {
+            this.sprite = new Texture("terrain/door.png");
+        }
         this.direction = direction;
 
         collisionConsumer = this::onCollisionEvent;
