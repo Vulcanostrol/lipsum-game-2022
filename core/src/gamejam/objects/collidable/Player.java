@@ -76,7 +76,7 @@ public class Player extends SelfCollidable implements Damageable {
         super.setVelocity(SPEED*dx, SPEED*dy);
 
         /* publish new position to listeners */
-        if (dx > 0 || dy > 0) {
+        if (Math.abs(dx) > 0.0f || Math.abs(dy) > 0.0f) {
             EventQueue.getInstance().invoke(new PlayerMoveEvent(x, y));
         }
 

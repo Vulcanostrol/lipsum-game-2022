@@ -66,6 +66,7 @@ public class DroneEnemy extends AbstractEnemy {
         this.playerX = playerMoveEvent.newX;
         this.playerY = playerMoveEvent.newY;
 
+        System.out.printf("x distance %f y distance %f%n", Math.abs(playerX - x), Math.abs(playerY - y));
         boolean playerStillInRange = Math.abs(playerX - x) < RANGE_OF_SIGHT && Math.abs(playerY - y) < RANGE_OF_SIGHT;
         if (!playerStillInRange && playerPositionKnown)  {
             // lost track of player, just go fly somewhere
