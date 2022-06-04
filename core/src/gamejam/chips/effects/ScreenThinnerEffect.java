@@ -29,6 +29,8 @@ public class ScreenThinnerEffect implements ChipEffect {
 
     @Override
     public void dispose() {
+        GameManager.getInstance().getCamera().setScaleX(1f);
+        GameManager.getInstance().getCamera().resetMovementOffset();
     }
 
     @Override

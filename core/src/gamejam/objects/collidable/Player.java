@@ -133,14 +133,14 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
 
     public void addMaxHealth(float hp) {
         maxHealth += hp;
-        System.out.println("new: " + maxHealth);
     }
 
     @Override
     public void onDispose() {
         super.onDispose();
-        keyHoldWatcher.dispose();
-        EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+        // We intentionally do not do anything here anymore, because the player persists between rooms / levels. We only
+        // reset the input handling.
+        keyHoldWatcher.releaseAll();
     }
 
     public Weapon getWeapon() {

@@ -1,6 +1,8 @@
-package gamejam.chips.effects;
+package gamejam.chips;
 
 import gamejam.chips.Chip;
+import gamejam.chips.effects.BulletDamageEffect;
+import gamejam.chips.effects.ScreenThinnerEffect;
 
 public class SniperChip extends Chip {
     public SniperChip() {

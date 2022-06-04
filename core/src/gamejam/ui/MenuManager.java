@@ -36,7 +36,7 @@ public class MenuManager {
 
     private void onKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == Input.Keys.ESCAPE && event.isKeyDown()) {
-            EventQueue.getInstance().invoke(new MenuChangeEvent(2));
+            EventQueue.getInstance().invoke(new MenuChangeEvent(3));
         }
     }
 
@@ -50,6 +50,7 @@ public class MenuManager {
             registeredMenus.get(currentMenuId).dispose();
         }
         currentMenuId = id;
+        System.out.println("Switched to different menu: " + currentMenuId);
         if (id < 0) {
             Gdx.input.setInputProcessor(InputHandler.getInstance());
             return;

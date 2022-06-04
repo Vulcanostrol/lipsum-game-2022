@@ -65,6 +65,7 @@ public class Level {
         outerRoom.setFinalRoom();
 
         currentRoom.setup();
+        currentRoom.isUpgradeRoom = false;
     }
 
     /**
@@ -171,4 +172,7 @@ public class Level {
         }
     }
 
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
 }

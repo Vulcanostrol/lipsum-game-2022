@@ -1,6 +1,7 @@
 package gamejam;
 
 import gamejam.factories.EntityFactory;
+import gamejam.factories.PlayerFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
@@ -55,6 +56,7 @@ public class GameManager {
     }
 
     public void moveToNextLevel() {
+        Player player = PlayerFactory.getInstance().getPlayer();
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         currentLevel = new Level();
         currentNLevel += 1;
@@ -63,10 +65,12 @@ public class GameManager {
         // Entity creation
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
-        new Player(newPlayerX, newPlayerY);
+        PlayerFactory.getInstance().addManagedObject(player);
+        player.setPosition(newPlayerX, newPlayerY);
     }
 
     public void moveToRoomByDirection(Direction direction) {
+        Player player = PlayerFactory.getInstance().getPlayer();
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         boolean success = currentLevel.moveToRoomByDirection(direction);
 
@@ -97,7 +101,9 @@ public class GameManager {
             }
 
             // Entity creation
-            Player player = new Player((float) newPlayerX,(float) newPlayerY);
+            PlayerFactory.getInstance().addManagedObject(player);
+            player.setVelocity(0, 0);
+            player.setPosition((float) newPlayerX,(float) newPlayerY);
         }
     }
 
@@ -124,5 +130,9 @@ public class GameManager {
 
     public int getCurrentNLevel() {
         return currentNLevel;
+    }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.GameManager;
 import gamejam.Camera;
+import gamejam.TextureStore;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -26,7 +27,7 @@ public class FinalDoor extends Collidable {
         super(80, 80, 80, 80);
         setPosition(x, y);
         setVelocity(0 ,0);
-        this.sprite = new Texture("terrain/finaldoor.png");
+        this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("finaldoor") : TextureStore.getTileTextureByName("finaldoor_vertical");
         this.direction = direction;
 
         collisionConsumer = this::onCollisionEvent;

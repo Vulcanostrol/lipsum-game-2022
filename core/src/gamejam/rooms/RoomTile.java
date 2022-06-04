@@ -16,6 +16,8 @@ public class RoomTile {
     protected int minY;
     protected int maxY;
 
+
+
     public RoomTile(RoomTileType roomTileType, int minX, int maxX, int minY, int maxY) {
         this.roomTileType = roomTileType;
         this.minX = minX;
@@ -27,5 +29,4 @@ public class RoomTile {
     public void draw(Camera camera) {
         camera.draw(tileTexture, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT);
     }
-
 }

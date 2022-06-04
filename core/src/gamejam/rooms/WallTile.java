@@ -1,5 +1,7 @@
 package gamejam.rooms;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import gamejam.Camera;
 import gamejam.TextureStore;
 
 public class WallTile extends RoomTile {
@@ -12,40 +14,18 @@ public class WallTile extends RoomTile {
 
         switch(wallTileType) {
             case WALL_EAST:
-                this.tileTexture = TextureStore.getTileTextureByName("eastwall");
-                break;
             case WALL_WEST:
-                this.tileTexture = TextureStore.getTileTextureByName("westwall");
+                this.tileTexture = TextureStore.getTileTextureByName("wall_vertical");
                 break;
             case WALL_SOUTH:
-                this.tileTexture = TextureStore.getTileTextureByName("southwall");
-                break;
             case WALL_NORTH:
-                this.tileTexture = TextureStore.getTileTextureByName("northwall");
+                this.tileTexture = TextureStore.getTileTextureByName("wall");
                 break;
             case WALL_NORTHEAST:
-                this.tileTexture = TextureStore.getTileTextureByName("northeastwall");
-                break;
             case WALL_NORTHWEST:
-                this.tileTexture = TextureStore.getTileTextureByName("northwestwall");
-                break;
             case WALL_SOUTHEAST:
-                this.tileTexture = TextureStore.getTileTextureByName("southeastwall");
-                break;
             case WALL_SOUTHWEST:
-                this.tileTexture = TextureStore.getTileTextureByName("southwestwall");
-                break;
-            case SOUTH_DOOR:
-                this.tileTexture = TextureStore.getTileTextureByName("southdoor");
-                break;
-            case NORTH_DOOR:
-                this.tileTexture = TextureStore.getTileTextureByName("northdoor");
-                break;
-            case EAST_DOOR:
-                this.tileTexture = TextureStore.getTileTextureByName("eastdoor");
-                break;
-            case WEST_DOOR:
-                this.tileTexture = TextureStore.getTileTextureByName("westdoor");
+                this.tileTexture = TextureStore.getTileTextureByName("cornerwall");
                 break;
             default:
                 this.tileTexture = TextureStore.getTileTextureByName("bobbysoepkip");
@@ -53,5 +33,30 @@ public class WallTile extends RoomTile {
         }
     }
 
+    @Override
+    public void draw(Camera camera) {
+        TextureRegion tr = new TextureRegion(tileTexture);
+        switch (this.wallTileType) {
+            case WALL_NORTHWEST:
+            case WALL_NORTH:
+            case WALL_EAST:
+                break;
+            case WALL_NORTHEAST:
+            case WALL_WEST:
+                tr.flip(true, false);
+                break;
+            case WALL_SOUTHEAST:
+                tr.flip(true, true);
+                break;
+            case WALL_SOUTH:
+            case WALL_SOUTHWEST:
+                tr.flip(false, true);
+                break;
+            default:
+                System.out.printf("ik weet niet wat deze wall tile type moet voorstellen..%s%n", this.wallTileType);
+                return;
+        }
+        camera.draw(tr, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false, false);
 
+    }
 }
