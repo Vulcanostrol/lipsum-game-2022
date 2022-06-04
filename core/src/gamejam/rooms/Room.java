@@ -59,10 +59,7 @@ public class Room {
         this.levelY = levelY;
         this.levelParent = levelParent;
 
-        eastRoom = levelParent.rooms[levelX + 1][levelY];
-        westRoom = levelParent.rooms[levelX - 1][levelY];
-        northRoom = levelParent.rooms[levelX][levelY + 1];
-        southRoom = levelParent.rooms[levelX][levelY - 1];
+        this.updateNeighbourRooms();
 
         int i = 0;
         while(i<RoomConfiguration.MAX_PILLARS){
@@ -85,6 +82,13 @@ public class Room {
                 pillars[x][y]=true;
             }
         }
+    }
+
+    public void updateNeighbourRooms() {
+        eastRoom = levelParent.rooms[levelX + 1][levelY];
+        westRoom = levelParent.rooms[levelX - 1][levelY];
+        northRoom = levelParent.rooms[levelX][levelY + 1];
+        southRoom = levelParent.rooms[levelX][levelY - 1];
     }
 
     public void grow(int nNewRoomsLeft, Direction growthDirection) {
@@ -153,7 +157,6 @@ public class Room {
         List<Direction> possibleBranchDirections = getPossibleBranchDirections();
 
         // 80% chance to continue in current direction
-        // TODO: Check if there are no rooms blocking
         if (random.nextFloat() > (1 - LevelConfiguration.STRAIGHTNESS_FACTOR)) {
             if (possibleBranchDirections.contains(growthDirection)) {
                 grow(nNewRoomsLeft, growthDirection);
@@ -210,6 +213,7 @@ public class Room {
     }
 
     public void setup() {
+        this.updateNeighbourRooms();
         Direction finalDoorDirection = null;
         if (isFinalRoom) {
             List<Direction> possibleDirections = getPossibleBranchDirections();
