@@ -76,7 +76,6 @@ public class Room {
             }
         }
     }
-    }
 
     public void grow(int nNewRoomsLeft, Direction growthDirection) {
         if (growthDirection == Direction.EAST) {
