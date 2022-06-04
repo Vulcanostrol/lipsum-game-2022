@@ -46,7 +46,7 @@ public class DroneEnemy extends AbstractEnemy {
             // flying towards player, don't really care
             return;
         }
-        Collidable other = collisionEvent.getCollidesWith() == self ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
+        Collidable other = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
 
         if (other instanceof Player) {
             //don't care about collision with player
