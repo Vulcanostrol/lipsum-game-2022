@@ -12,6 +12,12 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.KeyEvent;
 import gamejam.factories.*;
+import gamejam.factories.bullets.BulletFactory;
+import gamejam.factories.bullets.PyramidEnemyBulletFactory;
+import gamejam.factories.enemies.AbstractEnemyFactory;
+import gamejam.factories.enemies.DroneEnemyFactory;
+import gamejam.factories.enemies.PyramidEnemyFactory;
+import gamejam.objects.collidable.enemies.PyramidEnemy;
 import gamejam.ui.MainMenu;
 import gamejam.ui.MenuManager;
 import gamejam.ui.OptionsMenu;
@@ -32,6 +38,8 @@ public class Main extends Game {
 		WallFactory.getInstance();
 		AbstractEnemyFactory.getInstance();
 		DroneEnemyFactory.getInstance();
+		PyramidEnemyFactory.getInstance();
+		PyramidEnemyBulletFactory.getInstance();
 	}
 
 	private final MenuManager menuManager;

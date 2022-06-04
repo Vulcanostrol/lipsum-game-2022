@@ -13,6 +13,7 @@ import gamejam.levels.Level;
 import gamejam.objects.collidable.Player;
 import gamejam.objects.collidable.TestEntity;
 import gamejam.objects.collidable.enemies.DroneEnemy;
+import gamejam.objects.collidable.enemies.PyramidEnemy;
 import gamejam.rooms.RoomConfiguration;
 
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class GameManager {
         new TestEntity(500, 200, 0, 0);
 
         new DroneEnemy(400, 600);
+
     }
 
     public void moveToRoomByDirection(Direction direction) {
