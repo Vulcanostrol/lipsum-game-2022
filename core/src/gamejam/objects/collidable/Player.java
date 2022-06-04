@@ -19,6 +19,8 @@ import gamejam.objects.Damageable;
 import gamejam.weapons.BasicWeapon;
 import gamejam.weapons.Weapon;
 
+import java.util.Random;
+
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
  */
@@ -38,8 +40,6 @@ public class Player extends SelfCollidable implements Damageable {
 
     private Weapon weapon;
 
-    private EventConsumer<CollisionEvent> collisionConsumer;
-
     private EventConsumer<MousePressEvent> mousePressConsumer;
 
     public Player(float x, float y) {
@@ -48,9 +48,6 @@ public class Player extends SelfCollidable implements Damageable {
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
         spriteSheet = new Texture("entity/Robot.png");
-
-        collisionConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
 
         mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
@@ -99,7 +96,7 @@ public class Player extends SelfCollidable implements Damageable {
         super.drawHitBox(camera);
     }
 
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
     }
 
     private void onMousePress(MousePressEvent event) {
@@ -132,7 +129,6 @@ public class Player extends SelfCollidable implements Damageable {
     public void onDispose() {
         super.onDispose();
         keyHoldWatcher.dispose();
-        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
         EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
     }
 

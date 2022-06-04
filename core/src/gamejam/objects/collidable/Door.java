@@ -18,8 +18,6 @@ public class Door extends Collidable {
 
     private boolean collided = false;
 
-    private EventConsumer<CollisionEvent> collisionConsumer;
-
     public Door(float x, float y, Direction direction) {
         super(80, 80, 80, 80);
         setPosition(x, y);
@@ -27,12 +25,6 @@ public class Door extends Collidable {
         this.sprite = new Texture("terrain/door.png");
         this.direction = direction;
 
-        collisionConsumer = this::onCollisionEvent;
-        EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
-    }
-
-    public void dispose() {
-        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 
     @Override
@@ -41,7 +33,7 @@ public class Door extends Collidable {
 //        camera.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
     }
 
-    private void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(CollisionEvent event) {
         if (event.getCollidingObject() == this && event.getCollidesWith() instanceof Player ||
                 event.getCollidesWith() == this && event.getCollidingObject() instanceof Player) {
             onPlayerCollidedWithThisDoor();
