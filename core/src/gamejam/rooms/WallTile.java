@@ -58,10 +58,6 @@ public class WallTile extends RoomTile {
             case WALL_SOUTH:
                 camera.draw(tr, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, true, false);
                 break;
-            case WALL_SOUTHEAST:
-                camera.draw(tr, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, true, true);
-                break;
-            case WALL_SOUTHWEST:
             case WALL_WEST:
                 camera.draw(tr, minX, minY, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false, true);
                 break;
