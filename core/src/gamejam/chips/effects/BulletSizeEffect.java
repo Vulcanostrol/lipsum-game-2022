@@ -25,6 +25,7 @@ public class BulletSizeEffect implements ChipEffect {
 
     @Override
     public void dispose() {
+
     }
 
     @Override
