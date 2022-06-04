@@ -1,6 +1,6 @@
 package gamejam.factories;
 
-import gamejam.objects.Player;
+import gamejam.objects.collidable.Player;
 
 /**
  *

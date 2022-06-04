@@ -1,7 +1,8 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.objects.Entity;
 
 /**
  * Collidable entities can collide with all SelfCollidable entities.

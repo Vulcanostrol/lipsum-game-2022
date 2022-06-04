@@ -1,6 +1,6 @@
 package gamejam.factories;
 
-import gamejam.objects.Door;
+import gamejam.objects.collidable.Door;
 
 public class DoorFactory extends AbstractFactory<Door> {
     private static DoorFactory instance = null;

@@ -1,4 +1,4 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +9,9 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.*;
 import gamejam.factories.BulletFactory;
+import gamejam.objects.Damageable;
+import gamejam.objects.collidable.Bullet;
+import gamejam.objects.collidable.SelfCollidable;
 
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
@@ -28,7 +31,7 @@ public class Player extends SelfCollidable implements Damageable {
         this.x = x;
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
-        texture = new Texture("Robot.png");
+        texture = new Texture("entity/Robot.png");
 
         EventConsumer<CollisionEvent> collisionConsumer = this::onCollisionEvent;
         EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
@@ -68,8 +71,12 @@ public class Player extends SelfCollidable implements Damageable {
         x += SPEED * dx * timeDeltaMillis;
         y += SPEED * dy * timeDeltaMillis;
 
-        super.resetCollision();
+        /* publish new position to listeners */
+        if (dx > 0 || dy > 0) {
+            EventQueue.getInstance().invoke(new PlayerMoveEvent(x, y));
+        }
 
+        super.resetCollision();
     }
 
     @Override
@@ -96,7 +103,7 @@ public class Player extends SelfCollidable implements Damageable {
     }
 
     private void onMouseMove(MouseMoveEvent event) {
-        System.out.println(event);
+//        System.out.println(event);
     }
 
     @Override

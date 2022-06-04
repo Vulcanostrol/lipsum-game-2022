@@ -1,7 +1,7 @@
 package gamejam.factories;
 
 
-import gamejam.objects.SelfCollidable;
+import gamejam.objects.collidable.SelfCollidable;
 
 public class SelfCollidableFactory extends AbstractFactory<SelfCollidable> {
     private static SelfCollidableFactory instance = null;

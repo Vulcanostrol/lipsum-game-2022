@@ -1,4 +1,6 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
+
+import gamejam.objects.collidable.Collidable;
 
 /**
  * SelfCollidable entities collide with all other Collidable and SelfCollidable entities

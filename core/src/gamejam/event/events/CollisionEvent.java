@@ -2,7 +2,7 @@ package gamejam.event.events;
 
 import gamejam.event.Event;
 import gamejam.event.EventType;
-import gamejam.objects.Collidable;
+import gamejam.objects.collidable.Collidable;
 
 public class CollisionEvent implements Event {
     private Collidable collidingObject;
