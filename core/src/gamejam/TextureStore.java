@@ -16,6 +16,10 @@ public class TextureStore {
         textures.put("floor", new Texture("assets/terrain/floor.png"));
         textures.put("door", new Texture("assets/terrain/door.png"));
         textures.put("door_vertical", new Texture("assets/terrain/door_vertical.png"));
+        textures.put("upgradedoor", new Texture("assets/terrain/upgradedoor.png"));
+        textures.put("upgradedoor_vertical", new Texture("assets/terrain/upgradedoor_vertical.png"));
+        textures.put("finaldoor", new Texture("assets/terrain/finaldoor.png"));
+        textures.put("finaldoor_vertical", new Texture("assets/terrain/finaldoor_vertical.png"));
     }
 
     public static Texture getTileTextureByName(String name) {
