@@ -5,6 +5,7 @@ import gamejam.event.EventQueue;
 import gamejam.event.events.CollisionEvent;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
+import gamejam.factories.SelfCollidableFactory;
 import gamejam.levels.Level;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class GameManager {
     }
 
     private void checkCollisions(){
-        CollidableFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
+        SelfCollidableFactory.getInstance().getAllManagedObjects().forEach(e1 -> {
             CollidableFactory.getInstance().getAllManagedObjects().forEach(e2 -> {
                 if(e1 != e2 && e1.checkCollision(e2)){
                     e1.setHasCollided();

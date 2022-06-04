@@ -15,7 +15,7 @@ import gamejam.factories.BulletFactory;
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
  */
-public class Player extends Collidable implements Damageable {
+public class Player extends SelfCollidable implements Damageable {
     public static final float SPEED = 0.3f;
 
     private final KeyHoldWatcher keyHoldWatcher;

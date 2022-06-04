@@ -7,7 +7,7 @@ public class TestEntityFactory extends AbstractFactory<TestEntity> {
     private static TestEntityFactory instance = null;
 
     static {
-        CollidableFactory.getInstance().addSubFactory(TestEntityFactory.getInstance());
+        SelfCollidableFactory.getInstance().addSubFactory(TestEntityFactory.getInstance());
     }
 
     public static TestEntityFactory getInstance() {
