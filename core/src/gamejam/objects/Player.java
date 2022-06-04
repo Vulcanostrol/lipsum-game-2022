@@ -1,8 +1,10 @@
 package gamejam.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
@@ -14,7 +16,9 @@ import gamejam.factories.BulletFactory;
  * The player entity. Is NOT meant to hold the inventory etc!
  */
 public class Player extends SelfCollidable implements Damageable {
-    public static final float SPEED = 300f;
+    public static final float SPEED = 0.3f;
+    public static final float BULLET_SHOOT_SPEED = 1000;
+
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
@@ -33,17 +37,8 @@ public class Player extends SelfCollidable implements Damageable {
         EventConsumer<CollisionEvent> collisionConsumer = this::onCollisionEvent;
         EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
 
-        EventConsumer<KeyEvent> keyEventConsumer = this::onKeyEvent;
-        EventQueue.getInstance().registerConsumer(keyEventConsumer, EventType.KEY_EVENT);
-
         EventConsumer<MousePressEvent> mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
-
-        EventConsumer<MouseReleaseEvent> mouseReleaseConsumer = this::onMouseRelease;
-        EventQueue.getInstance().registerConsumer(mouseReleaseConsumer, EventType.MOUSE_RELEASE_EVENT);
-
-        EventConsumer<MouseMoveEvent> mouseMoveConsumer = this::onMouseMove;
-        EventQueue.getInstance().registerConsumer(mouseMoveConsumer, EventType.MOUSE_MOVE_EVENT);
     }
 
     @Override
@@ -79,22 +74,14 @@ public class Player extends SelfCollidable implements Damageable {
     private void onCollisionEvent(CollisionEvent event) {
     }
 
-    private void onKeyEvent(KeyEvent event) {
-        if (event.getKeyCode() == Input.Keys.SPACE && event.isKeyDown()) {
-            BulletFactory.getInstance().addManagedObject(new Bullet(this.x, this.y, 0, 1000));
-        }
-    }
-
     private void onMousePress(MousePressEvent event) {
-        System.out.println(event);
-    }
-
-    private void onMouseRelease(MouseReleaseEvent event) {
-        System.out.println(event);
-    }
-
-    private void onMouseMove(MouseMoveEvent event) {
-        System.out.println(event);
+        // TODO: Translate the screen coordinates of the mouse to world coordinates.
+        float dx = event.getScreenX() - getX();
+        float dy = (Gdx.graphics.getHeight() - event.getScreenY()) - getY();
+        Vector2 vector2 = new Vector2(dx, dy).nor();
+        BulletFactory.getInstance().addManagedObject(
+                new Bullet(this.x, this.y, vector2.x * BULLET_SHOOT_SPEED, vector2.y * BULLET_SHOOT_SPEED)
+        );
     }
 
     @Override

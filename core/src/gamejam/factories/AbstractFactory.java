@@ -64,7 +64,7 @@ public abstract class AbstractFactory<T> {
     /**
      * Removes all objects from the managedObjects set and also does this for all the subFactories
      */
-    public void recursiveRemoveManagedObjects(){
+    public void recursiveRemoveManagedObjects() {
         removeManagedObjects();
         for (AbstractFactory factory: subFactories) {
             factory.recursiveRemoveManagedObjects();
