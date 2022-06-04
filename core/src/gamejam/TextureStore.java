@@ -10,19 +10,12 @@ public class TextureStore {
     public static void instantiate() {
         textures = new HashMap<>();
         textures.put("bobbysoepkip", new Texture("assets/terrain/error.png"));
-        textures.put("eastwall", new Texture("assets/terrain/eastwall.png"));
-        textures.put("westwall", new Texture("assets/terrain/westwall.png"));
-        textures.put("northwall", new Texture("assets/terrain/northwall.png"));
-        textures.put("southwall", new Texture("assets/terrain/southwall.png"));
-        textures.put("northeastwall", new Texture("assets/terrain/northeastwall.png"));
-        textures.put("northwestwall", new Texture("assets/terrain/northwestwall.png"));
-        textures.put("southeastwall", new Texture("assets/terrain/southeastwall.png"));
-        textures.put("southwestwall", new Texture("assets/terrain/southwestwall.png"));
+        textures.put("wall", new Texture("assets/terrain/wall.png"));
+        textures.put("wall_vertical", new Texture("assets/terrain/wall_vertical.png"));
+        textures.put("cornerwall", new Texture("assets/terrain/cornerwall.png"));
         textures.put("floor", new Texture("assets/terrain/floor.png"));
-        textures.put("northdoor", new Texture("assets/terrain/door.png"));
-        textures.put("southdoor", new Texture("assets/terrain/door.png"));
-        textures.put("westdoor", new Texture("assets/terrain/door.png"));
-        textures.put("eastdoor", new Texture("assets/terrain/door.png"));
+        textures.put("door", new Texture("assets/terrain/door.png"));
+        textures.put("door_vertical", new Texture("assets/terrain/door_vertical.png"));
     }
 
     public static Texture getTileTextureByName(String name) {
