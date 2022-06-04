@@ -8,6 +8,7 @@ import gamejam.levels.LevelConfiguration;
 import gamejam.objects.collidable.Door;
 import gamejam.objects.collidable.FinalDoor;
 import gamejam.objects.collidable.Pillar;
+import gamejam.objects.collidable.enemies.PyramidEnemy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -300,6 +301,7 @@ public class Room {
         if (!visited) {
             visited = true;
             // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
+            new PyramidEnemy(200, 200);
         }
     }
 

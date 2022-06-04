@@ -1,4 +1,4 @@
-package gamejam.objects.collidable;
+package gamejam.objects.collidable.bullets;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,7 +18,7 @@ public class Bullet extends Collidable {
     private float damage;
 
     // TODO: When we want bullets that can damage the player, we can fuck with this. FOr now, leave this as is PLEASE!
-    private final boolean damagePlayer = false;
+    boolean damagePlayer = false;
 
     public Bullet(float x, float y, float xVelocity, float yVelocity, float damage, float bulletSize) {
         super(bulletSize, bulletSize, bulletSize, bulletSize);
@@ -42,6 +42,7 @@ public class Bullet extends Collidable {
 
     private void tryDamageEntity(Damageable entity) {
         if (!damagePlayer && entity instanceof Player) return;
+        if (damagePlayer && !(entity instanceof Player)) return;
         entity.damage(damage);
         despawn();
     }
