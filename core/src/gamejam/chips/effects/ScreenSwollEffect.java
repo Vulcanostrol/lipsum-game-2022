@@ -29,6 +29,8 @@ public class ScreenSwollEffect implements ChipEffect {
 
     @Override
     public void dispose() {
+        GameManager.getInstance().getCamera().setScaleY(1f);
+        GameManager.getInstance().getCamera().resetMovementOffset();
     }
 
     @Override
