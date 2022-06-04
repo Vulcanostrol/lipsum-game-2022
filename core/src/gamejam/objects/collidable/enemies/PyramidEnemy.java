@@ -4,8 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.event.events.CollisionEvent;
 import gamejam.factories.PlayerFactory;
 import gamejam.objects.collidable.bullets.PyramidBullet;
+
+import java.util.Random;
 
 /**
  * An angry shooty boy
@@ -13,15 +16,22 @@ import gamejam.objects.collidable.bullets.PyramidBullet;
 public class PyramidEnemy extends AbstractEnemy {
 
     public static final float BULLET_SPEED = 500;
-    public static final float MAX_FIRE_TIME = 1000.0f;
+    public static final float MAX_FIRE_TIME = 2000.0f;
+
+    public static final float ANGLE_ADJUST_SPEED =  0.0004f;
 
     public static final float BULLET_SPAWN_HEIGHT = 12.0f * 5;
+    private static final float MAX_RANGE = 1200.0f;
+    private static final float SPEED = 2.0f;
     private static Texture spriteSheet = null;
+    private final Random random;
     private TextureRegion currentSprite;
 
     private  Animation<TextureRegion> animation;
 
     private float animationTime = 0f;
+
+    private float angle = 0.0f;
 
     private float fireTimer = MAX_FIRE_TIME;
 
@@ -33,6 +43,12 @@ public class PyramidEnemy extends AbstractEnemy {
         if (spriteSheet == null) {
             spriteSheet = new Texture("entity/pyramid.png");
         }
+
+       random = new Random();
+
+        angle = (float) (random.nextFloat() * 2 * Math.PI);
+        fireTimer += random.nextFloat() * MAX_FIRE_TIME;
+        animationTime += random.nextFloat();
 
         TextureRegion[] frames = TextureRegion.split(spriteSheet, 13, 24)[0];
         animation = new Animation<>(0.2f, frames);
@@ -54,6 +70,11 @@ public class PyramidEnemy extends AbstractEnemy {
             fireAtPlayer();
         }
 
+        angle += timeDeltaMillis * ANGLE_ADJUST_SPEED * (random.nextFloat() - 0.5f) * 2.0f;
+        angle %= Math.PI * 2.0f;
+        setVelocity((float) Math.cos(angle) * SPEED * timeDeltaMillis,
+                (float) Math.sin(angle) * SPEED * timeDeltaMillis);
+
         animationTime += timeDeltaMillis * 0.001;
         super.update(timeDeltaMillis);
     }
@@ -67,7 +88,7 @@ public class PyramidEnemy extends AbstractEnemy {
 
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
-        if (distance != 0) {
+        if (distance != 0 && distance < MAX_RANGE) {
             float vx = BULLET_SPEED * dx / distance;
             float vy = BULLET_SPEED * dy / distance;
 
@@ -78,5 +99,11 @@ public class PyramidEnemy extends AbstractEnemy {
 
     private boolean canFire() {
         return fireTimer <= 0;
+    }
+
+    @Override
+    public void onCollisionEvent(CollisionEvent event) {
+        super.onCollisionEvent(event);
+        angle = (float) (random.nextFloat() * 2 * Math.PI);
     }
 }
