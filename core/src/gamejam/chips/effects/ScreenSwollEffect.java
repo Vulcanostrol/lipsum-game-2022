@@ -1,6 +1,5 @@
 package gamejam.chips.effects;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import gamejam.GameManager;
 

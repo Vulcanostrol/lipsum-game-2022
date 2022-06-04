@@ -30,6 +30,6 @@ public class BulletDamageEffect implements ChipEffect {
 
     @Override
     public String description() {
-        return "Makes your bullets BUFF.";
+        return "Makes your bullets do more damage.";
     }
 }

@@ -1,19 +1,11 @@
 package gamejam;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import gamejam.event.EventQueue;
-import gamejam.event.events.CollisionEvent;
-import gamejam.factories.CollidableFactory;
 import gamejam.factories.EntityFactory;
-import gamejam.factories.PlayerFactory;
-import gamejam.factories.TestEntityFactory;
 import gamejam.levels.Direction;
-import gamejam.factories.SelfCollidableFactory;
 import gamejam.levels.Level;
 import gamejam.objects.collidable.Player;
 import gamejam.objects.collidable.TestEntity;
 import gamejam.objects.collidable.enemies.DroneEnemy;
-import gamejam.objects.collidable.enemies.PyramidEnemy;
 import gamejam.rooms.RoomConfiguration;
 
 import java.util.ArrayList;
@@ -110,14 +102,8 @@ public class GameManager {
 
     private ArrayList<Level> levels = new ArrayList<>();
     private Level currentLevel;
-
-    long previousTime;
-
-    public Camera getCamera() {
-        return camera;
-    }
-
-    Camera camera;
+    private long previousTime;
+    private Camera camera;
 
     public void draw() {
         if (!gameActive) return;

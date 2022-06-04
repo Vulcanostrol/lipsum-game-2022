@@ -25,6 +25,6 @@ public class ScreenShakeEffect implements ChipEffect {
 
     @Override
     public String description() {
-        return "Makes your bullets BUFF.";
+        return "Shakes the screen.";
     }
 }

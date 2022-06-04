@@ -33,6 +33,6 @@ public class ScreenThinnerEffect implements ChipEffect {
 
     @Override
     public String description() {
-        return "Makes your screen kinda THICC.";
+        return "Makes your screen kinda THIN.";
     }
 }
