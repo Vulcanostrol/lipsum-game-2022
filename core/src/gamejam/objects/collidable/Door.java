@@ -58,9 +58,7 @@ public class Door extends Collidable {
     }
 
     private void onPlayerCollidedWithThisDoor() {
-        System.out.println("Door, but enemies are alive (unless the next print says they're dead");
         if (!AbstractEnemyFactory.getInstance().getAllManagedObjects().findAny().isPresent()) {
-            System.out.println("All enemies dead");
             if (!collided) {
                 Room room = GameManager.getInstance().getCurrentLevel().getCurrentRoom();
                 if (!room.cleared && room.isUpgradeRoom) {

@@ -43,7 +43,6 @@ public abstract class Entity {
     }
 
     public void despawn() {
-//        System.out.println("despawn entity" + this.getClass());
         EntityFactory.getInstance().removeManagedObject(this);
     }
 
