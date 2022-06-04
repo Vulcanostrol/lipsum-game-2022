@@ -16,7 +16,7 @@ import gamejam.factories.BulletFactory;
  * The player entity. Is NOT meant to hold the inventory etc!
  */
 public class Player extends Collidable implements Damageable {
-    public static final float SPEED = 0.3f;
+    public static final float SPEED = 300f;
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
@@ -58,11 +58,9 @@ public class Player extends Collidable implements Damageable {
             dy -= 1;
         }
 
-        x += SPEED * dx * timeDeltaMillis;
-        y += SPEED * dy * timeDeltaMillis;
+        super.setVelocity(SPEED*dx, SPEED*dy);
 
-        super.resetCollision();
-
+        super.update(timeDeltaMillis);
     }
 
     @Override
