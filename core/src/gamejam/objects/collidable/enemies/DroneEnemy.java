@@ -42,7 +42,7 @@ public class DroneEnemy extends AbstractEnemy {
         EventQueue.getInstance().registerConsumer(collisionEventEventConsumer, EventType.COLLISION_EVENT);
     }
 
-    private void onCollisionEvent(CollisionEvent collisionEvent) {
+    public void onCollisionEvent(CollisionEvent collisionEvent) {
         if (playerPositionKnown) {
             // flying towards player, don't really care
             return;
