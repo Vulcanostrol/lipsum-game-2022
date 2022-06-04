@@ -2,11 +2,11 @@ package gamejam.rooms;
 
 import gamejam.TextureStore;
 
-public class Wall extends RoomTile {
+public class WallTile extends RoomTile {
 
     private WallTileType wallTileType;
 
-    public Wall(WallTileType wallTileType, int minX, int maxX, int minY, int maxY) {
+    public WallTile(WallTileType wallTileType, int minX, int maxX, int minY, int maxY) {
         super(RoomTileType.WALL, minX, maxX, minY, maxY);
         this.wallTileType = wallTileType;
 

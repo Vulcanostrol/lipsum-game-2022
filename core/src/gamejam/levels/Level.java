@@ -1,7 +1,13 @@
 package gamejam.levels;
 
+import com.badlogic.gdx.Game;
+import gamejam.GameManager;
 import gamejam.Util;
+import gamejam.factories.EntityFactory;
+import gamejam.factories.WallFactory;
+import gamejam.objects.Wall;
 import gamejam.rooms.Room;
+import gamejam.rooms.RoomConfiguration;
 
 import java.util.List;
 
@@ -23,6 +29,9 @@ public class Level {
         // Create a base room
         currentRoom = new Room(this, initX, initY);
         rooms[initX][initY] = currentRoom;
+
+        // Initialize wall collision boxes so a player can't move out of the map
+        initializeWallCollisionBoxes();
 
         // 4 For the number of directions one can branch, for the initial room we can branch in every direction
         List<Integer> branchNs = Util.n_random(LevelConfiguration.N_ROOMS - 1, 4);
@@ -53,18 +62,79 @@ public class Level {
         currentRoom.northRoom.createBranches(nNorthRooms, Direction.NORTH);
         currentRoom.southRoom.createBranches(nSouthRooms, Direction.SOUTH);
 
-        currentRoom.updateLayout();
+        currentRoom.setup();
+    }
 
-//        for (int i = 0; i < this.rooms.length; i++) {
-//            for (int j = 0; j < this.rooms[0].length; j++) {
-//                System.out.print(this.rooms[i][j]);
-//            }
-//            System.out.println("");
-//        }
+    public boolean moveToRoomByDirection(Direction direction) {
+        initializeWallCollisionBoxes();
+        Room newRoom = null;
+        switch (direction) {
+            case SOUTH:
+                newRoom = rooms[currentRoom.levelX][currentRoom.levelY - 1];
+                break;
+            case NORTH:
+                newRoom = rooms[currentRoom.levelX][currentRoom.levelY + 1];
+                break;
+            case EAST:
+                newRoom = rooms[currentRoom.levelX + 1][currentRoom.levelY];
+                break;
+            case WEST:
+                newRoom = rooms[currentRoom.levelX - 1][currentRoom.levelY];
+                break;
+        }
+        if (newRoom != null) {
+            currentRoom = newRoom;
+            currentRoom.setup();
+            return true;
+        } else {
+            System.err.println("Trying to move to a location where there is no room! Direction: " + direction.toString());
+            return false;
+        }
+    }
+
+    private void initializeWallCollisionBoxes() {
+        WallFactory.getInstance().removeManagedObjects();
+
+        // South wall
+        WallFactory.getInstance().addManagedObject(new Wall(
+                RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH / 2,
+                0,
+                RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.TILE_PIXEL_HEIGHT));
+
+        // North wall
+        WallFactory.getInstance().addManagedObject(new Wall(
+                RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH / 2,
+                (RoomConfiguration.ROOM_TILE_HEIGHT - 1) * RoomConfiguration.TILE_PIXEL_HEIGHT,
+                RoomConfiguration.ROOM_TILE_WIDTH * RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.TILE_PIXEL_HEIGHT));
+
+        // West wall
+        WallFactory.getInstance().addManagedObject(new Wall(
+                RoomConfiguration.TILE_PIXEL_WIDTH / 2,
+                0,
+                RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT));
+
+        // East wall
+        WallFactory.getInstance().addManagedObject(new Wall(
+                (RoomConfiguration.ROOM_TILE_WIDTH - 1) * RoomConfiguration.TILE_PIXEL_WIDTH + RoomConfiguration.TILE_PIXEL_WIDTH / 2,
+                0,
+                RoomConfiguration.TILE_PIXEL_WIDTH,
+                RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT));
     }
 
     public void render() {
         currentRoom.draw();
+    }
+
+    public void printLevelLayout() {
+        for (int i = 0; i < this.rooms.length; i++) {
+            for (int j = 0; j < this.rooms[0].length; j++) {
+                System.out.print(this.rooms[i][j]);
+            }
+            System.out.println("");
+        }
     }
 
 }

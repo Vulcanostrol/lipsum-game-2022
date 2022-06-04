@@ -3,12 +3,14 @@ package gamejam.rooms;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Util;
 import gamejam.factories.DoorFactory;
+import gamejam.factories.WallFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
 import gamejam.objects.Door;
 import gamejam.objects.Player;
 import gamejam.objects.TestEntity;
+import gamejam.objects.Wall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,8 @@ public class Room {
     public Room southRoom;
     public Room eastRoom;
     public Room westRoom;
+
+    public boolean visited;
 
     private static Random random = new Random(LevelConfiguration.SEED);
 
@@ -152,6 +156,84 @@ public class Room {
         }
     }
 
+    public void setup() {
+        // Setup base room tiles
+        int max_tile_x = tiles.length - 1;
+        int max_tile_y = tiles[0].length - 1;
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[0].length; j++) {
+                int minX = i * RoomConfiguration.TILE_PIXEL_WIDTH;
+                int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
+                int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
+                int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
+
+                if (i == 0 && j == Math.round((max_tile_y / 2)) && westRoom != null) {
+                    // West door
+//                    tiles[i][j] = new Wall(WallTileType.WEST_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST));
+                }
+
+                if (i == max_tile_x && j == Math.round((max_tile_y / 2)) && eastRoom != null) {
+                    // East door
+//                    tiles[i][j] = new Wall(WallTileType.EAST_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST));
+                }
+
+                if (i == Math.round((max_tile_x / 2)) && j == 0 && southRoom != null) {
+                    // South door
+//                    tiles[i][j] = new Wall(WallTileType.SOUTH_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH));
+                }
+
+                if (i == Math.round((max_tile_x / 2)) && j == max_tile_y && northRoom != null) {
+                    // North door
+//                    tiles[i][j] = new Wall(WallTileType.NORTH_DOOR, minX, maxX, minY, maxY);
+                    DoorFactory.getInstance().addManagedObject(new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH));
+                }
+
+                if (i == 0 && j == 0) {
+                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTHWEST, minX, maxX, minY, maxY);
+                    continue;
+                }
+                if (i == 0 && j == max_tile_y) {
+                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTHWEST, minX, maxX, minY, maxY);
+                    continue;
+                }
+                if (i == max_tile_x && j == 0) {
+                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTHEAST, minX, maxX, minY, maxY);
+                    continue;
+                }
+                if (i == max_tile_x && j == max_tile_y) {
+                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTHEAST, minX, maxX, minY, maxY);
+                    continue;
+                }
+                if (i == 0) {
+                    tiles[i][j] = new WallTile(WallTileType.WALL_WEST, minX, maxX, minY, maxY);
+                    continue;
+                }
+                if (i == max_tile_x) {
+                    tiles[i][j] = new WallTile(WallTileType.WALL_EAST, minX, maxX, minY, maxY);
+                    continue;
+                }
+                if (j == 0) {
+                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTH, minX, maxX, minY, maxY);
+                    continue;
+                }
+                if (j == max_tile_y) {
+                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTH, minX, maxX, minY, maxY);
+                    continue;
+                }
+                tiles[i][j] = new Floor(minX, maxX, minY, maxY);
+            }
+        }
+
+        // After this one can choose how to randomly instantiate rest objects in the room
+        if (!visited) {
+            visited = true;
+            // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
+        }
+    }
+
     public Room(Level levelParent, int levelX, int levelY) {
         batch = new SpriteBatch();
         this.levelX = levelX;
@@ -162,141 +244,12 @@ public class Room {
         westRoom = levelParent.rooms[levelX - 1][levelY];
         northRoom = levelParent.rooms[levelX][levelY + 1];
         southRoom = levelParent.rooms[levelX][levelY - 1];
-
-        // Setup base room tiles
-        int max_tile_x = tiles.length - 1;
-        int max_tile_y = tiles[0].length - 1;
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[0].length; j++) {
-                int minX = i * RoomConfiguration.TILE_PIXEL_WIDTH;
-                int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
-                int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
-                int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
-
-                if (i == 0 && j == Math.round((max_tile_y / 2)) && westRoom != null) {
-                    // West door
-                    tiles[i][j] = new Wall(WallTileType.WEST_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
-                    continue;
-                }
-
-                if (i == max_tile_x && j == Math.round((max_tile_y / 2)) && eastRoom != null) {
-                    // East door
-                    tiles[i][j] = new Wall(WallTileType.EAST_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
-                    continue;
-                }
-
-                if (i == Math.round((max_tile_x / 2)) && j == 0 && southRoom != null) {
-                    // South door
-                    tiles[i][j] = new Wall(WallTileType.SOUTH_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
-                    continue;
-                }
-
-                if (i == Math.round((max_tile_x / 2)) && j == max_tile_y && northRoom != null) {
-                    // North door
-                    tiles[i][j] = new Wall(WallTileType.NORTH_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
-                    continue;
-                }
-
-                if (i == 0 && j == 0) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_SOUTHWEST, minX, maxX, minY, maxY);
-                    continue;
-                }
-                if (i == 0 && j == max_tile_y) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_NORTHWEST, minX, maxX, minY, maxY);
-                    continue;
-                }
-                if (i == max_tile_x && j == 0) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_SOUTHEAST, minX, maxX, minY, maxY);
-                    continue;
-                }
-                if (i == max_tile_x && j == max_tile_y) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_NORTHEAST, minX, maxX, minY, maxY);
-                    continue;
-                }
-                if (i == 0) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_WEST, minX, maxX, minY, maxY);
-                    continue;
-                }
-                if (i == max_tile_x) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_EAST, minX, maxX, minY, maxY);
-                    continue;
-                }
-                if (j == 0) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_SOUTH, minX, maxX, minY, maxY);
-                    continue;
-                }
-                if (j == max_tile_y) {
-                    tiles[i][j] = new Wall(WallTileType.WALL_NORTH, minX, maxX, minY, maxY);
-                    continue;
-                }
-                tiles[i][j] = new Floor(minX, maxX, minY, maxY);
-            }
-        }
-
-        // After this one can choose how to randomly instantiate rest objects in the room
-    }
-
-    public void updateLayout() {
-        this.resetFactoriesForRoomObjects();
-
-        eastRoom = levelParent.rooms[levelX + 1][levelY];
-        westRoom = levelParent.rooms[levelX - 1][levelY];
-        northRoom = levelParent.rooms[levelX][levelY + 1];
-        southRoom = levelParent.rooms[levelX][levelY - 1];
-
-        // Setup base room tiles
-        int max_tile_x = tiles.length - 1;
-        int max_tile_y = tiles[0].length - 1;
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[0].length; j++) {
-                int minX = i * RoomConfiguration.TILE_PIXEL_WIDTH;
-                int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
-                int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
-                int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
-
-                if (i == 0 && j == Math.round((max_tile_y / 2)) && westRoom != null) {
-                    // West door
-                    tiles[i][j] = new Wall(WallTileType.WEST_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
-                    continue;
-                }
-
-                if (i == max_tile_x && j == Math.round((max_tile_y / 2)) && eastRoom != null) {
-                    // East door
-                    tiles[i][j] = new Wall(WallTileType.EAST_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
-                    continue;
-                }
-
-                if (i == Math.round((max_tile_x / 2)) && j == 0 && southRoom != null) {
-                    // South door
-                    tiles[i][j] = new Wall(WallTileType.SOUTH_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
-                    continue;
-                }
-
-                if (i == Math.round((max_tile_x / 2)) && j == max_tile_y && northRoom != null) {
-                    // North door
-                    tiles[i][j] = new Wall(WallTileType.NORTH_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX, minY));
-                    continue;
-                }
-            }
-        }
-    }
-
-    private void resetFactoriesForRoomObjects(){
-        DoorFactory.getInstance().removeManagedObjects();
     }
 
     public void draw() {
-        for (RoomTile[] roomTiles : this.tiles) {
-            for (RoomTile roomTile : roomTiles) {
-                roomTile.draw(batch);
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[0].length; j++) {
+                tiles[i][j].draw(batch);
             }
         }
     }
