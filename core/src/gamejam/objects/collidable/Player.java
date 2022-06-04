@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import gamejam.Camera;
 import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
@@ -83,9 +84,9 @@ public class Player extends SelfCollidable implements Damageable {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(texture, x - spriteWidth / 2, y, spriteWidth, spriteHeight, 0, 0, 20, 30, lookingLeft, false);
-        super.drawHitBox(spriteBatch);
+    public void draw(Camera camera) {
+        camera.draw(texture, x - spriteWidth / 2, y, spriteWidth, spriteHeight, 0, 0, 20, 30, lookingLeft, false);
+        super.drawHitBox(camera);
     }
 
     private void onCollisionEvent(CollisionEvent event) {
