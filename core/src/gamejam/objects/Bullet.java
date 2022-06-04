@@ -9,18 +9,20 @@ import gamejam.event.events.CollisionEvent;
 
 public class Bullet extends Collidable {
 
-    public static final float DAMAGE = 30;
     public final float BULLET_DESPAWN_RANGE = 5000;
+
+    private float damage;
 
     // TODO: When we want bullets that can damage the player, we can fuck with this. FOr now, leave this as is PLEASE!
     private final boolean damagePlayer = false;
     EventConsumer<CollisionEvent> collisionConsumer;
 
-    public Bullet(float x, float y, float xVelocity, float yVelocity) {
-        super(25, 25, 25, 25);
+    public Bullet(float x, float y, float xVelocity, float yVelocity, float damage, float bulletSize) {
+        super(bulletSize, bulletSize, bulletSize, bulletSize);
         setPosition(x, y);
         setVelocity(xVelocity, yVelocity);
         sprite = new Texture("bullet.png");
+        this.damage = damage;
 
         collisionConsumer = this::onCollisionEvent;
         EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
@@ -39,7 +41,7 @@ public class Bullet extends Collidable {
 
     private void tryDamageEntity(Damageable entity) {
         if (!damagePlayer && entity instanceof Player) return;
-        entity.damage(DAMAGE);
+        entity.damage(damage);
         despawn();
     }
 
