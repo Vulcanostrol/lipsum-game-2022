@@ -31,6 +31,11 @@ public class AbstractEnemy extends SelfCollidable implements Damageable, Travers
     }
 
     @Override
+    public void update(float timeDeltaMillis) {
+        super.update(timeDeltaMillis);
+    }
+
+    @Override
     public void heal(float hp) {
         health += hp;
         if (health > getMaxHealth()) {

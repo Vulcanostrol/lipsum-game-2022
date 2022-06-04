@@ -315,8 +315,8 @@ public class Room {
     }
 
     public void spawnEnemies(float currentSpawnRate) {
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[0].length; j++) {
+        for (int i = 1; i < tiles.length - 1; i++) {
+            for (int j = 1; j < tiles[0].length - 1; j++) {
                 if (pillars[i][j]) {
                     continue;
                 }
@@ -329,11 +329,13 @@ public class Room {
                     Class<? extends AbstractEnemy> cls = spawnTable.get(Math.round(random.nextFloat() * (spawnTable.size() - 1)));
                     AbstractEnemy potentialNewEnemy = null;
                     try {
-                        potentialNewEnemy = cls.getDeclaredConstructor(float.class, float.class).newInstance((float) i * RoomConfiguration.TILE_PIXEL_WIDTH + xOffset, (float) j * RoomConfiguration.TILE_PIXEL_HEIGHT + yOffset);
+                        float spawnX = (float) i * RoomConfiguration.TILE_PIXEL_WIDTH + xOffset;
+                        float spawnY = (float) j * RoomConfiguration.TILE_PIXEL_HEIGHT + yOffset;
+                        potentialNewEnemy = cls.getDeclaredConstructor(float.class, float.class).newInstance(spawnX, spawnY);
                         AbstractEnemy finalPotentialNewEnemy = potentialNewEnemy;
                         Stream<Collidable> collidedEnemies = CollidableFactory.getInstance().getAllManagedObjects().filter(collidable -> collidable.checkCollision(finalPotentialNewEnemy));
                         if (collidedEnemies.count() >= 2) {
-                            AbstractEnemyFactory.getInstance().removeManagedObject(potentialNewEnemy);
+                            potentialNewEnemy.despawn();
                         }
                     } catch (InstantiationException e) {
                         throw new RuntimeException(e);
