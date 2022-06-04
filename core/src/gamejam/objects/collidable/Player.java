@@ -18,10 +18,11 @@ import gamejam.objects.Damageable;
 import gamejam.weapons.BasicWeapon;
 import gamejam.weapons.Weapon;
 
+
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
  */
-public class Player extends SelfCollidable implements Damageable {
+public class Player extends SelfCollidable implements Damageable, Traversable {
     public static final float SPEED = 300f;
 
     private final KeyHoldWatcher keyHoldWatcher;

@@ -332,12 +332,10 @@ public class Room {
                         float spawnX = (float) i * RoomConfiguration.TILE_PIXEL_WIDTH + xOffset;
                         float spawnY = (float) j * RoomConfiguration.TILE_PIXEL_HEIGHT + yOffset;
                         potentialNewEnemy = cls.getDeclaredConstructor(float.class, float.class).newInstance(spawnX, spawnY);
-                        System.out.println(potentialNewEnemy.getClass() + " " + spawnX + " " + spawnY);
                         AbstractEnemy finalPotentialNewEnemy = potentialNewEnemy;
                         Stream<Collidable> collidedEnemies = CollidableFactory.getInstance().getAllManagedObjects().filter(collidable -> collidable.checkCollision(finalPotentialNewEnemy));
                         if (collidedEnemies.count() >= 2) {
                             potentialNewEnemy.despawn();
-//                            AbstractEnemyFactory.getInstance().removeManagedObject(potentialNewEnemy);
                         }
                     } catch (InstantiationException e) {
                         throw new RuntimeException(e);

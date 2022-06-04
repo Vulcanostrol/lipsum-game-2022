@@ -2,8 +2,9 @@ package gamejam.objects.collidable.enemies;
 
 import gamejam.objects.Damageable;
 import gamejam.objects.collidable.SelfCollidable;
+import gamejam.objects.collidable.Traversable;
 
-public class AbstractEnemy extends SelfCollidable implements Damageable {
+public class AbstractEnemy extends SelfCollidable implements Damageable, Traversable {
 
     private final float maxHealth;
     private float health;

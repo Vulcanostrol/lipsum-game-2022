@@ -40,6 +40,9 @@ public abstract class Collidable extends Entity {
     @Override
     public void update(float timeDeltaMillis){
         super.update(timeDeltaMillis);
+    }
+
+    public void afterDraw() {
         resetCollisions();
     }
 
@@ -64,7 +67,6 @@ public abstract class Collidable extends Entity {
 //        } else {
 //            camera.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
 //        }
-//        resetCollisions();
     }
 
 

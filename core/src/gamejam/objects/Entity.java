@@ -1,8 +1,9 @@
 package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Camera;
+import gamejam.event.EventQueue;
+import gamejam.event.events.EntityDeathEvent;
 import gamejam.factories.EntityFactory;
 
 public abstract class Entity {
@@ -28,6 +29,8 @@ public abstract class Entity {
         y += speedY * timeDeltaMillis / 1000;
     }
 
+    public void afterDraw() {};
+
     public void draw(Camera camera){
         camera.draw(sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);
     }
@@ -43,7 +46,7 @@ public abstract class Entity {
     }
 
     public void despawn() {
-        EntityFactory.getInstance().removeManagedObject(this);
+        EventQueue.getInstance().invoke(new EntityDeathEvent(this));
     }
 
     public void onDispose() {

@@ -39,6 +39,7 @@ public class Main extends Game {
 		DroneEnemyFactory.getInstance();
 		PyramidEnemyFactory.getInstance();
 		PyramidEnemyBulletFactory.getInstance();
+		EntityDeathManager.init();
 	}
 
 	private final MenuManager menuManager;
