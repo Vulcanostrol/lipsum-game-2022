@@ -1,7 +1,8 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.Camera;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -9,6 +10,7 @@ import gamejam.event.events.CollisionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import gamejam.objects.Entity;
 
 /**
  * Collidable entities can collide with all SelfCollidable entities.
@@ -52,16 +54,16 @@ public abstract class Collidable extends Entity {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
-        super.draw(spriteBatch);
-        drawHitBox(spriteBatch);
+    public void draw(Camera camera) {
+        super.draw(camera);
+        drawHitBox(camera);
     }
 
-    protected void drawHitBox(SpriteBatch spriteBatch){
+    protected void drawHitBox(Camera camera){
         if (hasCollided) {
-            spriteBatch.draw(hitBoxRedTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
+            camera.draw(hitBoxRedTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
         } else {
-            spriteBatch.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
+            camera.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
         }
         resetCollisions();
     }

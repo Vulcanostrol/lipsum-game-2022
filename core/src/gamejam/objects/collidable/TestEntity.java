@@ -1,6 +1,8 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
 import com.badlogic.gdx.graphics.Texture;
+import gamejam.objects.Damageable;
+import gamejam.objects.collidable.SelfCollidable;
 
 public class TestEntity extends SelfCollidable implements Damageable {
 

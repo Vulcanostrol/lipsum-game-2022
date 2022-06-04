@@ -1,7 +1,6 @@
 package gamejam.factories;
 
-import gamejam.objects.Collidable;
-import gamejam.objects.Entity;
+import gamejam.objects.collidable.Collidable;
 
 public class CollidableFactory extends AbstractFactory<Collidable> {
     private static CollidableFactory instance = null;

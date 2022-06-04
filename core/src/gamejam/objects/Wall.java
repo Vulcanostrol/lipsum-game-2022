@@ -1,10 +1,13 @@
 package gamejam.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import gamejam.Camera;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.objects.collidable.Collidable;
+import gamejam.objects.collidable.Player;
 
 public class Wall extends Collidable {
 
@@ -28,8 +31,8 @@ public class Wall extends Collidable {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
-        super.drawHitBox(spriteBatch);
+    public void draw(Camera camera) {
+        super.drawHitBox(camera);
     }
 
 }

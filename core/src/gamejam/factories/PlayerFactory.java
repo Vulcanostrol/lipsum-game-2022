@@ -1,6 +1,6 @@
 package gamejam.factories;
 
-import gamejam.objects.Player;
+import gamejam.objects.collidable.Player;
 
 /**
  *
@@ -21,5 +21,9 @@ public class PlayerFactory extends AbstractFactory<Player> {
             instance = new PlayerFactory();
         }
         return instance;
+    }
+
+    public Player getPlayer() {
+        return getAllManagedObjects().iterator().next();
     }
 }

@@ -2,6 +2,7 @@ package gamejam.levels;
 
 import com.badlogic.gdx.Game;
 import gamejam.GameManager;
+import gamejam.Camera;
 import gamejam.Util;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.WallFactory;
@@ -125,8 +126,8 @@ public class Level {
                 RoomConfiguration.ROOM_TILE_HEIGHT * RoomConfiguration.TILE_PIXEL_HEIGHT);
     }
 
-    public void render() {
-        currentRoom.draw();
+    public void render(Camera camera) {
+        currentRoom.draw(camera);
     }
 
     public void printLevelLayout() {

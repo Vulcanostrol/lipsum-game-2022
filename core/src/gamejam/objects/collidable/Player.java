@@ -1,16 +1,22 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import gamejam.Camera;
 import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.*;
 import gamejam.factories.BulletFactory;
+import gamejam.weapons.BasicWeapon;
+import gamejam.weapons.Weapon;
+import gamejam.objects.Damageable;
+import gamejam.objects.collidable.Bullet;
+import gamejam.objects.collidable.SelfCollidable;
 
 import java.util.Random;
 
@@ -19,8 +25,6 @@ import java.util.Random;
  */
 public class Player extends SelfCollidable implements Damageable {
     public static final float SPEED = 300f;
-    public static final float BULLET_SHOOT_SPEED = 1000;
-
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
@@ -29,6 +33,8 @@ public class Player extends SelfCollidable implements Damageable {
     private final float maxHealth = 100;
     private float health = maxHealth;
 
+    private Weapon weapon;
+
     private EventConsumer<MousePressEvent> mousePressConsumer;
 
     public Player(float x, float y) {
@@ -36,10 +42,12 @@ public class Player extends SelfCollidable implements Damageable {
         this.x = x;
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
-        texture = new Texture("Robot.png");
+        texture = new Texture("entity/Robot.png");
 
         mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+
+        this.weapon = new BasicWeapon();
     }
 
 
@@ -64,13 +72,18 @@ public class Player extends SelfCollidable implements Damageable {
 
         super.setVelocity(SPEED*dx, SPEED*dy);
 
+        /* publish new position to listeners */
+        if (dx > 0 || dy > 0) {
+            EventQueue.getInstance().invoke(new PlayerMoveEvent(x, y));
+        }
+
         super.update(timeDeltaMillis);
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(texture, x - spriteWidth / 2, y, spriteWidth, spriteHeight, 0, 0, 20, 30, lookingLeft, false);
-        super.drawHitBox(spriteBatch);
+    public void draw(Camera camera) {
+        camera.draw(texture, x - spriteWidth / 2, y, spriteWidth, spriteHeight, 0, 0, 20, 30, lookingLeft, false);
+        super.drawHitBox(camera);
     }
 
     public void onCollisionEvent(CollisionEvent event) {
@@ -80,8 +93,7 @@ public class Player extends SelfCollidable implements Damageable {
         // TODO: Translate the screen coordinates of the mouse to world coordinates.
         float dx = event.getScreenX() - getX();
         float dy = (Gdx.graphics.getHeight() - event.getScreenY()) - getY();
-        Vector2 vector2 = new Vector2(dx, dy).nor();
-        new Bullet(this.x, this.y, vector2.x * BULLET_SHOOT_SPEED, vector2.y * BULLET_SHOOT_SPEED);
+        weapon.fire(this.x, this.y, dx, dy);
     }
 
     @Override
@@ -108,6 +120,9 @@ public class Player extends SelfCollidable implements Damageable {
         super.onDispose();
         keyHoldWatcher.dispose();
         EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+    }
 
+    public Weapon getWeapon() {
+        return weapon;
     }
 }
