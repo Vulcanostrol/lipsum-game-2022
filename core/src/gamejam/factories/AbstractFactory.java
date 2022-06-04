@@ -1,8 +1,5 @@
 package gamejam.factories;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import gamejam.objects.Entity;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -17,6 +14,12 @@ public abstract class AbstractFactory<T> {
     private final Set<T> managedObjects = new HashSet<>();
     private final Set<AbstractFactory<? extends T>> subFactories = new HashSet<>();
 
+    protected final Class<T> objectType;
+
+    public AbstractFactory(Class<T> objectType) {
+        this.objectType = objectType;
+    }
+
     /**
      * @return all managed objects of this factory and all sub-factories
      */
@@ -29,11 +32,40 @@ public abstract class AbstractFactory<T> {
 
     /**
      * Adds an object to the set of managed objects of this factory.
+     * Will try to delegate objects to lower factories.
      * @param managedObject the object to add
      */
     public void addManagedObject(T managedObject) {
+        if (managedObject.getClass().isAssignableFrom(getAcceptedClass()) || subFactories.size() == 0) {
+            // If we are the factory to handle this type, or there are no subfactories, manage this object
+            forceAddManagedObjectToThisFactory(managedObject);
+        } else {
+            // Try to look for a subfactory that is more specifically designed for this type
+            boolean foundBetterSubFactory = false;
+            for (AbstractFactory factory: subFactories) {
+                if (factory.getAcceptedClass().isAssignableFrom(managedObject.getClass())) {
+                    factory.addManagedObject(managedObject);
+                    foundBetterSubFactory = true;
+                    break;
+                }
+            }
+
+            // If we didn't find a good subfactory, add it to our objects
+            if (!foundBetterSubFactory) {
+                forceAddManagedObjectToThisFactory(managedObject);
+            }
+        }
+    }
+
+    /**
+     * WARNING: Only use when you do NOT want to add the entity to the correct subfactory.
+     * Will forcefully add the object to this factory without looking to subfactories.
+     * @param managedObject the object to add
+     */
+    public void forceAddManagedObjectToThisFactory(T managedObject) {
         managedObjects.add(managedObject);
     }
+
 
     /**
      * Removes the managed object. If it isn't found, this method will try to remove it from sub-factories
@@ -77,5 +109,9 @@ public abstract class AbstractFactory<T> {
      */
     public void addSubFactory(AbstractFactory<? extends T> subFactory) {
         subFactories.add(subFactory);
+    }
+
+    public Class<T> getAcceptedClass() {
+        return objectType;
     }
 }

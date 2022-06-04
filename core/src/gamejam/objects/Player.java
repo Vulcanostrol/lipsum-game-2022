@@ -27,6 +27,10 @@ public class Player extends SelfCollidable implements Damageable {
     private final float maxHealth = 100;
     private float health = maxHealth;
 
+    private EventConsumer<CollisionEvent> collisionConsumer;
+
+    private EventConsumer<MousePressEvent> mousePressConsumer;
+
     public Player(float x, float y) {
         super(40, 60, 25, 25);
         this.x = x;
@@ -34,12 +38,13 @@ public class Player extends SelfCollidable implements Damageable {
         this.keyHoldWatcher = new KeyHoldWatcher();
         texture = new Texture("Robot.png");
 
-        EventConsumer<CollisionEvent> collisionConsumer = this::onCollisionEvent;
+        collisionConsumer = this::onCollisionEvent;
         EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
 
-        EventConsumer<MousePressEvent> mousePressConsumer = this::onMousePress;
+        mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
     }
+
 
     @Override
     public void update(float timeDeltaMillis) {
@@ -79,9 +84,7 @@ public class Player extends SelfCollidable implements Damageable {
         float dx = event.getScreenX() - getX();
         float dy = (Gdx.graphics.getHeight() - event.getScreenY()) - getY();
         Vector2 vector2 = new Vector2(dx, dy).nor();
-        BulletFactory.getInstance().addManagedObject(
-                new Bullet(this.x, this.y, vector2.x * BULLET_SHOOT_SPEED, vector2.y * BULLET_SHOOT_SPEED)
-        );
+        new Bullet(this.x, this.y, vector2.x * BULLET_SHOOT_SPEED, vector2.y * BULLET_SHOOT_SPEED);
     }
 
     @Override
@@ -101,5 +104,14 @@ public class Player extends SelfCollidable implements Damageable {
     @Override
     public float getMaxHealth() {
         return maxHealth;
+    }
+
+    @Override
+    public void onDispose() {
+        super.onDispose();
+        keyHoldWatcher.dispose();
+        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
+        EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+
     }
 }

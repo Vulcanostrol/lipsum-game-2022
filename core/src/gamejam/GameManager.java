@@ -39,6 +39,14 @@ public class GameManager {
         spriteBatch = new SpriteBatch();
         //time
         previousTime = System.currentTimeMillis();
+
+        // Entity creation
+        int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
+        int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
+        new Player(newPlayerX, newPlayerY);
+        new TestEntity(100, 200);
+        new TestEntity(100, 250);
+        new TestEntity(500, 200, 0, 0);
     }
 
     public void moveToRoomByDirection(Direction direction) {
@@ -76,10 +84,6 @@ public class GameManager {
             TestEntity e1 = new TestEntity(100, 200);
             TestEntity e2 = new TestEntity(100, 250);
             TestEntity e3 = new TestEntity(500, 200, 0, 0);
-            PlayerFactory.getInstance().addManagedObject(player);
-            TestEntityFactory.getInstance().addManagedObject(e1);
-            TestEntityFactory.getInstance().addManagedObject(e2);
-            TestEntityFactory.getInstance().addManagedObject(e3);
         }
     }
 

@@ -14,6 +14,7 @@ public class Bullet extends Collidable {
 
     // TODO: When we want bullets that can damage the player, we can fuck with this. FOr now, leave this as is PLEASE!
     private final boolean damagePlayer = false;
+    EventConsumer<CollisionEvent> collisionConsumer;
 
     public Bullet(float x, float y, float xVelocity, float yVelocity) {
         super(25, 25, 25, 25);
@@ -21,7 +22,7 @@ public class Bullet extends Collidable {
         setVelocity(xVelocity, yVelocity);
         sprite = new Texture("bullet.png");
 
-        EventConsumer<CollisionEvent> collisionConsumer = this::onCollisionEvent;
+        collisionConsumer = this::onCollisionEvent;
         EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 
@@ -45,5 +46,11 @@ public class Bullet extends Collidable {
     @Override
     public void draw(SpriteBatch spriteBatch) {
         super.draw(spriteBatch);
+    }
+
+    @Override
+    public void onDispose() {
+        super.onDispose();
+        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
     }
 }
