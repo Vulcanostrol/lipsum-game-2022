@@ -13,13 +13,13 @@ import gamejam.event.events.MenuChangeEvent;
 import gamejam.event.events.RoomChangeEvent;
 import gamejam.levels.Direction;
 
-public class LevelFadeMenu extends Menu {
+public class RoomFadeMenu extends Menu {
 
     public static final float ANIMATION_TIME = 0.5f;
     private static Direction roomChangeDirection;
 
     static {
-        EventConsumer<RoomChangeEvent> consumer = LevelFadeMenu::onRoomChangeEvent;
+        EventConsumer<RoomChangeEvent> consumer = RoomFadeMenu::onRoomChangeEvent;
         EventQueue.getInstance().registerConsumer(consumer, EventType.ROOM_CHANGED);
     }
 
