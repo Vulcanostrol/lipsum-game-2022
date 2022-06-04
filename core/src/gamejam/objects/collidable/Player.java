@@ -94,11 +94,9 @@ public class Player extends SelfCollidable implements Damageable {
     }
 
     @Override
-    public void draw(SpriteBatch spriteBatch) {
-        float xScale = lookingLeft ? -1f : 1f;
-
-        spriteBatch.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth / 2, spriteHeight, spriteWidth, spriteHeight, xScale, 1f, 0f);
-        super.drawHitBox(spriteBatch);
+    public void draw(Camera camera) {
+        camera.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight, lookingLeft, false);
+        super.drawHitBox(camera);
     }
 
     private void onCollisionEvent(CollisionEvent event) {
