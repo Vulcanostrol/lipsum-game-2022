@@ -6,6 +6,7 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
 import gamejam.event.events.PlayerMoveEvent;
+import gamejam.objects.collidable.Collidable;
 
 /**
  * The Drone Enemy tries to fly straight to the player, to collide with it and
@@ -27,7 +28,7 @@ public class DroneEnemy extends AbstractEnemy {
     private float playerY = -Float.MAX_VALUE;
 
     public DroneEnemy(float x, float y) {
-        super(x, y, 32, 26, 32, 26, 100);
+        super(x, y, 32, 26, 32, 26, 1000);
         this.sprite = new Texture("entity/drone.png");
 
         EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer = this::onPlayerMoveEvent;
@@ -39,8 +40,18 @@ public class DroneEnemy extends AbstractEnemy {
     }
 
     private void onCollisionEvent(CollisionEvent collisionEvent) {
-        if (!playerPositionKnown && collisionEvent.getCollidesWith() == this || collisionEvent.getCollidingObject() == this) {
-            this.roamingDirection = (float) Math.random();
+        if (playerPositionKnown) {
+            // flying towards player, don't really care
+            return;
+        }
+
+        if (collisionEvent.getCollidesWith() == this || collisionEvent.getCollidingObject() == this) {
+            Collidable collidedWith = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
+            float dx = Math.abs(collidedWith.getX() - x);
+            float dy = Math.abs(collidedWith.getY() - y);
+
+            this.roamingDirection = (float) (dy/Math.sqrt(Math.pow(dy, 2) + Math.pow(dx, 2)));
+            System.out.printf("roamingdirection is now %f%n", roamingDirection);
         }
     }
 
@@ -53,6 +64,7 @@ public class DroneEnemy extends AbstractEnemy {
             // lost track of player, just go fly somewhere
             playerPositionKnown = false;
             roamingDirection = (float) Math.random();
+            System.out.printf("roamingdirection is now %f%n", roamingDirection);
         } else if (playerStillInRange) {
             this.playerPositionKnown = true;
         }
@@ -60,6 +72,7 @@ public class DroneEnemy extends AbstractEnemy {
 
     @Override
     public void update(float deltaTimeMilis) {
+        super.update(deltaTimeMilis);
         float dx = 0;
         float dy = 0;
 

@@ -37,12 +37,11 @@ public class Main extends Game {
 		// Entity creation
 		Player player = new Player(300, 100);
 		TestEntity e1 = new TestEntity(100, 200);
-		DroneEnemy enemy = new DroneEnemy(150, 250);
 
 		PlayerFactory.getInstance().addManagedObject(player);
 		TestEntityFactory.getInstance().addManagedObject(e1);
 
-		DroneEnemyFactory.getInstance().addManagedObject(enemy);
+		DroneEnemyFactory.getInstance().addManagedObject(new DroneEnemy(150, 250));
  	}
 
 	public void resize (int width, int height) {

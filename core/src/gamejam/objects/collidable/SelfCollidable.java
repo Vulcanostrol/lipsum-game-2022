@@ -6,6 +6,8 @@ import gamejam.event.EventQueue;
 import gamejam.event.events.CollisionEvent;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.SelfCollidableFactory;
+import gamejam.objects.collidable.enemies.AbstractEnemy;
+import gamejam.objects.collidable.enemies.DroneEnemy;
 
 import java.util.stream.Stream;
 
@@ -24,6 +26,7 @@ public abstract class SelfCollidable extends Collidable {
         float movement_y = speedY * timeDeltaMillis / 1000;
 
         x+=movement_x;
+
         if(checkCollisions()){
             x-=movement_x;
         }
@@ -35,7 +38,7 @@ public abstract class SelfCollidable extends Collidable {
 
     private boolean checkCollisions(){
         Stream<Boolean> rets = CollidableFactory.getInstance().getAllManagedObjects().map(e2 -> {
-                if(this != e2 && this.checkCollision(e2)){
+            if(this != e2 && this.checkCollision(e2)){
                     if(!collisions.contains(e2)) {
                         collisions.add(e2);
                         this.setHasCollided();
