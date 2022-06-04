@@ -1,9 +1,11 @@
 package gamejam;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import gamejam.event.events.MousePressEvent;
 import gamejam.rooms.RoomConfiguration;
 
@@ -34,7 +36,7 @@ public class Camera {
     private float updateFactorY = 1f;
     private float updateFactorX = 1f;
 
-    private int movementSpeed = 0;
+    private int movementSpeed = 500;
     private int movementX = movementSpeed;
     private int movementY = 0;
     private int movementXDirection = 1;
@@ -44,6 +46,9 @@ public class Camera {
 
     private boolean flipX = false;
     private boolean flipY = true;
+
+    private ShapeRenderer s = new ShapeRenderer();
+    private float blueness = 0.5f;
 
     public Camera(){
         spriteBatch = new SpriteBatch();
@@ -171,6 +176,14 @@ public class Camera {
     }
 
     public void end(){
+        s.begin(ShapeRenderer.ShapeType.Filled);
+        float newX = (movementOffsetX + shakeX) * factorX * windowFactorX;
+        float newY = (movementOffsetY + shakeY) * factorY * windowFactorY;
+        float newWidth = START_WIDTH * factorX * windowFactorX;
+        float newHeight = START_HEIGHT * factorY * windowFactorY;
+        s.setColor(new Color(0, 0, 255, blueness));
+        s.rect(newX, newY, newWidth, newHeight);
+        s.end();
         spriteBatch.end();
     }
 
