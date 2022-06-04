@@ -98,9 +98,6 @@ public class GameManager {
 
             // Entity creation
             Player player = new Player((float) newPlayerX,(float) newPlayerY);
-            TestEntity e1 = new TestEntity(100, 200);
-            TestEntity e2 = new TestEntity(100, 250);
-            TestEntity e3 = new TestEntity(500, 200, 0, 0);
         }
     }
 
