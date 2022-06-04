@@ -12,6 +12,7 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.KeyEvent;
 import gamejam.factories.*;
+import gamejam.objects.collidable.enemies.AbstractEnemy;
 import gamejam.ui.MainMenu;
 import gamejam.ui.MenuManager;
 import gamejam.ui.OptionsMenu;
@@ -30,6 +31,8 @@ public class Main extends Game {
 		SelfCollidableFactory.getInstance();
 		TestEntityFactory.getInstance();
 		WallFactory.getInstance();
+		AbstractEnemyFactory.getInstance();
+		DroneEnemyFactory.getInstance();
 	}
 
 	private final MenuManager menuManager;
