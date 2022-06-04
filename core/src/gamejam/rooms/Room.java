@@ -7,6 +7,8 @@ import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
 import gamejam.objects.Door;
+import gamejam.objects.Player;
+import gamejam.objects.TestEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class Room {
     private static Random random = new Random(LevelConfiguration.SEED);
 
     private final Level levelParent;
+
 
     public void grow(int nNewRoomsLeft, Direction growthDirection) {
         if (growthDirection == Direction.EAST) {

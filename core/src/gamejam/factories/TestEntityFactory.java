@@ -10,6 +10,10 @@ public class TestEntityFactory extends AbstractFactory<TestEntity> {
         SelfCollidableFactory.getInstance().addSubFactory(TestEntityFactory.getInstance());
     }
 
+    public TestEntityFactory() {
+        super(TestEntity.class);
+    }
+
     public static TestEntityFactory getInstance() {
         if (instance == null) {
             instance = new TestEntityFactory();

@@ -16,6 +16,7 @@ public abstract class Entity {
     protected float speedY;
 
     public Entity(float spriteWidth, float spriteHeight) {
+        EntityFactory.getInstance().addManagedObject(this);
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
         this.sprite = new Texture("terrain/error.png");

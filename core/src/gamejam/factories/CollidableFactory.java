@@ -10,6 +10,10 @@ public class CollidableFactory extends AbstractFactory<Collidable> {
         EntityFactory.getInstance().addSubFactory(CollidableFactory.getInstance());
     }
 
+    public CollidableFactory() {
+        super(Collidable.class);
+    }
+
     public static CollidableFactory getInstance() {
         if (instance == null) {
             instance = new CollidableFactory();
