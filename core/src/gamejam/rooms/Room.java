@@ -7,6 +7,7 @@ import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
 import gamejam.objects.collidable.Door;
 import gamejam.objects.collidable.FinalDoor;
+import gamejam.objects.collidable.Pillar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class Room {
     // MAX_TILE_HEIGHT = 13.5;
     // 0, 0 is bottom left
     private RoomTile[][] tiles = new RoomTile[RoomConfiguration.ROOM_TILE_WIDTH][RoomConfiguration.ROOM_TILE_HEIGHT];
+
+    private boolean[][] pillars = new boolean[RoomConfiguration.ROOM_TILE_WIDTH][RoomConfiguration.ROOM_TILE_HEIGHT];
 
     public int levelX;
     public int levelY;
@@ -50,6 +53,29 @@ public class Room {
         westRoom = levelParent.rooms[levelX - 1][levelY];
         northRoom = levelParent.rooms[levelX][levelY + 1];
         southRoom = levelParent.rooms[levelX][levelY - 1];
+
+        int i = 0;
+        while(i<RoomConfiguration.MAX_PILLARS){
+            int x = random.nextInt(RoomConfiguration.ROOM_TILE_WIDTH-4)+2;
+            int y = random.nextInt(RoomConfiguration.ROOM_TILE_HEIGHT-4)+2;
+            int cnt = 0;
+            int dx = -1;
+            while(dx<=1){
+                int dy = -1;
+                while(dy<=1){
+                    if(pillars[x+dx][y+dy]){
+                        cnt+=1;
+                    }
+                    dy++;
+                }
+                dx++;
+            }
+            i++;
+            if(cnt <= 1 && !pillars[x][y]){
+                pillars[x][y]=true;
+            }
+        }
+    }
     }
 
     public void grow(int nNewRoomsLeft, Direction growthDirection) {
@@ -190,6 +216,9 @@ public class Room {
                 int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
                 int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
                 int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
+                if(pillars[i][j]){
+                    new Pillar(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY);
+                }
 
                 if (i == 0 && j == Math.round((max_tile_y / 2))) {
                     // West door
