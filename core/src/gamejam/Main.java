@@ -43,11 +43,12 @@ public class Main extends Game {
 	public Main() {
 		super();
 		menuManager = new MenuManager();
-		menuManager.registerMenu(new MainMenu()); // 0
-		menuManager.registerMenu(new OptionsMenu()); // 1
-		menuManager.registerMenu(new PausedMenu()); // 2
-		menuManager.registerMenu(new RoomFadeMenu()); // 3
-		menuManager.registerMenu(new RoomFadeUpgradeMenu()); // 4
+		menuManager.registerMenu(new MainMenu());				// 0
+		menuManager.registerMenu(new OptionsMenu());			// 1
+		menuManager.registerMenu(new PausedMenu());				// 2
+		menuManager.registerMenu(new RoomFadeMenu());			// 3
+		menuManager.registerMenu(new RoomFadeUpgradeMenu());	// 4
+		menuManager.registerMenu(new LevelFadeUpgradeMenu());	// 5
 	}
 
 	@Override

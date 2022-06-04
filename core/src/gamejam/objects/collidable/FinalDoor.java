@@ -9,10 +9,13 @@ import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.event.events.LevelChangeEvent;
+import gamejam.event.events.RoomChangeEvent;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
+import gamejam.rooms.Room;
 
 public class FinalDoor extends Collidable {
 
@@ -54,7 +57,8 @@ public class FinalDoor extends Collidable {
     private void onPlayerCollidedWithThisFinalDoor() {
         if (!AbstractEnemyFactory.getInstance().getAllManagedObjects().findAny().isPresent()) {
             if (!collided) {
-                GameManager.getInstance().moveToNextLevel();
+                GameManager.getInstance().getCurrentLevel().getCurrentRoom().cleared = true;
+                EventQueue.getInstance().invoke(new LevelChangeEvent());
                 collided = true;
             }
         }

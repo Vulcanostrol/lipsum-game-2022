@@ -16,6 +16,7 @@ import gamejam.chips.effects.ChipEffect;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
+import gamejam.event.events.LevelChangeEvent;
 import gamejam.event.events.MenuChangeEvent;
 import gamejam.event.events.RoomChangeEvent;
 import gamejam.levels.Direction;
@@ -23,21 +24,18 @@ import gamejam.levels.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomFadeUpgradeMenu extends Menu {
+public class LevelFadeUpgradeMenu extends Menu {
 
     public static final float ANIMATION_TIME = 0.5f;
     private static Direction roomChangeDirection;
 
     static {
-        EventConsumer<RoomChangeEvent> consumer = RoomFadeUpgradeMenu::onRoomChangeEvent;
-        EventQueue.getInstance().registerConsumer(consumer, EventType.ROOM_CHANGED);
+        EventConsumer<LevelChangeEvent> consumer = LevelFadeUpgradeMenu::onLevelChangeEvent;
+        EventQueue.getInstance().registerConsumer(consumer, EventType.LEVEL_CHANGED);
     }
 
-    private static void onRoomChangeEvent(RoomChangeEvent event) {
-        roomChangeDirection = event.getDirection();
-        if (event.isUpgrade()) {
-            EventQueue.getInstance().invoke(new MenuChangeEvent(4));
-        }
+    private static void onLevelChangeEvent(LevelChangeEvent event) {
+        EventQueue.getInstance().invoke(new MenuChangeEvent(5));
     }
 
     // Menu itself, no static stuff anymore.
@@ -54,6 +52,8 @@ public class RoomFadeUpgradeMenu extends Menu {
         Gdx.input.setInputProcessor(stage);
 
         chips = new ArrayList<>();
+        chips.add(new RandomChip());
+        chips.add(new RandomChip());
         chips.add(new RandomChip());
         chips.add(new RandomChip());
 
