@@ -9,6 +9,10 @@ public class WallFactory extends AbstractFactory<Wall> {
         CollidableFactory.getInstance().addSubFactory(WallFactory.getInstance());
     }
 
+    public WallFactory() {
+        super(Wall.class);
+    }
+
     public static WallFactory getInstance() {
         if (instance == null) {
             instance = new WallFactory();

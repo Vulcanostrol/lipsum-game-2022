@@ -10,8 +10,9 @@ import gamejam.factories.TestEntityFactory;
 import gamejam.levels.Direction;
 import gamejam.factories.SelfCollidableFactory;
 import gamejam.levels.Level;
-import gamejam.objects.Player;
-import gamejam.objects.TestEntity;
+import gamejam.objects.collidable.Player;
+import gamejam.objects.collidable.TestEntity;
+import gamejam.objects.collidable.enemies.DroneEnemy;
 import gamejam.rooms.RoomConfiguration;
 
 import java.util.ArrayList;
@@ -39,6 +40,16 @@ public class GameManager {
         camera = new Camera();
         //time
         previousTime = System.currentTimeMillis();
+
+        // Entity creation
+        int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
+        int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
+        new Player(newPlayerX, newPlayerY);
+        new TestEntity(100, 200);
+        new TestEntity(100, 250);
+        new TestEntity(500, 200, 0, 0);
+
+        new DroneEnemy(400, 600);
     }
 
     public void moveToRoomByDirection(Direction direction) {
@@ -76,10 +87,6 @@ public class GameManager {
             TestEntity e1 = new TestEntity(100, 200);
             TestEntity e2 = new TestEntity(100, 250);
             TestEntity e3 = new TestEntity(500, 200, 0, 0);
-            PlayerFactory.getInstance().addManagedObject(player);
-            TestEntityFactory.getInstance().addManagedObject(e1);
-            TestEntityFactory.getInstance().addManagedObject(e2);
-            TestEntityFactory.getInstance().addManagedObject(e3);
         }
     }
 

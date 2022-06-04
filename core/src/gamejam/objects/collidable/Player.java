@@ -1,4 +1,4 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,14 +12,17 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.*;
 import gamejam.factories.BulletFactory;
+import gamejam.weapons.BasicWeapon;
+import gamejam.weapons.Weapon;
+import gamejam.objects.Damageable;
+import gamejam.objects.collidable.Bullet;
+import gamejam.objects.collidable.SelfCollidable;
 
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
  */
 public class Player extends SelfCollidable implements Damageable {
     public static final float SPEED = 300f;
-    public static final float BULLET_SHOOT_SPEED = 1000;
-
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
@@ -28,19 +31,28 @@ public class Player extends SelfCollidable implements Damageable {
     private final float maxHealth = 100;
     private float health = maxHealth;
 
+    private Weapon weapon;
+
+    private EventConsumer<CollisionEvent> collisionConsumer;
+
+    private EventConsumer<MousePressEvent> mousePressConsumer;
+
     public Player(float x, float y) {
         super(40, 60, 25, 25);
         this.x = x;
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
-        texture = new Texture("Robot.png");
+        texture = new Texture("entity/Robot.png");
 
-        EventConsumer<CollisionEvent> collisionConsumer = this::onCollisionEvent;
+        collisionConsumer = this::onCollisionEvent;
         EventQueue.getInstance().registerConsumer(collisionConsumer, EventType.COLLISION_EVENT);
 
-        EventConsumer<MousePressEvent> mousePressConsumer = this::onMousePress;
+        mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+
+        this.weapon = new BasicWeapon();
     }
+
 
     @Override
     public void update(float timeDeltaMillis) {
@@ -63,6 +75,11 @@ public class Player extends SelfCollidable implements Damageable {
 
         super.setVelocity(SPEED*dx, SPEED*dy);
 
+        /* publish new position to listeners */
+        if (dx > 0 || dy > 0) {
+            EventQueue.getInstance().invoke(new PlayerMoveEvent(x, y));
+        }
+
         super.update(timeDeltaMillis);
     }
 
@@ -79,10 +96,7 @@ public class Player extends SelfCollidable implements Damageable {
         // TODO: Translate the screen coordinates of the mouse to world coordinates.
         float dx = event.getScreenX() - getX();
         float dy = (Gdx.graphics.getHeight() - event.getScreenY()) - getY();
-        Vector2 vector2 = new Vector2(dx, dy).nor();
-        BulletFactory.getInstance().addManagedObject(
-                new Bullet(this.x, this.y, vector2.x * BULLET_SHOOT_SPEED, vector2.y * BULLET_SHOOT_SPEED)
-        );
+        weapon.fire(this.x, this.y, dx, dy);
     }
 
     @Override
@@ -102,5 +116,17 @@ public class Player extends SelfCollidable implements Damageable {
     @Override
     public float getMaxHealth() {
         return maxHealth;
+    }
+
+    @Override
+    public void onDispose() {
+        super.onDispose();
+        keyHoldWatcher.dispose();
+        EventQueue.getInstance().deregisterConsumer(collisionConsumer, EventType.COLLISION_EVENT);
+        EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
     }
 }

@@ -8,8 +8,8 @@ import gamejam.factories.WallFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
-import gamejam.objects.Door;
 import gamejam.objects.Wall;
+import gamejam.objects.collidable.Door;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,7 @@ public class Room {
     private static Random random = new Random(LevelConfiguration.SEED);
 
     private final Level levelParent;
+
 
     public void grow(int nNewRoomsLeft, Direction growthDirection) {
         if (growthDirection == Direction.EAST) {
@@ -166,25 +167,25 @@ public class Room {
                 if (i == 0 && j == Math.round((max_tile_y / 2)) && westRoom != null) {
                     // West door
 //                    tiles[i][j] = new Wall(WallTileType.WEST_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST));
+                   new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST);
                 }
 
                 if (i == max_tile_x && j == Math.round((max_tile_y / 2)) && eastRoom != null) {
                     // East door
 //                    tiles[i][j] = new Wall(WallTileType.EAST_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST));
+                    new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST);
                 }
 
                 if (i == Math.round((max_tile_x / 2)) && j == 0 && southRoom != null) {
                     // South door
 //                    tiles[i][j] = new Wall(WallTileType.SOUTH_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH));
+                   new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH);
                 }
 
                 if (i == Math.round((max_tile_x / 2)) && j == max_tile_y && northRoom != null) {
                     // North door
 //                    tiles[i][j] = new Wall(WallTileType.NORTH_DOOR, minX, maxX, minY, maxY);
-                    DoorFactory.getInstance().addManagedObject(new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH));
+                    new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH);
                 }
 
                 if (i == 0 && j == 0) {

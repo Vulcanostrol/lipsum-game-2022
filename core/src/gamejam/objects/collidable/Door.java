@@ -1,4 +1,4 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,6 +9,8 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
 import gamejam.levels.Direction;
+import gamejam.objects.collidable.Collidable;
+import gamejam.objects.collidable.Player;
 
 public class Door extends Collidable {
 
