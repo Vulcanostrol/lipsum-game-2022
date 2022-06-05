@@ -19,7 +19,7 @@ public class EnemySpawnTable<E> {
 
     private static final float GREY_BOX_ENEMY_BASE_SPAWN_RATE = 50;
     private static final float GREY_BOX_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 20;
-    private static final float GREY_BOX_LEVEL_APPEARANCE = 1;
+    private static final float GREY_BOX_LEVEL_APPEARANCE = 5;
 
     private static EnemySpawnTable instance;
     private SpawnTableCollection spawnTableCollection;
