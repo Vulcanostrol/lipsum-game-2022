@@ -2,8 +2,6 @@ package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
-import gamejam.TextureStore;
-import gamejam.objects.Entity;
 import gamejam.objects.collidable.explosion.BombExplosion;
 
 public class Bomb extends Entity {
