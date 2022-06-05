@@ -221,6 +221,9 @@ public class Room {
         if (this.isStartRoom == null) {
             this.isStartRoom = isStartRoom;
         }
+        if (this.isStartRoom) {
+            isUpgradeRoom = false;
+        }
 
         // Setup base room tiles
         int max_tile_x = tiles.length - 1;
