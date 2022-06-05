@@ -15,8 +15,8 @@ import java.util.stream.Stream;
  * Bomby boi shoots bombs and teleports all over the map just to annoy you
  */
 public class CannonEnemy extends AbstractEnemy {
-    public static final float FIRE_RATE = 3000;
-    public static final float TELEPORT_SPEED = 3000;
+    public static final float FIRE_RATE = 1000;
+    public static final float TELEPORT_SPEED = 300;
     private final Texture teleportRedSprite;
     private final Texture teleportBlueSprite;
 
@@ -33,7 +33,7 @@ public class CannonEnemy extends AbstractEnemy {
     private Random random;
 
     public CannonEnemy(float initialX, float initialY) {
-        super(initialX, initialY, 20*5, 15*5, 18*5, 13*5, 30);
+        super(initialX, initialY, 20*5, 15*5, 18*5, 13*5, 200);
         this.sprite = new Texture("entity/cannon.png");
         this.teleportBlueSprite = new Texture("entity/teleport_blue.png");
         this.teleportRedSprite = new Texture("entity/teleport_red.png");

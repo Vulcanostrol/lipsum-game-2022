@@ -16,9 +16,9 @@ public class EnemySpawnTable<E> {
     private static final float PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 10;
     private static final float PYRAMID_LEVEL_APPEARANCE = 2;
 
-    private static final float CANNON_ENEMY_BASE_SPAWN_RATE = 200;
+    private static final float CANNON_ENEMY_BASE_SPAWN_RATE = 20;
     private static final float CANNON_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 10;
-    private static final float CANNON_LEVEL_APPEARANCE = 0;
+    private static final float CANNON_LEVEL_APPEARANCE = 3;
 
     private static EnemySpawnTable instance;
     private SpawnTableCollection spawnTableCollection;
