@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import gamejam.event.events.MousePressEvent;
 import gamejam.config.RoomConfiguration;
+import gamejam.event.events.MouseEvent;
+import gamejam.rooms.RoomConfiguration;
 
 import java.util.Random;
 

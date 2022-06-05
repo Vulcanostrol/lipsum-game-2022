@@ -7,6 +7,7 @@ import gamejam.TextureStore;
 import gamejam.event.EventQueue;
 import gamejam.event.events.CollisionEvent;
 import gamejam.event.events.RoomChangeEvent;
+import gamejam.event.events.ScoreEvent;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.rooms.Room;
@@ -68,6 +69,10 @@ public class Door extends Collidable {
                     room.cleared = true;
                     EventQueue.getInstance().invoke(new RoomChangeEvent(direction, true));
                 } else {
+                    if(!room.cleared){
+                        room.cleared = true;
+                        EventQueue.getInstance().invoke(new ScoreEvent(100));
+                    }
                     EventQueue.getInstance().invoke(new RoomChangeEvent(direction, false));
                 }
                 collided = true;
