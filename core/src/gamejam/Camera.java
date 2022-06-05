@@ -2,6 +2,7 @@ package gamejam;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.config.RoomConfiguration;
@@ -59,6 +60,31 @@ public class Camera {
         draw(tr, x, y, width, height, false, false);
     }
 
+
+    public void spriteDraw(Sprite s, float x, float y, float width, float height, boolean flipX, boolean flipY){
+        x-=width/2;
+        float newWidth = width * factorX * windowFactorX;
+        float newHeight = height * factorY * windowFactorY;
+
+        float newX = (x + movementOffsetX + shakeX) * factorX * windowFactorX;
+        if(this.flipX){
+            newX = ((START_WIDTH-x-newWidth/windowFactorX) + movementOffsetX + shakeX) * factorX * windowFactorX;
+        }
+        float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
+        s.setX(newX);
+        s.setY(newY);
+        s.setSize(newWidth, newHeight);
+//        s.setRegion(newX, newY, newWidth, newHeight);
+//        float newOriginY = newHeight; // Origin on the bottom.
+        s.setOrigin(newWidth/2f, 0);
+        s.setScale((this.flipX ^ flipX) ? -1f : 1f, flipY ? -1f : 1f);
+
+        s.draw(spriteBatch);
+
+        System.out.println("drawing sprite");
+    }
+
+
     public void draw(TextureRegion region, float x, float y, float width, float height, boolean flipX, boolean flipY){
         float newWidth = width * factorX * windowFactorX;
         float newHeight = height * factorY * windowFactorY;
@@ -69,7 +95,7 @@ public class Camera {
         }
         float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
         float newOriginX = newWidth / 2f; // Origin in middle.
-        float newOriginY = newHeight; // Origin on the bottom.
+//        float newOriginY = newHeight; // Origin on the bottom.
         float xScale = (this.flipX ^ flipX) ? -1f : 1f;
         float yScale = flipY ? -1f : 1f;
         spriteBatch.draw(region, newX, newY, newOriginX, 0, newWidth, newHeight, xScale, yScale, 0f);
@@ -150,11 +176,12 @@ public class Camera {
         timingCounter += deltaTimeMillis;
         updateMovement(deltaTimeMillis);
         updateLoop();
-
         spriteBatch.begin();
+        spriteBatch.enableBlending();
     }
 
     public void end(){
+//        spriteBatch.disableBlending();
         spriteBatch.end();
     }
 
