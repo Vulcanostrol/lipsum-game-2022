@@ -80,6 +80,8 @@ public class Explosion extends Collidable {
     public void draw(Camera camera) {
         TextureRegion[] keyFrames = animation.getKeyFrames();
         int frame = Math.min(keyFrames.length - 1, (keyFrames.length - 1) - ((int) (keyFrames.length * (timeLeft / durationMS))));
+        frame = Math.min(frame, keyFrames.length-1);
+        frame = Math.max(0, frame);
         currentSprite = keyFrames[frame];
 
         camera.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight, false, false);
