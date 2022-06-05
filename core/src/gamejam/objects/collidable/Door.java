@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
 import gamejam.GameManager;
 import gamejam.TextureStore;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.EventQueue;
 import gamejam.event.events.CollisionEvent;
 import gamejam.event.events.RoomChangeEvent;
@@ -69,12 +70,12 @@ public class Door extends Collidable {
                 Room room = GameManager.getInstance().getCurrentLevel().getCurrentRoom();
                 if (!room.cleared && room.isUpgradeRoom) {
                     room.cleared = true;
-                    EventQueue.getInstance().invoke(new ScoreEvent(100));
+                    EventQueue.getInstance().invoke(new ScoreEvent(ScoreConfiguration.NEXT_ROOM));
                     EventQueue.getInstance().invoke(new RoomChangeEvent(direction, true));
                 } else {
                     if(!room.cleared){
                         room.cleared = true;
-                        EventQueue.getInstance().invoke(new ScoreEvent(100));
+                        EventQueue.getInstance().invoke(new ScoreEvent(ScoreConfiguration.NEXT_ROOM));
                     }
                     EventQueue.getInstance().invoke(new RoomChangeEvent(direction, false));
                 }

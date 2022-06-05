@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -59,6 +60,11 @@ public class DroneEnemy extends AbstractEnemy {
 
         playerMoveEventEventConsumer = this::onPlayerMoveEvent;
         EventQueue.getInstance().registerConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
+    }
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.DRONE;
     }
 
     public void onCollisionEvent(CollisionEvent collisionEvent) {

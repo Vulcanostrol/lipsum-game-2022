@@ -1,6 +1,7 @@
 package gamejam.objects.collidable.bullets;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import gamejam.event.events.CollisionEvent;
 import gamejam.objects.Damageable;
 import gamejam.objects.collidable.Player;
@@ -11,6 +12,7 @@ public class PyramidBullet extends Bullet {
         super(x, y, xVelocity, yVelocity, damage, bulletSize);
         damagePlayer = true;
         sprite = new Texture("bullet_pyramid.png");
+        spriteInsteadOfTexture = new Sprite(sprite);
     }
 
     @Override
