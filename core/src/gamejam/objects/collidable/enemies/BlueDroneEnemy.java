@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -30,5 +31,10 @@ public class BlueDroneEnemy extends DroneEnemy {
 
         camera.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight, false, false);
         super.drawHitBox(camera);
+    }
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.BLUE_DRONE;
     }
 }

@@ -8,5 +8,11 @@ public class ScoreConfiguration {
     public static final int CANNON = 30;
     public static final int GOLDEN_PYRAMID = 40;
     public static final int GREY_BOX = 50;
+    public static final int BLUE_DRONE = 50;
+    public static final int HEX = 50;
+    public static final int RED_BOX = 50;
+    public static final int RED_DRONE = 50;
+    public static final int SPECIAL_HEX = 50;
+
 
 }

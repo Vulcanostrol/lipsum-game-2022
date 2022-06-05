@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.events.CollisionEvent;
 import gamejam.objects.collidable.bullets.PyramidBullet;
 
@@ -58,6 +59,11 @@ public class SpecialHexEnemy extends AbstractEnemy {
     private float frenzyTimer = FRENZY_MAX_COOLDOWN;
 
     private boolean lookingLeft = false;
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.SPECIAL_HEX;
+    }
 
     public SpecialHexEnemy(float initialX, float initialY) {
         super(initialX, initialY, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, MAX_HEALTH);

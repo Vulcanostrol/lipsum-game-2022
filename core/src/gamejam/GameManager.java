@@ -16,6 +16,7 @@ import gamejam.levels.Level;
 import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
 import gamejam.rooms.EnemySpawnTable;
+import gamejam.ui.DeathMenu;
 import gamejam.ui.MenuManager;
 
 import java.util.ArrayList;
@@ -82,8 +83,9 @@ public class GameManager {
             ChipManager.getInstance().resetChips();
             PlayerFactory.getInstance().getPlayer().hardDisposePlayer();
             EntityFactory.getInstance().recursiveRemoveManagedObjects();
-            EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.MAIN_MENU));
+            EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.DEATH_MENU));
             gameActive = false;
+            DeathMenu.scoreToDisplay = score;
             score = 0;
         }
     }
