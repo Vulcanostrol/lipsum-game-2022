@@ -65,7 +65,7 @@ public class Level {
 
         outerRoom.setFinalRoom();
 
-        currentRoom.setup();
+        currentRoom.setup(true);
         currentRoom.isUpgradeRoom = false;
     }
 
@@ -115,7 +115,7 @@ public class Level {
         }
         if (newRoom != null) {
             currentRoom = newRoom;
-            currentRoom.setup();
+            currentRoom.setup(false);
             return true;
         } else {
             System.err.println("Trying to move to a location where there is no room! Direction: ");
