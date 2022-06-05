@@ -2,7 +2,6 @@ package gamejam.chips;
 
 import gamejam.chips.effects.*;
 
-import java.awt.geom.FlatteningPathIterator;
 import java.util.Random;
 
 public class RandomChip extends Chip {
