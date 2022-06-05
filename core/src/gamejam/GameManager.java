@@ -1,6 +1,8 @@
 package gamejam;
 
 import gamejam.chips.ChipManager;
+import gamejam.config.LevelConfiguration;
+import gamejam.config.RoomConfiguration;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -11,11 +13,9 @@ import gamejam.factories.EntityFactory;
 import gamejam.factories.PlayerFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
-import gamejam.levels.LevelConfiguration;
 import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
 import gamejam.rooms.EnemySpawnTable;
-import gamejam.rooms.RoomConfiguration;
 import gamejam.ui.MenuManager;
 
 import java.util.ArrayList;

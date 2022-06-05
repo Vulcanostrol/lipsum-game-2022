@@ -3,6 +3,7 @@ package gamejam.rooms;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
 import gamejam.TextureStore;
+import gamejam.config.RoomConfiguration;
 
 public class WallTile extends RoomTile {
 

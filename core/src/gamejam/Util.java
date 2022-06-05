@@ -1,6 +1,6 @@
 package gamejam;
 
-import gamejam.levels.LevelConfiguration;
+import gamejam.config.LevelConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;

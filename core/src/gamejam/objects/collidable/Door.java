@@ -1,6 +1,5 @@
 package gamejam.objects.collidable;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
 import gamejam.GameManager;
@@ -12,7 +11,7 @@ import gamejam.event.events.ScoreEvent;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.rooms.Room;
-import gamejam.rooms.RoomConfiguration;
+import gamejam.config.RoomConfiguration;
 
 public class Door extends Collidable {
 
@@ -40,11 +39,14 @@ public class Door extends Collidable {
         switch (this.direction) {
             // TODO: North draw code?
             case NORTH:
-            case WEST:
-                camera.draw(this.sprite, this.x - this.spriteWidth / 2, this.y, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT);
+                camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false, false);
                 break;
+            case WEST:
+                //same as SOUTH
+//                camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y + this.spriteHeight, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false, true);
+//                break;
             case SOUTH:
-                camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y - this.spriteHeight, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false ,true);
+                camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y + this.spriteHeight, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false ,true);
                 break;
             case EAST:
                 camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, true, false);

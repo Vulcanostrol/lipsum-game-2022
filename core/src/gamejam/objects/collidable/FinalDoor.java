@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.GameManager;
 import gamejam.Camera;
 import gamejam.TextureStore;
+import gamejam.config.RoomConfiguration;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -18,7 +19,6 @@ import gamejam.levels.Direction;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
 import gamejam.rooms.Room;
-import gamejam.rooms.RoomConfiguration;
 
 public class FinalDoor extends Collidable {
 
