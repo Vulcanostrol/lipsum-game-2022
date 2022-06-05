@@ -1,6 +1,7 @@
 package gamejam.objects.collidable.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
+import gamejam.Camera;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -99,5 +100,12 @@ public class DroneEnemy extends AbstractEnemy {
         super.onDispose();
         EventQueue eventQueue = EventQueue.getInstance();
         eventQueue.deregisterConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
+    }
+
+    @Override
+    public void draw(Camera camera) {
+        super.draw(camera); // draw health bar (abstract enemy)
+        camera.draw(this.sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);
+        super.drawHitBox(camera);
     }
 }
