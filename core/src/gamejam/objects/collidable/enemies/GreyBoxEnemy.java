@@ -41,12 +41,14 @@ public class GreyBoxEnemy extends AbstractEnemy {
 
     private static Texture baseSpriteSheet = null;
     private static Texture chargingSpriteSheet = null;
+    private static Texture shootingSpriteSheet = null;
     private final Random random;
     private TextureRegion currentSprite;
 
     private static final float FRAME_DURATION = 0.1f;
     private  Animation<TextureRegion> baseAnimation;
     private  Animation<TextureRegion> chargingAnimation;
+    private  Animation<TextureRegion> shootingAnimation;
 
     private float angle = 0.0f;
     private boolean charging;
@@ -67,6 +69,9 @@ public class GreyBoxEnemy extends AbstractEnemy {
         if (chargingSpriteSheet == null) {
             chargingSpriteSheet = new Texture("entity/grey_box_charging.png");
         }
+        if (shootingSpriteSheet == null) {
+            shootingSpriteSheet = new Texture("entity/grey_box_shooting.png");
+        }
 
         charging = false;
         random = new Random();
@@ -80,6 +85,9 @@ public class GreyBoxEnemy extends AbstractEnemy {
 
         TextureRegion[] chargingFrames = TextureRegion.split(chargingSpriteSheet, TILE_WIDTH, TILE_HEIGHT)[0];
         chargingAnimation = new Animation<>(FRAME_DURATION, chargingFrames);
+
+        TextureRegion[] shootingFrames = TextureRegion.split(shootingSpriteSheet, TILE_WIDTH, TILE_HEIGHT)[0];
+        shootingAnimation = new Animation<>(FRAME_DURATION, shootingFrames);
     }
 
     @Override
@@ -87,6 +95,8 @@ public class GreyBoxEnemy extends AbstractEnemy {
         super.draw(camera); // draw health bar (abstract enemy)
         if (charging) {
             currentSprite = chargingAnimation.getKeyFrame(animationTime, true);
+        } else if (isShooting) {
+            currentSprite = shootingAnimation.getKeyFrame(animationTime, true);
         } else {
             currentSprite = baseAnimation.getKeyFrame(animationTime, true);
         }
