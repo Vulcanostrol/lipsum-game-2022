@@ -108,15 +108,17 @@ public class Camera {
     }
 
     public float getXfromEvent(MouseEvent event){
+        float currentWindowFactorX = Gdx.graphics.getWidth()/START_WIDTH;
         if(this.flipX){
-            return -((event.getScreenX() / (factorX*windowFactorX)) - movementOffsetX - START_WIDTH);
+            return -((event.getScreenX() / (factorX*currentWindowFactorX)) - movementOffsetX - START_WIDTH);
         } else {
-            return (event.getScreenX() / (factorX*windowFactorX)) - movementOffsetX;
+            return (event.getScreenX() / (factorX*currentWindowFactorX)) - movementOffsetX;
         }
     }
 
     public float getYfromEvent(MouseEvent event){
-        return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY;
+        float currentWindowFactorY = Gdx.graphics.getHeight()/START_HEIGHT;
+        return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*currentWindowFactorY)) - movementOffsetY;
     }
 
     private void updateHeight(){
