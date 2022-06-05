@@ -24,7 +24,7 @@ public class Camera {
 
     //debuffs
 
-    public static final int SHAKE_START = 10;
+    public static final int SHAKE_START = 5;
 
     private Random random;
 
