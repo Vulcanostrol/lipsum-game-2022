@@ -8,10 +8,12 @@ import gamejam.weapons.augmentation.BulletDamageAugmenter;
 public class BulletAmountEffect implements ChipEffect {
 
     private final int amount;
+    private final float damageMultiplier;
 
-    public BulletAmountEffect(int amount) {
+    public BulletAmountEffect(int amount, float damageMultiplier) {
         // TODO: Reduce damage to normalize by bullet amount?
         this.amount = amount;
+        this.damageMultiplier = damageMultiplier;
     }
 
     @Override
@@ -19,6 +21,8 @@ public class BulletAmountEffect implements ChipEffect {
         BulletAmountAugmenter augmenter = new BulletAmountAugmenter(amount);
         Player player = PlayerFactory.getInstance().getPlayer();
         player.getWeapon().applyAugmentation(augmenter);
+        BulletDamageAugmenter damageAugmenter = new BulletDamageAugmenter(damageMultiplier);
+        player.getWeapon().applyAugmentation(damageAugmenter);
     }
 
     @Override
@@ -31,6 +35,6 @@ public class BulletAmountEffect implements ChipEffect {
 
     @Override
     public String description() {
-        return "Fire more bullets!";
+        return "Fire more bullets, but decrease damage!";
     }
 }
