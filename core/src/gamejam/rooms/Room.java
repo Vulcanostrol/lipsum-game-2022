@@ -382,4 +382,8 @@ public class Room {
     public void setFinalRoom() {
         isFinalRoom = true;
     }
+
+    public boolean isFinalRoom() {
+        return isFinalRoom;
+    }
 }
