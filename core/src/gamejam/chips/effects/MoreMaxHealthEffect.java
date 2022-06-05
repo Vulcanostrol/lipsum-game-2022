@@ -6,6 +6,7 @@ import gamejam.objects.collidable.Player;
 public class MoreMaxHealthEffect implements ChipEffect {
 
     private final float multiplier;
+    private float added;
 
     public MoreMaxHealthEffect(float multiplier) {
         this.multiplier = multiplier;
@@ -15,6 +16,7 @@ public class MoreMaxHealthEffect implements ChipEffect {
     public void apply() {
         Player player = PlayerFactory.getInstance().getPlayer();
         float extraHealth = (multiplier - 1f) * player.getMaxHealth();
+        added += extraHealth;
         player.addMaxHealth(extraHealth);
         player.heal(extraHealth);
     }
@@ -25,6 +27,9 @@ public class MoreMaxHealthEffect implements ChipEffect {
 
     @Override
     public void dispose() {
+        Player player = PlayerFactory.getInstance().getPlayer();
+        player.addMaxHealth(-added);
+        player.heal(player.getMaxHealth());
     }
 
     @Override

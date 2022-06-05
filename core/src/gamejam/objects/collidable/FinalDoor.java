@@ -4,14 +4,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.GameManager;
 import gamejam.Camera;
+import gamejam.TextureStore;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.event.events.LevelChangeEvent;
+import gamejam.event.events.RoomChangeEvent;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
+import gamejam.rooms.Room;
 
 public class FinalDoor extends Collidable {
 
@@ -26,7 +30,7 @@ public class FinalDoor extends Collidable {
         super(80, 80, 80, 80);
         setPosition(x, y);
         setVelocity(0 ,0);
-        this.sprite = new Texture("terrain/finaldoor.png");
+        this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("finaldoor") : TextureStore.getTileTextureByName("finaldoor_vertical");
         this.direction = direction;
 
         collisionConsumer = this::onCollisionEvent;
@@ -53,7 +57,8 @@ public class FinalDoor extends Collidable {
     private void onPlayerCollidedWithThisFinalDoor() {
         if (!AbstractEnemyFactory.getInstance().getAllManagedObjects().findAny().isPresent()) {
             if (!collided) {
-                GameManager.getInstance().moveToNextLevel();
+                GameManager.getInstance().getCurrentLevel().getCurrentRoom().cleared = true;
+                EventQueue.getInstance().invoke(new LevelChangeEvent());
                 collided = true;
             }
         }

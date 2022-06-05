@@ -4,27 +4,19 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
-import gamejam.chips.BuffChip;
-import gamejam.chips.WeirdChip;
-import gamejam.chips.effects.SniperChip;
-import gamejam.event.EfficientCollisionHandler;
-import gamejam.chips.BulletChip;
-import gamejam.chips.ChipManager;
-import gamejam.event.EventConsumer;
-import gamejam.event.EventQueue;
-import gamejam.event.EventType;
+import gamejam.chips.*;
+import gamejam.event.*;
 import gamejam.event.events.KeyEvent;
+import gamejam.event.events.LevelChangeEvent;
+import gamejam.event.events.LevelChangeEvent;
+import gamejam.event.events.PlayerDeathEvent;
 import gamejam.factories.*;
 import gamejam.factories.bullets.BulletFactory;
 import gamejam.factories.bullets.PyramidEnemyBulletFactory;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.factories.enemies.DroneEnemyFactory;
 import gamejam.factories.enemies.PyramidEnemyFactory;
-import gamejam.objects.collidable.enemies.PyramidEnemy;
-import gamejam.ui.MainMenu;
-import gamejam.ui.MenuManager;
-import gamejam.ui.OptionsMenu;
-import gamejam.ui.PausedMenu;
+import gamejam.ui.*;
 
 public class Main extends Game {
 
@@ -43,6 +35,7 @@ public class Main extends Game {
 		DroneEnemyFactory.getInstance();
 		PyramidEnemyFactory.getInstance();
 		PyramidEnemyBulletFactory.getInstance();
+		EntityDeathManager.init();
 	}
 
 	private final MenuManager menuManager;
@@ -50,12 +43,14 @@ public class Main extends Game {
 	public Main() {
 		super();
 		menuManager = new MenuManager();
-		menuManager.registerMenu(new MainMenu());
-		menuManager.registerMenu(new OptionsMenu());
-		menuManager.registerMenu(new PausedMenu());
+		menuManager.registerMenu(new MainMenu());				// 0
+		menuManager.registerMenu(new OptionsMenu());			// 1
+		menuManager.registerMenu(new PausedMenu());				// 2
+		menuManager.registerMenu(new RoomFadeMenu());			// 3
+		menuManager.registerMenu(new RoomFadeUpgradeMenu());	// 4
+		menuManager.registerMenu(new LevelFadeUpgradeMenu());	// 5
+		menuManager.registerMenu(new IngameOverlayMenu());		// 6
 	}
-
-	boolean visible;
 
 	@Override
 	public void create () {
@@ -64,13 +59,13 @@ public class Main extends Game {
 		// Initiate the Efficient collision handler
 		EfficientCollisionHandler.getInstance();
 
-		menuManager.switchMenu(0);
+		menuManager.switchMenu(MenuManager.MAIN_MENU);
 
 		EventConsumer<KeyEvent> consumer = this::onKeyEvent;
 		EventQueue.getInstance().registerConsumer(consumer, EventType.KEY_EVENT);
  	}
 
-	 private void onKeyEvent(KeyEvent event) {
+	private void onKeyEvent(KeyEvent event) {
 		// Debugging tests
 		if (event.getKeyCode() == Input.Keys.NUM_1 && event.isKeyDown()) {
 			ChipManager.getInstance().activateChip(new BuffChip());
@@ -84,7 +79,22 @@ public class Main extends Game {
 		if (event.getKeyCode() == Input.Keys.NUM_4 && event.isKeyDown()) {
 			ChipManager.getInstance().activateChip(new BulletChip());
 		}
-	 }
+		if (event.getKeyCode() == Input.Keys.NUM_5 && event.isKeyDown()) {
+			ChipManager.getInstance().activateChip(new GodModeChip());
+		}
+		if (event.getKeyCode() == Input.Keys.NUM_0 && event.isKeyDown()) {
+			ChipManager.getInstance().resetChips();
+		}
+
+		// Events
+
+		if (event.getKeyCode() == Input.Keys.NUMPAD_1 && event.isKeyDown()) {
+			EventQueue.getInstance().invoke(new LevelChangeEvent());
+		}
+		if (event.getKeyCode() == Input.Keys.NUMPAD_2 && event.isKeyDown()) {
+			EventQueue.getInstance().invoke(new PlayerDeathEvent());
+		}
+	}
 
 	public void resize (int width, int height) {
 		menuManager.onResize(width, height);
@@ -105,6 +115,6 @@ public class Main extends Game {
 
 	@Override
 	public void dispose () {
-		menuManager.switchMenu(-1);
+		menuManager.switchMenu(MenuManager.NO_MENU);
 	}
 }

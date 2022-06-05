@@ -27,6 +27,10 @@ public class KeyHoldWatcher {
         }
     }
 
+    public void releaseAll() {
+        heldKeys.clear();
+    }
+
     public boolean isKeyHeld(int keyCode) {
         return heldKeys.getOrDefault(keyCode, false);
     }

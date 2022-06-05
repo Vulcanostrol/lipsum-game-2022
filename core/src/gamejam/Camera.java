@@ -24,10 +24,13 @@ public class Camera {
     private long updateMillis = 50;
 
     //debuffs
+
+    public static final int SHAKE_START = 10;
+
     private Random random;
 
     private int currentShake = 0;
-    private int shake = 10;
+    private int shake = SHAKE_START;
     private int shakeX = 0;
     private int shakeY = 0;
 
@@ -125,7 +128,9 @@ public class Camera {
     private void updateWidth(){
         factorX *= updateFactorX;
     }
+
     private void newMovementSpeeds() {
+        if (movementSpeed == 0) return;
         movementX = random.nextInt(movementSpeed);
         movementY = movementSpeed - movementX;
     }
@@ -195,9 +200,26 @@ public class Camera {
         shake = (int) (shake * multiplier);
     }
 
+    public void resetShake() {
+        shake = SHAKE_START;
+    }
+
     public void scale(float xScale, float yScale) {
         factorX *= xScale;
         factorY *= yScale;
+    }
+
+    public void setScale(float xScale, float yScale) {
+        factorX = xScale;
+        factorY = yScale;
+    }
+
+    public void setScaleX(float scale) {
+        factorX = scale;
+    }
+
+    public void setScaleY(float scale) {
+        factorY = scale;
     }
 
     public float getWindowFactorX() {
@@ -214,6 +236,11 @@ public class Camera {
 
     public float getHeight() {
         return START_HEIGHT * factorY;
+    }
+
+    public void resetMovementOffset() {
+        movementOffsetX = 0;
+        movementOffsetY = 0;
     }
 
     public void addMovementOffset(float xAmount, float yAmount) {

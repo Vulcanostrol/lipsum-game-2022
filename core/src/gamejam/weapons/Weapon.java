@@ -60,4 +60,11 @@ public abstract class Weapon {
         damage += scale;
     }
 
+    public void addBulletAmount(int amount) {
+        this.bulletAmount += 1;
+    }
+
+    public float getDamage() {
+        return damage;
+    }
 }

@@ -2,13 +2,18 @@ package gamejam.objects.collidable.enemies;
 
 import gamejam.objects.Damageable;
 import gamejam.objects.collidable.SelfCollidable;
+import gamejam.objects.collidable.Traversable;
 
-public class AbstractEnemy extends SelfCollidable implements Damageable {
+public class AbstractEnemy extends SelfCollidable implements Damageable, Traversable {
 
     private final float maxHealth;
     private float health;
 
-    public AbstractEnemy(float initialX, float initialY, float spriteWidth, float spriteHeight, float collisionWidth, float collisionHeight, float maxHealth) {
+    public int spawnRate;
+    public int spawnRateMutate;
+
+    public AbstractEnemy(float initialX, float initialY, float spriteWidth, float spriteHeight, float collisionWidth,
+                         float collisionHeight, float maxHealth) {
         super(spriteWidth, spriteHeight, collisionWidth, collisionHeight);
         this.x = initialX;
         this.y = initialY;
@@ -23,6 +28,11 @@ public class AbstractEnemy extends SelfCollidable implements Damageable {
             // DEATH
             despawn();
         }
+    }
+
+    @Override
+    public void update(float timeDeltaMillis) {
+        super.update(timeDeltaMillis);
     }
 
     @Override

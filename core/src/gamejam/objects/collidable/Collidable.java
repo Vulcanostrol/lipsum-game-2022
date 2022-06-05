@@ -34,13 +34,15 @@ public abstract class Collidable extends Entity {
         this.hitBoxRedTexture = new Texture("HitboxRed.png");
         this.hitBoxGreenTexture = new Texture("HitboxGreen.png");
 
-
         this.collisions = new ArrayList<>();
     }
 
     @Override
     public void update(float timeDeltaMillis){
         super.update(timeDeltaMillis);
+    }
+
+    public void afterDraw() {
         resetCollisions();
     }
 
@@ -60,12 +62,11 @@ public abstract class Collidable extends Entity {
     }
 
     protected void drawHitBox(Camera camera){
-        if (hasCollided) {
-            camera.draw(hitBoxRedTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
-        } else {
-            camera.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
-        }
-        resetCollisions();
+//        if (hasCollided) {
+//            camera.draw(hitBoxRedTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
+//        } else {
+//            camera.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
+//        }
     }
 
 

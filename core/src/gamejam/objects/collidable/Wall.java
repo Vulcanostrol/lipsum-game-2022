@@ -1,15 +1,9 @@
-package gamejam.objects;
+package gamejam.objects.collidable;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Camera;
-import gamejam.event.EventConsumer;
-import gamejam.event.EventQueue;
-import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
-import gamejam.objects.collidable.Collidable;
-import gamejam.objects.collidable.Player;
 
-public class Wall extends Collidable {
+public class Wall extends SelfCollidable {
 
 
     public Wall(float x, float y, float width, float height) {

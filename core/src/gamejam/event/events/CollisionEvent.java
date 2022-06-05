@@ -25,4 +25,12 @@ public class CollisionEvent implements Event {
     public Collidable getCollidesWith() {
         return collidesWith;
     }
+
+    @Override
+    public String toString() {
+        return "CollisionEvent{" +
+                "collidingObject=" + collidingObject +
+                ", collidesWith=" + collidesWith +
+                '}';
+    }
 }

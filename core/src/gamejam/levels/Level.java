@@ -1,12 +1,9 @@
 package gamejam.levels;
 
-import com.badlogic.gdx.Game;
-import gamejam.GameManager;
 import gamejam.Camera;
 import gamejam.Util;
-import gamejam.factories.EntityFactory;
 import gamejam.factories.WallFactory;
-import gamejam.objects.Wall;
+import gamejam.objects.collidable.Wall;
 import gamejam.rooms.Room;
 import gamejam.rooms.RoomConfiguration;
 
@@ -68,6 +65,7 @@ public class Level {
         outerRoom.setFinalRoom();
 
         currentRoom.setup();
+        currentRoom.isUpgradeRoom = false;
     }
 
     /**
@@ -119,9 +117,13 @@ public class Level {
             currentRoom.setup();
             return true;
         } else {
-            System.err.println("Trying to move to a location where there is no room! Direction: " + direction.toString());
+            System.err.println("Trying to move to a location where there is no room! Direction: ");
             return false;
         }
+    }
+
+    public void spawnEnemies(float currentSpawnRate) {
+        currentRoom.spawnEnemies(currentSpawnRate);
     }
 
     private void initializeWallCollisionBoxes() {
@@ -170,4 +172,7 @@ public class Level {
         }
     }
 
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
 }

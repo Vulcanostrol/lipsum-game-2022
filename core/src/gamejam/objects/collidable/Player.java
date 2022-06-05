@@ -1,10 +1,8 @@
 package gamejam.objects.collidable;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
 import gamejam.GameManager;
@@ -20,13 +18,15 @@ import gamejam.objects.Damageable;
 import gamejam.weapons.BasicWeapon;
 import gamejam.weapons.Weapon;
 
-import java.util.Random;
 
 /**
  * The player entity. Is NOT meant to hold the inventory etc!
  */
-public class Player extends SelfCollidable implements Damageable {
-    public static final float SPEED = 300f;
+public class Player extends SelfCollidable implements Damageable, Traversable {
+
+    public static final float BASE_SPEED = 300f;
+
+    private float speed;
 
     private final KeyHoldWatcher keyHoldWatcher;
     private boolean lookingLeft = false;
@@ -49,6 +49,7 @@ public class Player extends SelfCollidable implements Damageable {
         this.y = y;
         this.keyHoldWatcher = new KeyHoldWatcher();
         spriteSheet = new Texture("entity/Robot.png");
+        this.speed = BASE_SPEED;
 
         mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
@@ -79,7 +80,7 @@ public class Player extends SelfCollidable implements Damageable {
             dy -= 1;
         }
 
-        super.setVelocity(SPEED * dx, SPEED * dy);
+        super.setVelocity(speed * dx, speed * dy);
 
         /* publish new position to listeners */
         if (Math.abs(dx) > 0.0f || Math.abs(dy) > 0.0f) {
@@ -104,11 +105,6 @@ public class Player extends SelfCollidable implements Damageable {
         // TODO: Translate the screen coordinates of the mouse to world coordinates.
         float dx = GameManager.getInstance().getCamera().getXfromEvent(event) - getX();
         float dy = GameManager.getInstance().getCamera().getYfromEvent(event) - getY();
-        System.out.println("press");
-        System.out.println(event.getScreenX());
-        System.out.println(event.getScreenY());
-        System.out.println(getX());
-        System.out.println(getY());
         weapon.fire(this.x, this.y, dx, dy);
     }
 
@@ -141,13 +137,26 @@ public class Player extends SelfCollidable implements Damageable {
 
     public void addMaxHealth(float hp) {
         maxHealth += hp;
-        System.out.println("new: " + maxHealth);
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void addSpeed(float speed) {
+        this.speed += speed;
     }
 
     @Override
     public void onDispose() {
         super.onDispose();
-        keyHoldWatcher.dispose();
+        // We intentionally do not do anything here anymore, because the player persists between rooms / levels. We only
+        // reset the input handling.
+        keyHoldWatcher.releaseAll();
+    }
+
+    public void hardDisposePlayer() {
+        // Here, we DO dispose stuff, because the whole game is resetting.
         EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
     }
 

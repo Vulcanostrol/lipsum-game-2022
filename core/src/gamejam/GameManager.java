@@ -1,18 +1,31 @@
 package gamejam;
 
+import gamejam.chips.ChipManager;
+import gamejam.event.EventConsumer;
+import gamejam.event.EventQueue;
+import gamejam.event.EventType;
+import gamejam.event.events.MenuChangeEvent;
+import gamejam.event.events.PlayerDeathEvent;
 import gamejam.factories.EntityFactory;
+import gamejam.factories.PlayerFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
+import gamejam.levels.LevelConfiguration;
+import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
-import gamejam.objects.collidable.TestEntity;
-import gamejam.objects.collidable.enemies.DroneEnemy;
 import gamejam.rooms.RoomConfiguration;
+import gamejam.ui.MenuManager;
 
 import java.util.ArrayList;
 
 public class GameManager {
 
     private static GameManager instance = null;
+    private ArrayList<Level> levels = new ArrayList<>();
+    private Level currentLevel;
+    private int currentNLevel;
+    private long previousTime;
+    private Camera camera;
 
     public static GameManager getInstance() {
         if (instance == null) {
@@ -28,6 +41,8 @@ public class GameManager {
 
         // Initialize a base level
         currentLevel = new Level();
+        currentNLevel = 1;
+        levels.clear();
         levels.add(currentLevel);
 
         camera = new Camera();
@@ -39,28 +54,45 @@ public class GameManager {
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
 
-        new DroneEnemy(400, 600);
+        EventConsumer<PlayerDeathEvent> consumer = this::resetEntireGame;
+        EventQueue.getInstance().registerConsumer(consumer, EventType.PLAYER_DEATH);
+    }
+
+    private void resetEntireGame(PlayerDeathEvent event) {
+        if (gameActive) {
+            ChipManager.getInstance().resetChips();
+            PlayerFactory.getInstance().getPlayer().hardDisposePlayer();
+            EntityFactory.getInstance().recursiveRemoveManagedObjects();
+            EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.MAIN_MENU));
+            gameActive = false;
+        }
+    }
+
+    public void spawnEnemies() {
+        float currentSpawnRate = LevelConfiguration.SPAWN_RATE * currentNLevel * LevelConfiguration.SPAWN_RATE_GROWTH;
+        if (currentLevel != null) {
+            currentLevel.spawnEnemies(currentSpawnRate);
+        }
     }
 
     public void moveToNextLevel() {
+        Player player = PlayerFactory.getInstance().getPlayer();
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         currentLevel = new Level();
+        currentNLevel += 1;
         levels.add(currentLevel);
 
         // Entity creation
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
-        new Player(newPlayerX, newPlayerY);
-
-        new DroneEnemy(400, 600);
+        PlayerFactory.getInstance().addManagedObject(player);
+        player.setPosition(newPlayerX, newPlayerY);
     }
 
     public void moveToRoomByDirection(Direction direction) {
+        Player player = PlayerFactory.getInstance().getPlayer();
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         boolean success = currentLevel.moveToRoomByDirection(direction);
-
-//        PlayerFactory.getInstance().removeManagedObjects();
-//        TestEntityFactory.getInstance().removeManagedObjects();
 
         if (success) {
             double newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
@@ -84,19 +116,14 @@ public class GameManager {
                     newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * (RoomConfiguration.ROOM_TILE_HEIGHT - 2);
                     break;
             }
-
             // Entity creation
-            Player player = new Player((float) newPlayerX,(float) newPlayerY);
-            TestEntity e1 = new TestEntity(100, 200);
-            TestEntity e2 = new TestEntity(100, 250);
-            TestEntity e3 = new TestEntity(500, 200, 0, 0);
+            PlayerFactory.getInstance().addManagedObject(player);
+            player.setVelocity(0, 0);
+            player.setPosition((float) newPlayerX,(float) newPlayerY);
+        } else {
+            System.err.println("Tried to move to an invalid room location. Staying in the current room(?)");
         }
     }
-
-    private ArrayList<Level> levels = new ArrayList<>();
-    private Level currentLevel;
-    private long previousTime;
-    private Camera camera;
 
     public void draw() {
         if (!gameActive) return;
@@ -113,9 +140,20 @@ public class GameManager {
         currentLevel.render(camera);
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
         camera.end();
+
+        // After draw (don't question, just believe)
+        EntityFactory.getInstance().getAllManagedObjects().forEach(Entity::afterDraw);
     }
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public int getCurrentNLevel() {
+        return currentNLevel;
+    }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
     }
 }

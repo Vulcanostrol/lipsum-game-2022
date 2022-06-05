@@ -21,6 +21,8 @@ public class ScreenShakeEffect implements ChipEffect {
 
     @Override
     public void dispose() {
+        GameManager.getInstance().getCamera().resetShake();
+        GameManager.getInstance().getCamera().resetMovementOffset();
     }
 
     @Override

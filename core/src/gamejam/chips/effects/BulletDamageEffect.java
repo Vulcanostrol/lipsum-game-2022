@@ -7,15 +7,27 @@ import gamejam.weapons.augmentation.BulletSizeAugmenter;
 
 public class BulletDamageEffect implements ChipEffect {
 
-    private final float strength;
+    private final Float strength;
+    private final Integer strengthInt;
 
     public BulletDamageEffect(float strength) {
         this.strength = strength;
+        this.strengthInt = null;
+    }
+
+    public BulletDamageEffect(int strengthInt) {
+        this.strengthInt = strengthInt;
+        this.strength = null;
     }
 
     @Override
     public void apply() {
-        BulletDamageAugmenter augmenter = new BulletDamageAugmenter(strength);
+        BulletDamageAugmenter augmenter;
+        if (strength != null) {
+            augmenter = new BulletDamageAugmenter(strength);
+        } else {
+            augmenter = new BulletDamageAugmenter(strengthInt);
+        }
         Player player = PlayerFactory.getInstance().getPlayer();
         player.getWeapon().applyAugmentation(augmenter);
     }

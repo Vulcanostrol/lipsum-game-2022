@@ -1,18 +1,27 @@
 package gamejam.rooms;
 
 import gamejam.Camera;
+import gamejam.GameManager;
 import gamejam.Util;
+import gamejam.factories.CollidableFactory;
+import gamejam.factories.enemies.AbstractEnemyFactory;
+import gamejam.factories.enemies.PyramidEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
+import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Door;
 import gamejam.objects.collidable.FinalDoor;
 import gamejam.objects.collidable.Pillar;
+import gamejam.objects.collidable.enemies.AbstractEnemy;
 import gamejam.objects.collidable.enemies.PyramidEnemy;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class Room {
     // Assuming 1920x1080
@@ -32,10 +41,10 @@ public class Room {
     public Room westRoom;
 
     public boolean visited;
+    public boolean cleared;
+    public boolean isUpgradeRoom;
 
     private boolean isFinalRoom;
-
-    private boolean isUpgradeRoom;
 
     private static Random random = new Random(LevelConfiguration.SEED);
 
@@ -50,10 +59,7 @@ public class Room {
         this.levelY = levelY;
         this.levelParent = levelParent;
 
-        eastRoom = levelParent.rooms[levelX + 1][levelY];
-        westRoom = levelParent.rooms[levelX - 1][levelY];
-        northRoom = levelParent.rooms[levelX][levelY + 1];
-        southRoom = levelParent.rooms[levelX][levelY - 1];
+        this.updateNeighbourRooms();
 
         int i = 0;
         while(i<RoomConfiguration.MAX_PILLARS){
@@ -76,6 +82,13 @@ public class Room {
                 pillars[x][y]=true;
             }
         }
+    }
+
+    public void updateNeighbourRooms() {
+        eastRoom = levelParent.rooms[levelX + 1][levelY];
+        westRoom = levelParent.rooms[levelX - 1][levelY];
+        northRoom = levelParent.rooms[levelX][levelY + 1];
+        southRoom = levelParent.rooms[levelX][levelY - 1];
     }
 
     public void grow(int nNewRoomsLeft, Direction growthDirection) {
@@ -144,7 +157,6 @@ public class Room {
         List<Direction> possibleBranchDirections = getPossibleBranchDirections();
 
         // 80% chance to continue in current direction
-        // TODO: Check if there are no rooms blocking
         if (random.nextFloat() > (1 - LevelConfiguration.STRAIGHTNESS_FACTOR)) {
             if (possibleBranchDirections.contains(growthDirection)) {
                 grow(nNewRoomsLeft, growthDirection);
@@ -201,6 +213,7 @@ public class Room {
     }
 
     public void setup() {
+        this.updateNeighbourRooms();
         Direction finalDoorDirection = null;
         if (isFinalRoom) {
             List<Direction> possibleDirections = getPossibleBranchDirections();
@@ -301,7 +314,44 @@ public class Room {
         if (!visited) {
             visited = true;
             // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
-            new PyramidEnemy(200, 200);
+            GameManager.getInstance().spawnEnemies();
+        }
+    }
+
+    public void spawnEnemies(float currentSpawnRate) {
+        for (int i = 1; i < tiles.length - 1; i++) {
+            for (int j = 1; j < tiles[0].length - 1; j++) {
+                if (pillars[i][j]) {
+                    continue;
+                }
+
+                int xOffset = Math.round(random.nextFloat() * RoomConfiguration.TILE_PIXEL_WIDTH / 2) - RoomConfiguration.TILE_PIXEL_WIDTH / 2;
+                int yOffset = Math.round(random.nextFloat() * RoomConfiguration.TILE_PIXEL_HEIGHT / 2) - RoomConfiguration.TILE_PIXEL_HEIGHT / 2;
+
+                if (random.nextFloat() < currentSpawnRate) {
+                    ArrayList<Class<? extends AbstractEnemy>> spawnTable = EnemySpawnTable.getInstance().getSpawnTable();
+                    Class<? extends AbstractEnemy> cls = spawnTable.get(Math.round(random.nextFloat() * (spawnTable.size() - 1)));
+                    AbstractEnemy potentialNewEnemy = null;
+                    try {
+                        float spawnX = (float) i * RoomConfiguration.TILE_PIXEL_WIDTH + xOffset;
+                        float spawnY = (float) j * RoomConfiguration.TILE_PIXEL_HEIGHT + yOffset;
+                        potentialNewEnemy = cls.getDeclaredConstructor(float.class, float.class).newInstance(spawnX, spawnY);
+                        AbstractEnemy finalPotentialNewEnemy = potentialNewEnemy;
+                        Stream<Collidable> collidedEnemies = CollidableFactory.getInstance().getAllManagedObjects().filter(collidable -> collidable.checkCollision(finalPotentialNewEnemy));
+                        if (collidedEnemies.count() >= 2) {
+                            potentialNewEnemy.despawn();
+                        }
+                    } catch (InstantiationException e) {
+                        throw new RuntimeException(e);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    } catch (InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    } catch (NoSuchMethodException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
     }
 
