@@ -19,15 +19,17 @@ public class Door extends Collidable {
 
     private TextureRegion textureRegion;
     private boolean collided;
+    private final boolean upgradeWall;
 
-    public Door(float x, float y, Direction direction, boolean isUpgradeDoor) {
+    public Door(float x, float y, Direction direction, boolean isUpgradeDoor, boolean inUpgradeRoom) {
         super(RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, 80, 80);
+        upgradeWall = inUpgradeRoom;
         setPosition(x, y);
         setVelocity(0 ,0);
         if (isUpgradeDoor) {
-            this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("upgradedoor") : TextureStore.getTileTextureByName("upgradedoor_vertical");;
+            this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("upgradedoor" + upgradeRoomTextureSuffix()) : TextureStore.getTileTextureByName("upgradedoor_vertical" + upgradeRoomTextureSuffix());;
         } else {
-            this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("door") : TextureStore.getTileTextureByName("door_vertical");
+            this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("door" + upgradeRoomTextureSuffix()) : TextureStore.getTileTextureByName("door_vertical" + upgradeRoomTextureSuffix());
         }
         this.direction = direction;
         collided = false;
@@ -79,5 +81,9 @@ public class Door extends Collidable {
                 collided = true;
             }
         }
+    }
+
+    private String upgradeRoomTextureSuffix() {
+        return upgradeWall ? "_upgrade" : "";
     }
 }

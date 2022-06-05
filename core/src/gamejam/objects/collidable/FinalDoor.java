@@ -25,16 +25,17 @@ public class FinalDoor extends Collidable {
     private Direction direction;
 
     private boolean collided = false;
+    private final boolean upgradeWall;
 
     private EventConsumer<CollisionEvent> collisionConsumer;
     private TextureRegion textureRegion;
 
-    public FinalDoor
-            (float x, float y, Direction direction) {
+    public FinalDoor(float x, float y, Direction direction, boolean inUpgradeRoom) {
         super(80, 80, 80, 80);
         setPosition(x, y);
         setVelocity(0 ,0);
-        this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("finaldoor") : TextureStore.getTileTextureByName("finaldoor_vertical");
+        upgradeWall = inUpgradeRoom;
+        this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("finaldoor" + upgradeRoomTextureSuffix()) : TextureStore.getTileTextureByName("finaldoor_vertical" + upgradeRoomTextureSuffix());
         this.direction = direction;
 
         collisionConsumer = this::onCollisionEvent;
@@ -49,21 +50,18 @@ public class FinalDoor extends Collidable {
     @Override
     public void draw(Camera camera) {
         switch (this.direction) {
-            // TODO: North draw code?
             case NORTH:
             case WEST:
                 camera.draw(this.sprite, this.x - this.spriteWidth / 2, this.y, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT);
                 break;
             case SOUTH:
-                camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y - this.spriteHeight, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false ,true);
+                camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y + this.spriteHeight, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false ,true);
                 break;
             case EAST:
                 camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, true, false);
                 break;
         }
         super.drawHitBox(camera);
-//        super.draw(camera);
-//        camera.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
     }
 
     public void onCollisionEvent(CollisionEvent event) {
@@ -82,5 +80,9 @@ public class FinalDoor extends Collidable {
                 collided = true;
             }
         }
+    }
+
+    private String upgradeRoomTextureSuffix() {
+        return upgradeWall ? "_upgrade" : "";
     }
 }

@@ -16,6 +16,8 @@ public class Bullet extends Collidable implements Traversable {
 
     public final float BULLET_DESPAWN_RANGE = 5000;
 
+    public static float HEIGHT = 15;
+
     private float damage;
 
     private float alpha;
@@ -66,9 +68,15 @@ public class Bullet extends Collidable implements Traversable {
     @Override
     public void draw(Camera camera) {
         if(alpha > 0){
-            camera.spriteDraw(spriteInsteadOfTexture, x, y, spriteWidth, spriteHeight, false, false);
+            camera.spriteDraw(spriteInsteadOfTexture, x - spriteWidth / 2, y + HEIGHT, spriteWidth, spriteHeight, false, false);
         }
         super.drawHitBox(camera);
+        drawShadow(camera);
+    }
+
+    @Override
+    protected DropShadowType getDropShadowType() {
+        return DropShadowType.SMALL;
     }
 
     @Override
