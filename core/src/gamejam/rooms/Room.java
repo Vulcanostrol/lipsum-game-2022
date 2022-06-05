@@ -324,8 +324,8 @@ public class Room {
     }
 
     public void spawnEnemies(float currentSpawnRate) {
-        for (int i = 1; i < tiles.length - 1; i++) {
-            for (int j = 1; j < tiles[0].length - 1; j++) {
+        for (int i = 2; i < tiles.length - 2; i++) {
+            for (int j = 2; j < tiles[0].length - 2; j++) {
                 if (pillars[i][j]) {
                     continue;
                 }
