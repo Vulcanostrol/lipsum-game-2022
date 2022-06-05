@@ -2,7 +2,7 @@ package gamejam.event.events;
 
 import gamejam.event.EventType;
 
-public class MouseReleaseEvent extends MouseEvent {
+public class MouseReleaseEvent extends MouseButtonEvent {
 
     public MouseReleaseEvent(int xScreen, int yScreen, int button) {
         super(xScreen, yScreen, button);

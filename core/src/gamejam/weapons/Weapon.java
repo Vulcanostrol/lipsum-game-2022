@@ -18,14 +18,19 @@ public abstract class Weapon {
     protected int bulletAmount;
     protected float bulletAngleSpread;
 
+    // firing logic stuffs
+    protected int coolDownMs;
+    protected long lastFireTime = 0;
+
     protected Random random = new Random();
 
-    public Weapon(float damage, float bulletSpeed, float bulletSize, int bulletAmount, float bulletAngleSpread) {
+    public Weapon(float damage, float bulletSpeed, float bulletSize, int bulletAmount, float bulletAngleSpread, int coolDownMs) {
         this.damage = damage;
         this.bulletSpeed = bulletSpeed;
         this.bulletSize = bulletSize;
         this.bulletAmount = bulletAmount;
         this.bulletAngleSpread = bulletAngleSpread;
+        this.coolDownMs = coolDownMs;
         EventConsumer<WeaponFireEvent> consumer = this::onWeaponFire;
         EventQueue.getInstance().registerConsumer(consumer, EventType.WEAPON_FIRED);
     }
@@ -36,8 +41,19 @@ public abstract class Weapon {
         }
     }
 
-    public void fire(float originX, float originY, float xVelocity, float yVelocity) {
-        EventQueue.getInstance().invoke(new WeaponFireEvent(this));
+    /**
+     * Wanneer de {@link gamejam.objects.collidable.Player} isFiringWeapon true is, dan wordt deze methode aangeroepen.
+     * @return True als het wapen werd afgevuurd, anders false (cooldown tijd nog niet verstreken).
+     */
+    public boolean fire(float originX, float originY, float xVelocity, float yVelocity) {
+        final long now = System.currentTimeMillis();
+        if (now - this.lastFireTime > this.coolDownMs) {
+            this.lastFireTime = now;
+            EventQueue.getInstance().invoke(new WeaponFireEvent(this));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void applyAugmentation(WeaponAugmenter weaponAugmenter) {
@@ -66,5 +82,13 @@ public abstract class Weapon {
 
     public float getDamage() {
         return damage;
+    }
+
+    public int getCoolDownMs() {
+        return coolDownMs;
+    }
+
+    public void setCoolDownMs(int coolDownMs) {
+        this.coolDownMs = coolDownMs;
     }
 }
