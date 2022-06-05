@@ -79,8 +79,6 @@ public class Camera {
         s.setScale((this.flipX ^ flipX) ? -1f : 1f, flipY ? -1f : 1f);
 
         s.draw(spriteBatch);
-
-        System.out.println("drawing sprite");
     }
 
 
