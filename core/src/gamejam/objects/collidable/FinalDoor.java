@@ -50,21 +50,18 @@ public class FinalDoor extends Collidable {
     @Override
     public void draw(Camera camera) {
         switch (this.direction) {
-            // TODO: North draw code?
             case NORTH:
             case WEST:
                 camera.draw(this.sprite, this.x - this.spriteWidth / 2, this.y, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT);
                 break;
             case SOUTH:
-                camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y - this.spriteHeight, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false ,true);
+                camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y + this.spriteHeight, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, false ,true);
                 break;
             case EAST:
                 camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, true, false);
                 break;
         }
         super.drawHitBox(camera);
-//        super.draw(camera);
-//        camera.draw(sprite, x - collisionWidth / 2, y, spriteWidth, spriteHeight);
     }
 
     public void onCollisionEvent(CollisionEvent event) {
