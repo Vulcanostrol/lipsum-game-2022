@@ -112,6 +112,7 @@ public class GameManager {
         PlayerFactory.getInstance().addManagedObject(player);
         player.setPosition(newPlayerX, newPlayerY);
 
+        currentLevel.getCurrentRoom().removeEnemies();
     }
 
     public void moveToRoomByDirection(Direction direction) {
