@@ -12,6 +12,7 @@ public class ScoreConfiguration {
     public static final int HEX = 50;
     public static final int RED_BOX = 50;
     public static final int RED_DRONE = 50;
+    public static final int SPECIAL_HEX = 50;
 
 
 }
