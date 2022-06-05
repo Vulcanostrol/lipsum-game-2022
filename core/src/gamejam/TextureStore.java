@@ -22,6 +22,16 @@ public class TextureStore {
         textures.put("finaldoor_vertical", new Texture("terrain/finaldoor_vertical.png"));
         textures.put("health_bar_red", new Texture("healthbar/red_pixel.png"));
         textures.put("health_bar_green", new Texture("healthbar/green_pixel.png"));
+        // Upgrade rooms
+        textures.put("wall_upgrade", new Texture("terrain/wall_upgrade.png"));
+        textures.put("wall_vertical_upgrade", new Texture("terrain/wall_vertical_upgrade.png"));
+        textures.put("cornerwall_upgrade", new Texture("terrain/cornerwall_upgrade.png"));
+        textures.put("finaldoor_upgrade", new Texture("terrain/finaldoor_upgrade.png"));
+        textures.put("finaldoor_vertical_upgrade", new Texture("terrain/finaldoor_vertical_upgrade.png"));
+        textures.put("door_upgrade", new Texture("terrain/door_upgrade.png"));
+        textures.put("door_vertical_upgrade", new Texture("terrain/door_vertical_upgrade.png"));
+        textures.put("upgradedoor_upgrade", new Texture("terrain/upgradedoor_upgrade.png"));
+        textures.put("upgradedoor_vertical_upgrade", new Texture("terrain/upgradedoor_vertical_upgrade.png"));
     }
 
     public static Texture getTileTextureByName(String name) {
