@@ -11,23 +11,26 @@ import gamejam.objects.collidable.bullets.PyramidBullet;
 import java.util.Random;
 
 /**
- * An angry shooty boy
+ * An angry golden shooty boy
  */
-public class PyramidEnemy extends AbstractEnemy {
+public class GoldenPyramidEnemy extends AbstractEnemy {
 
-    public static final float BULLET_SPEED = 500;
-    public static final float MAX_FIRE_TIME = 2000.0f;
+    public static final float BULLET_SPEED = 550;
+    public static final float MAX_FIRE_TIME = 1750.0f;
+    public static final float MAX_HEALTH = 500;
+    public static final float DAMAGE = 30f;
+    public static final float BULLET_SIZE = 65f;
 
     public static final float ANGLE_ADJUST_SPEED =  0.0004f;
 
     public static final float BULLET_SPAWN_HEIGHT = 12.0f * 5;
-    private static final float MAX_RANGE = 1200.0f;
-    private static final float SPEED = 2.0f;
+    private static final float MAX_RANGE = 2200.0f;
+    private static final float SPEED = 1.0f;
 
-    public static final int SPRITE_WIDTH = 13 * 5;
-    public static final int SPRITE_HEIGHT = 24 * 5;
-    public static final int COLLISION_WIDTH = 11 * 5;
-    public static final int COLLISION_HEIGHT = 9 * 5;
+    public static final int SPRITE_WIDTH = 13 * 7;
+    public static final int SPRITE_HEIGHT = 24 * 7;
+    public static final int COLLISION_WIDTH = 11 * 7;
+    public static final int COLLISION_HEIGHT = 9 * 7;
 
     private static Texture spriteSheet = null;
     private final Random random;
@@ -43,11 +46,11 @@ public class PyramidEnemy extends AbstractEnemy {
 
     private boolean lookingLeft = false;
 
-    public PyramidEnemy(float initialX, float initialY) {
-        super(initialX, initialY, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, 100);
+    public GoldenPyramidEnemy(float initialX, float initialY) {
+        super(initialX, initialY, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, MAX_HEALTH);
 
         if (spriteSheet == null) {
-            spriteSheet = new Texture("entity/pyramid.png");
+            spriteSheet = new Texture("entity/golden_pyramid.png");
         }
 
        random = new Random();
@@ -74,7 +77,7 @@ public class PyramidEnemy extends AbstractEnemy {
         fireTimer -= timeDeltaMillis;
 
         if (canFire()) {
-            fireAtPlayer();
+            fire();
         }
 
         angle += timeDeltaMillis * ANGLE_ADJUST_SPEED * (random.nextFloat() - 0.5f) * 2.0f;
@@ -86,22 +89,12 @@ public class PyramidEnemy extends AbstractEnemy {
         super.update(timeDeltaMillis);
     }
 
-    private void fireAtPlayer() {
-        float playerX = PlayerFactory.getInstance().getPlayer().getX();
-        float playerY = PlayerFactory.getInstance().getPlayer().getY();
-
-        float dx = playerX - x;
-        float dy = playerY - (y + BULLET_SPAWN_HEIGHT);
-
-        float distance = (float) Math.sqrt(dx * dx + dy * dy);
-
-        if (distance != 0 && distance < MAX_RANGE) {
-            float vx = BULLET_SPEED * dx / distance;
-            float vy = BULLET_SPEED * dy / distance;
-
-            new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, vx, vy, 10.0f, 50.0f);
-            fireTimer = MAX_FIRE_TIME;
-        }
+    private void fire() {
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, BULLET_SPEED, BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, -BULLET_SPEED, BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, BULLET_SPEED, -BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, -BULLET_SPEED, -BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        fireTimer = MAX_FIRE_TIME;
     }
 
     private boolean canFire() {
