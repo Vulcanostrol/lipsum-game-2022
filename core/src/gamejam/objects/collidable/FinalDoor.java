@@ -25,16 +25,17 @@ public class FinalDoor extends Collidable {
     private Direction direction;
 
     private boolean collided = false;
+    private final boolean upgradeWall;
 
     private EventConsumer<CollisionEvent> collisionConsumer;
     private TextureRegion textureRegion;
 
-    public FinalDoor
-            (float x, float y, Direction direction) {
+    public FinalDoor(float x, float y, Direction direction, boolean inUpgradeRoom) {
         super(80, 80, 80, 80);
         setPosition(x, y);
         setVelocity(0 ,0);
-        this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("finaldoor") : TextureStore.getTileTextureByName("finaldoor_vertical");
+        upgradeWall = inUpgradeRoom;
+        this.sprite = (direction == Direction.NORTH || direction == Direction.SOUTH) ? TextureStore.getTileTextureByName("finaldoor" + upgradeRoomTextureSuffix()) : TextureStore.getTileTextureByName("finaldoor_vertical" + upgradeRoomTextureSuffix());
         this.direction = direction;
 
         collisionConsumer = this::onCollisionEvent;
@@ -82,5 +83,9 @@ public class FinalDoor extends Collidable {
                 collided = true;
             }
         }
+    }
+
+    private String upgradeRoomTextureSuffix() {
+        return upgradeWall ? "_upgrade" : "";
     }
 }
