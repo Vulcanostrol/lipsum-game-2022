@@ -27,7 +27,7 @@ public class MainMenu extends Menu {
         labelStyle.font = font;
         labelStyle.fontColor = Color.WHITE;
 
-        Label gameTitle = new Label("gamejam.Game Jam gamejam.Game 2022", labelStyle);
+        Label gameTitle = new Label("Chipsum", labelStyle);
         verticalGroup.addActor(gameTitle);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
