@@ -5,11 +5,13 @@ import gamejam.GameManager;
 import gamejam.Util;
 import gamejam.config.RoomConfiguration;
 import gamejam.factories.CollidableFactory;
-import gamejam.factories.PlayerFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.config.LevelConfiguration;
-import gamejam.objects.collidable.*;
+import gamejam.objects.collidable.Collidable;
+import gamejam.objects.collidable.Door;
+import gamejam.objects.collidable.FinalDoor;
+import gamejam.objects.collidable.Pillar;
 import gamejam.objects.collidable.enemies.AbstractEnemy;
 
 import java.lang.reflect.InvocationTargetException;
@@ -343,12 +345,13 @@ public class Room {
                         if (collidedEnemies.count() >= 2) {
                             potentialNewEnemy.despawn();
                         }
-
-                        Player player = PlayerFactory.getInstance().getPlayer();
-                        if (Math.abs(potentialNewEnemy.getX() - player.getX()) < 10f &&  Math.abs(potentialNewEnemy.getY() - player.getY()) < 10f) {
-                            potentialNewEnemy.despawn();
-                        }
-                    } catch (Exception e) {
+                    } catch (InstantiationException e) {
+                        throw new RuntimeException(e);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    } catch (InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    } catch (NoSuchMethodException e) {
                         throw new RuntimeException(e);
                     }
                 }
