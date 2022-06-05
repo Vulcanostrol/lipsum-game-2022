@@ -31,7 +31,7 @@ public class RandomChip extends Chip {
                 new BulletDamageEffect(1.5f),
                 new BulletSizeEffect(1.2f),
                 new MoreMaxHealthEffect(1.1f),
-                new BulletAmountEffect(1),
+                new BulletAmountEffect(1, 0.6f),
                 new BulletSpeedEffect(50),
                 new FullHealEffect(),
                 new PlayerSpeedEffect(1.1f),
