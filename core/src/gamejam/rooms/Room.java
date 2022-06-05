@@ -211,7 +211,7 @@ public class Room {
         }
     }
 
-    public void setup() {
+    public void setup(boolean isStartRoom) {
         this.updateNeighbourRooms();
         Direction finalDoorDirection = null;
         if (isFinalRoom) {
@@ -228,17 +228,17 @@ public class Room {
                 int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
                 int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
                 int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
-                if(pillars[i][j]){
+                if(pillars[i][j] && !isStartRoom) {
                     new Pillar(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY);
                 }
 
                 if (i == 0 && j == Math.round((max_tile_y / 2))) {
                     // West door
                     if (westRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST, westRoom.isUpgradeRoom);
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST, westRoom.isUpgradeRoom, isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.WEST) {
-                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST);
+                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST, isUpgradeRoom);
                     }
                 }
 
@@ -246,63 +246,63 @@ public class Room {
                 if (i == max_tile_x && j == Math.round((max_tile_y / 2))) {
                     // East door
                     if (eastRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST, eastRoom.isUpgradeRoom);
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST, eastRoom.isUpgradeRoom, isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.EAST) {
-                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST);
+                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST, isUpgradeRoom);
                     }
                 }
 
                 if (i == Math.round((max_tile_x / 2)) && j == 0) {
                     // South door
                     if (southRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH, southRoom.isUpgradeRoom);
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH, southRoom.isUpgradeRoom, isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.SOUTH) {
-                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH);
+                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH, isUpgradeRoom);
                     }
                 }
 
                 if (i == Math.round((max_tile_x / 2)) && j == max_tile_y) {
                     // North door
                     if (northRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH, northRoom.isUpgradeRoom);
+                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH, northRoom.isUpgradeRoom, isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.NORTH) {
-                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH);
+                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH, isUpgradeRoom);
                     }
                 }
 
                 if (i == 0 && j == 0) {
-                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTHWEST, minX, maxX, minY, maxY);
+                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTHWEST, minX, maxX, minY, maxY, isUpgradeRoom);
                     continue;
                 }
                 if (i == 0 && j == max_tile_y) {
-                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTHWEST, minX, maxX, minY, maxY);
+                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTHWEST, minX, maxX, minY, maxY, isUpgradeRoom);
                     continue;
                 }
                 if (i == max_tile_x && j == 0) {
-                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTHEAST, minX, maxX, minY, maxY);
+                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTHEAST, minX, maxX, minY, maxY, isUpgradeRoom);
                     continue;
                 }
                 if (i == max_tile_x && j == max_tile_y) {
-                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTHEAST, minX, maxX, minY, maxY);
+                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTHEAST, minX, maxX, minY, maxY, isUpgradeRoom);
                     continue;
                 }
                 if (i == 0) {
-                    tiles[i][j] = new WallTile(WallTileType.WALL_WEST, minX, maxX, minY, maxY);
+                    tiles[i][j] = new WallTile(WallTileType.WALL_WEST, minX, maxX, minY, maxY, isUpgradeRoom);
                     continue;
                 }
                 if (i == max_tile_x) {
-                    tiles[i][j] = new WallTile(WallTileType.WALL_EAST, minX, maxX, minY, maxY);
+                    tiles[i][j] = new WallTile(WallTileType.WALL_EAST, minX, maxX, minY, maxY, isUpgradeRoom);
                     continue;
                 }
                 if (j == 0) {
-                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTH, minX, maxX, minY, maxY);
+                    tiles[i][j] = new WallTile(WallTileType.WALL_SOUTH, minX, maxX, minY, maxY, isUpgradeRoom);
                     continue;
                 }
                 if (j == max_tile_y) {
-                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTH, minX, maxX, minY, maxY);
+                    tiles[i][j] = new WallTile(WallTileType.WALL_NORTH, minX, maxX, minY, maxY, isUpgradeRoom);
                     continue;
                 }
                 tiles[i][j] = new FloorTile(minX, maxX, minY, maxY);
@@ -310,7 +310,7 @@ public class Room {
         }
 
         // After this one can choose how to randomly instantiate rest objects in the room
-        if (!visited) {
+        if (!visited && !isStartRoom) {
             visited = true;
             // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
             GameManager.getInstance().spawnEnemies();
