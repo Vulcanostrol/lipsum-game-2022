@@ -42,7 +42,7 @@ public class RandomChip extends Chip {
 
     private ChipEffect getRandomNegativeEffect() {
         ChipEffect[] effects = {
-                new ScreenShakeEffect(1.5f),
+                new ScreenShakeEffect(1.7f),
                 new ScreenThinnerEffect(0.9f),
                 new ScreenSwollEffect(0.9f),
                 new CameraDvdEffect(1.3f),
