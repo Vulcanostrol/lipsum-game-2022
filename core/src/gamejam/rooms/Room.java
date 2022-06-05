@@ -62,21 +62,23 @@ public class Room {
         while(i<RoomConfiguration.MAX_PILLARS){
             int x = random.nextInt(RoomConfiguration.ROOM_TILE_WIDTH-4)+2;
             int y = random.nextInt(RoomConfiguration.ROOM_TILE_HEIGHT-4)+2;
-            int cnt = 0;
-            int dx = -1;
-            while(dx<=1){
-                int dy = -1;
-                while(dy<=1){
-                    if(pillars[x+dx][y+dy]){
-                        cnt+=1;
+            if(x != 10 && x != 11 && y != 4 && y != 5){ //easy hack so player doesn't spawn in pillars
+                int cnt = 0;
+                int dx = -1;
+                while(dx<=1){
+                    int dy = -1;
+                    while(dy<=1){
+                        if(pillars[x+dx][y+dy]){
+                            cnt+=1;
+                        }
+                        dy++;
                     }
-                    dy++;
+                    dx++;
                 }
-                dx++;
-            }
-            i++;
-            if(cnt <= 1 && !pillars[x][y]){
-                pillars[x][y]=true;
+                i++;
+                if(cnt <= 1 && !pillars[x][y]){
+                    pillars[x][y]=true;
+                }
             }
         }
     }
