@@ -48,10 +48,6 @@ public class Camera {
     private float movementOffsetY = 0;
 
     private boolean flipX = false;
-//    private boolean flipY = false;
-
-//    private ShapeRenderer s = new ShapeRenderer();
-//    private float blueness = 0.5f;
 
     public Camera(){
         spriteBatch = new SpriteBatch();
@@ -63,26 +59,6 @@ public class Camera {
     public void draw(Texture sprite, float x, float y, float width, float height){
         TextureRegion tr = new TextureRegion(sprite);
         draw(tr, x, y, width, height, false, false);
-//        draw2(sprite, x, y, width, height, 0, 0, sprite.getWidth(), sprite.getHeight(), false, false);
-    }
-
-    public void draw2(Texture sprite, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
-        float newWidth = width * factorX * windowFactorX;
-        float newHeight = height * factorY * windowFactorY;
-
-        float newX = (x + movementOffsetX + shakeX) * factorX * windowFactorX;
-        if(this.flipX){
-            newX = ((START_WIDTH-x-newWidth*2) + movementOffsetX + shakeX) * factorX * windowFactorX;
-        }
-        float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
-//        if(this.flipY){
-            //more wrong when newHeight is bigger
-            //more wrong when windowFactorY is bigger
-//            System.out.println(windowFactorY);
-//            newY = ((START_HEIGHT-y-newHeight*2) + movementOffsetY + shakeY) * factorY * windowFactorY;
-//        }
-//        spriteBatch.draw(sprite, newX, newY, newWidth, newHeight, srcX, srcY, srcWidth, srcHeight, !(flipX ^ this.flipX), (flipY ^ this.flipY));
-        spriteBatch.draw(sprite, newX, newY, newWidth, newHeight, srcX, srcY, srcWidth, srcHeight, !(flipX ^ this.flipX), flipY);
     }
 
     public void draw(TextureRegion region, float x, float y, float width, float height, boolean flipX, boolean flipY){
@@ -91,19 +67,13 @@ public class Camera {
 
         float newX = (x + movementOffsetX + shakeX) * factorX * windowFactorX;
         if(this.flipX){
-            newX = ((START_WIDTH-x-newWidth*2) + movementOffsetX + shakeX) * factorX * windowFactorX;
+            newX = ((START_WIDTH-x-newWidth*1.5f) + movementOffsetX + shakeX) * factorX * windowFactorX;
         }
         float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
-//        if(this.flipY){
-//            newY = ((START_HEIGHT-y) + movementOffsetY + shakeY) * factorY * windowFactorY;
-//        }
         float newOriginX = newWidth / 2f; // Origin in middle.
         float newOriginY = newHeight; // Origin on the bottom.
         float xScale = (this.flipX ^ flipX) ? -1f : 1f;
-//        float yScale = (this.flipY ^ flipY) ? -1f : 1f;
         float yScale = flipY ? -1f : 1f;
-//        spriteBatch.draw
-//        spriteBatch.draw(region, newX, newY, newOriginX, newOriginY, newWidth, newHeight, xScale, yScale, 0f);
         spriteBatch.draw(region, newX, newY, newOriginX, 0, newWidth, newHeight, xScale, yScale, 0f);
     }
 
@@ -123,11 +93,7 @@ public class Camera {
     }
 
     public float getYfromEvent(MousePressEvent event){
-//        if(this.flipY){
-//            return -(((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY - START_HEIGHT);
-//        } else {
-            return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY;
-//        }
+        return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY;
     }
 
     private void updateHeight(){
