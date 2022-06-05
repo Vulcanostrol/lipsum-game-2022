@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
+import gamejam.DebugMode;
 import gamejam.GameManager;
 import gamejam.factories.PlayerFactory;
 import gamejam.input.InputHandler;
@@ -23,8 +24,7 @@ import java.util.Objects;
 
 public class IngameOverlayMenu extends Menu {
 
-    private Label health;
-    private Label score;
+    private Label health, score, debugMode;
 
     @Override
     public void create() {
@@ -49,10 +49,18 @@ public class IngameOverlayMenu extends Menu {
         health.setPosition(10, 10);
         health.setAlignment(Align.bottomLeft);
 
+        Label.LabelStyle debugStyle = new Label.LabelStyle();
+        debugStyle.fontColor = Color.RED;
+        debugStyle.font = font;
+        debugMode = new Label("", debugStyle);
+        debugMode.setPosition(10, 50);
+        debugMode.setAlignment(Align.bottomLeft);
+
         score = new Label("Score: - ", labelStyle);
         score.setPosition(10, Gdx.graphics.getHeight() - 50);
         score.setAlignment(Align.topLeft);
 
+        stage.addActor(debugMode);
         stage.addActor(health);
         stage.addActor(score);
     }
@@ -135,5 +143,6 @@ public class IngameOverlayMenu extends Menu {
         int maxHp = (int) Math.ceil(player.getMaxHealth());
         health.setText("Health: " + hp + " / " + maxHp);
         score.setText("Score: " + GameManager.getInstance().getScore());
+        debugMode.setText(DebugMode.isEnabled() ? "Debug Mode" : "");
     }
 }

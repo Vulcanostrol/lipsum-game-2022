@@ -66,12 +66,15 @@ public class GameManager {
     }
 
     private void getPoints(ScoreEvent event){
-        score += event.getPoints();
-        System.out.println("Current score is: "+score);
+        if (DebugMode.isEnabled()) {
+            score = 0;
+        } else {
+            score += event.getPoints();
+        }
     }
 
     public int getScore(){
-        return score;
+        return DebugMode.isEnabled() ? 0 : score;
     }
 
     private void resetEntireGame(PlayerDeathEvent event) {
