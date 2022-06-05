@@ -3,6 +3,7 @@ package gamejam.objects.collidable.enemies;
 import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
 import gamejam.config.RoomConfiguration;
+import gamejam.config.ScoreConfiguration;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.PlayerFactory;
 import gamejam.objects.Bomb;
@@ -38,6 +39,11 @@ public class CannonEnemy extends AbstractEnemy {
         this.teleportBlueSprite = new Texture("entity/teleport_blue.png");
         this.teleportRedSprite = new Texture("entity/teleport_red.png");
         random = new Random();
+    }
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.CANNON;
     }
 
     @Override

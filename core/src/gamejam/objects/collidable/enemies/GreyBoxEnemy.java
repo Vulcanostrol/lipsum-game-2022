@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.events.CollisionEvent;
 import gamejam.factories.PlayerFactory;
 import gamejam.objects.collidable.bullets.PyramidBullet;
@@ -88,6 +89,11 @@ public class GreyBoxEnemy extends AbstractEnemy {
 
         TextureRegion[] shootingFrames = TextureRegion.split(shootingSpriteSheet, TILE_WIDTH, TILE_HEIGHT)[0];
         shootingAnimation = new Animation<>(FRAME_DURATION, shootingFrames);
+    }
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.GREY_BOX;
     }
 
     @Override
