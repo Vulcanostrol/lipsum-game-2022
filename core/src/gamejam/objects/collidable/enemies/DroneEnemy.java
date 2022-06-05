@@ -24,30 +24,30 @@ import java.util.Random;
  */
 public class DroneEnemy extends AbstractEnemy {
     // true when the drone can see the player.
-    private boolean playerPositionKnown = false;
+    protected boolean playerPositionKnown = false;
 
     // from how far away the drone can see the player.
-    private final float RANGE_OF_SIGHT = 500f;
+    protected float RANGE_OF_SIGHT = 500f;
 
     // angle at which the robot moves once it collides with something, and it is not following the player.
-    private float roamingDirection = (float) Math.random();
+    protected float roamingDirection = (float) Math.random();
 
-    public static final float SPEED = 100f;
+    public static float SPEED = 100f;
 
-    private float playerX = -Float.MAX_VALUE;
-    private float playerY = -Float.MAX_VALUE;
+    protected float playerX = -Float.MAX_VALUE;
+    protected float playerY = -Float.MAX_VALUE;
 
     public static final int SPRITE_WIDTH = 21 * 5;
     public static final int SPRITE_HEIGHT = 24 * 5;
     public static final int COLLISION_WIDTH = 19 * 5;
     public static final int COLLISION_HEIGHT = 11 * 5;
 
-    private static Texture spriteSheet = null;
-    private float animationTime = 0f;
-    private Animation<TextureRegion> animation;
-    private TextureRegion currentSprite;
+    protected static Texture spriteSheet = null;
+    protected float animationTime = 0f;
+    protected Animation<TextureRegion> animation;
+    protected TextureRegion currentSprite;
 
-    private EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer;
+    protected EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer;
 
     public DroneEnemy(float x, float y) {
         super(x, y, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, 100);
