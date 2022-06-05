@@ -4,10 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
 import gamejam.TextureStore;
 import gamejam.event.EventQueue;
+import gamejam.event.events.CollisionEvent;
 import gamejam.event.events.ScoreEvent;
 import gamejam.objects.Damageable;
+import gamejam.objects.collidable.Collidable;
+import gamejam.objects.collidable.Player;
 import gamejam.objects.collidable.SelfCollidable;
 import gamejam.objects.collidable.Traversable;
+import gamejam.objects.collidable.explosion.DroneExplosion;
+import gamejam.objects.collidable.explosion.Explosion;
+
+import java.util.Random;
 
 public class AbstractEnemy extends SelfCollidable implements Damageable, Traversable {
 
@@ -41,6 +48,9 @@ public class AbstractEnemy extends SelfCollidable implements Damageable, Travers
         if (health < 0) {
             // DEATH
             EventQueue.getInstance().invoke(new ScoreEvent(getPoints()));
+
+            new Explosion(x, y);
+
             despawn();
         }
     }
