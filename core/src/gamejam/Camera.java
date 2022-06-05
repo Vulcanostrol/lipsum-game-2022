@@ -1,15 +1,11 @@
 package gamejam;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import gamejam.event.events.MousePressEvent;
 import gamejam.config.RoomConfiguration;
-import gamejam.event.events.MouseEvent;
-import gamejam.rooms.RoomConfiguration;
+import gamejam.event.events.MousePressEvent;
 
 import java.util.Random;
 

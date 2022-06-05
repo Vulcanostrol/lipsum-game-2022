@@ -1,6 +1,8 @@
 package gamejam;
 
 import gamejam.chips.ChipManager;
+import gamejam.config.LevelConfiguration;
+import gamejam.config.RoomConfiguration;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -9,16 +11,10 @@ import gamejam.event.events.PlayerDeathEvent;
 import gamejam.event.events.ScoreEvent;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.PlayerFactory;
-import gamejam.factories.*;
-import gamejam.factories.bullets.BulletFactory;
-import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
-import gamejam.config.LevelConfiguration;
 import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
-import gamejam.config.RoomConfiguration;
-import gamejam.objects.collidable.SelfCollidable;
 import gamejam.rooms.EnemySpawnTable;
 import gamejam.ui.MenuManager;
 
