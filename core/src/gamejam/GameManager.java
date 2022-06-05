@@ -99,6 +99,7 @@ public class GameManager {
 
     public void moveToNextLevel() {
         Player player = PlayerFactory.getInstance().getPlayer();
+
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         currentLevel = new Level();
         currentNLevel += 1;
@@ -110,6 +111,7 @@ public class GameManager {
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         PlayerFactory.getInstance().addManagedObject(player);
         player.setPosition(newPlayerX, newPlayerY);
+
     }
 
     public void moveToRoomByDirection(Direction direction) {
@@ -146,6 +148,8 @@ public class GameManager {
         } else {
             System.err.println("Tried to move to an invalid room location. Staying in the current room(?)");
         }
+
+        currentLevel.getCurrentRoom().removeEnemies();
     }
 
     public void draw() {
