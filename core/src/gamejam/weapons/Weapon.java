@@ -31,7 +31,6 @@ public abstract class Weapon {
     }
 
     private void onWeaponFire(WeaponFireEvent event) {
-        System.out.println(damage);
         if (event.getWeapon() == this) {
             GameManager.getInstance().getCamera().startShake();
         }
