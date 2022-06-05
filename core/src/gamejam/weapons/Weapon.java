@@ -77,7 +77,10 @@ public abstract class Weapon {
     }
 
     public void addBulletAmount(int amount) {
-        this.bulletAmount += 1;
+        this.bulletAmount += amount;
+    }
+    public void addBulletSpeed(int amount) {
+        this.bulletSpeed += amount;
     }
 
     public float getDamage() {

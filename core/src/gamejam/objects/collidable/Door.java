@@ -49,6 +49,7 @@ public class Door extends Collidable {
                 camera.draw(textureRegion, this.x - this.spriteWidth / 2, this.y, RoomConfiguration.TILE_PIXEL_WIDTH, RoomConfiguration.TILE_PIXEL_HEIGHT, true, false);
                 break;
         }
+        super.drawHitBox(camera);
     }
 
     public void onCollisionEvent(CollisionEvent event) {
