@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
 import gamejam.GameManager;
 import gamejam.factories.PlayerFactory;
@@ -21,6 +24,7 @@ import java.util.Objects;
 public class IngameOverlayMenu extends Menu {
 
     private Label health;
+    private Label score;
 
     @Override
     public void create() {
@@ -44,6 +48,13 @@ public class IngameOverlayMenu extends Menu {
         health = new Label("Health: - / -", labelStyle);
         health.setPosition(10, 10);
         health.setAlignment(Align.bottomLeft);
+
+        score = new Label("Score: - ", labelStyle);
+        score.setPosition(10, Gdx.graphics.getHeight() - 50);
+        score.setAlignment(Align.topLeft);
+
+        stage.addActor(health);
+        stage.addActor(score);
     }
 
     private void addMinimap() {
@@ -97,17 +108,6 @@ public class IngameOverlayMenu extends Menu {
         return temp;
     }
 
-    private Room[][] toArrays(List<List<Room>> lists) {
-        Room[][] array = new Room[lists.size()][];
-
-        int i = 0;
-        for (List<Room> nestedList : lists) {
-            array[i++] = nestedList.toArray(new Room[nestedList.size()]);
-        }
-
-        return array;
-    }
-
     private Room[][] getRemovedPaddingRooms() {
         Room[][] rooms = GameManager.getInstance().getCurrentLevel().rooms;
         List<Room[]> roomsList = new ArrayList<>();
@@ -127,8 +127,6 @@ public class IngameOverlayMenu extends Menu {
         return transposeMatrix(roomsList.toArray(new Room[0][0]));
     }
 
-
-
     @Override
     public void draw() {
         super.draw();
@@ -136,5 +134,6 @@ public class IngameOverlayMenu extends Menu {
         int hp = (int) Math.ceil(player.getHealth());
         int maxHp = (int) Math.ceil(player.getMaxHealth());
         health.setText("Health: " + hp + " / " + maxHp);
+        score.setText("Score: " + GameManager.getInstance().getScore());
     }
 }
