@@ -142,7 +142,7 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
     @Override
     public void damage(float damage) {
         health -= damage;
-        if (health < 0) {
+        if (health <= 0) {
             health = 0;
             EventQueue.getInstance().invoke(new PlayerDeathEvent());
         }
