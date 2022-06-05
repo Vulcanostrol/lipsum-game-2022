@@ -49,10 +49,10 @@ public class LevelFadeUpgradeMenu extends Menu {
         Gdx.input.setInputProcessor(stage);
 
         chips = new ArrayList<>();
-        chips.add(new RandomChip());
-        chips.add(new RandomChip());
-        chips.add(new RandomChip());
-        chips.add(new RandomChip());
+        chips.add(new RandomChip(2, 2));
+        chips.add(new RandomChip(2, 2));
+        chips.add(new RandomChip(2, 2));
+        chips.add(new RandomChip(2, 2));
 
         currentAlpha = 0f;
         deltaMultiplier = 1f;
