@@ -62,7 +62,6 @@ public class Camera {
 
 
     public void spriteDraw(Sprite s, float x, float y, float width, float height, boolean flipX, boolean flipY){
-        x-=width/2;
         float newWidth = width * factorX * windowFactorX;
         float newHeight = height * factorY * windowFactorY;
 
