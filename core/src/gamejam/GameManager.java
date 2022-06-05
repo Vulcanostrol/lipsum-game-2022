@@ -13,6 +13,7 @@ import gamejam.levels.Level;
 import gamejam.levels.LevelConfiguration;
 import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
+import gamejam.rooms.EnemySpawnTable;
 import gamejam.rooms.RoomConfiguration;
 import gamejam.ui.MenuManager;
 
@@ -81,6 +82,7 @@ public class GameManager {
         currentLevel = new Level();
         currentNLevel += 1;
         levels.add(currentLevel);
+        EnemySpawnTable.getInstance().updateSpawnTable();
 
         // Entity creation
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
