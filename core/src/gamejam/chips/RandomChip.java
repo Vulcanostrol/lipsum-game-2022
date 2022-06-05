@@ -44,6 +44,7 @@ public class RandomChip extends Chip {
                 new ScreenThinnerEffect(0.9f),
                 new ScreenSwollEffect(0.9f),
                 new CameraDvdEffect(1.3f),
+                new FlipScreenEffect(),
         };
         return effects[new Random().nextInt(effects.length)];
     }

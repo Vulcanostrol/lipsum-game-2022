@@ -23,6 +23,6 @@ public class FlipScreenEffect implements ChipEffect {
 
     @Override
     public String description() {
-        return "Shakes the screen.";
+        return "Flips the screen.";
     }
 }

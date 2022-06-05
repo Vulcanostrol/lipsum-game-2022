@@ -67,6 +67,7 @@ public class Door extends Collidable {
                 Room room = GameManager.getInstance().getCurrentLevel().getCurrentRoom();
                 if (!room.cleared && room.isUpgradeRoom) {
                     room.cleared = true;
+                    EventQueue.getInstance().invoke(new ScoreEvent(100));
                     EventQueue.getInstance().invoke(new RoomChangeEvent(direction, true));
                 } else {
                     if(!room.cleared){
