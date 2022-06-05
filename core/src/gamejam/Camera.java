@@ -34,8 +34,8 @@ public class Camera {
     private int shakeX = 0;
     private int shakeY = 0;
 
-    private float factorX = 0.75f;
-    private float factorY = 0.75f;
+    private float factorX = 1f;
+    private float factorY = 1f;
     private float updateFactorY = 1f;
     private float updateFactorX = 1f;
 
@@ -44,8 +44,8 @@ public class Camera {
     private int movementY = 0;
     private int movementXDirection = 1;
     private int movementYDirection = 1;
-    private float movementOffsetX = 200;
-    private float movementOffsetY = 200;
+    private float movementOffsetX = 0;
+    private float movementOffsetY = 0;
 
     private boolean flipX = false;
 //    private boolean flipY = false;
@@ -262,5 +262,21 @@ public class Camera {
     public void multiplyMovementSpeed(float multiplier) {
         movementSpeed = (int) (movementSpeed * multiplier);
         newMovementSpeeds();
+    }
+
+    public void setFlipX(boolean flip) {
+        flipX = flip;
+    }
+
+    public void inverseFlipX() {
+        flipX = !flipX;
+    }
+
+    public void resetFlips() {
+        flipX = false;
+    }
+
+    public boolean flipX() {
+        return flipX;
     }
 }
