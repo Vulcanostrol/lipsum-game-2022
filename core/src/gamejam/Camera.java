@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import gamejam.event.events.MousePressEvent;
+import gamejam.event.events.MouseEvent;
 import gamejam.rooms.RoomConfiguration;
 
 import java.util.Random;
@@ -84,11 +84,11 @@ public class Camera {
         currentShake *= 0.9;
     }
 
-    public float getXfromEvent(MousePressEvent event){
+    public float getXfromEvent(MouseEvent event){
         return (event.getScreenX() / (factorX*windowFactorX)) - movementOffsetX;
     }
 
-    public float getYfromEvent(MousePressEvent event){
+    public float getYfromEvent(MouseEvent event){
 //        return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorX*windowFactorX)) - movementOffsetX;
         return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY;
     }

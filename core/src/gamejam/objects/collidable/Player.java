@@ -10,10 +10,7 @@ import gamejam.KeyHoldWatcher;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
-import gamejam.event.events.CollisionEvent;
-import gamejam.event.events.MousePressEvent;
-import gamejam.event.events.PlayerDeathEvent;
-import gamejam.event.events.PlayerMoveEvent;
+import gamejam.event.events.*;
 import gamejam.objects.Damageable;
 import gamejam.weapons.BasicWeapon;
 import gamejam.weapons.Weapon;
@@ -40,8 +37,12 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
     private float health = maxHealth;
 
     private Weapon weapon;
+    private boolean isFiringWeapon;
+    private MouseEvent lastMouseEvent;
 
     private EventConsumer<MousePressEvent> mousePressConsumer;
+    private EventConsumer<MouseReleaseEvent> mouseReleaseConsumer;
+    private EventConsumer<MouseMoveEvent> mouseMoveConsumer;
 
     public Player(float x, float y) {
         super(65, 125, 50, 50);
@@ -54,6 +55,13 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
         mousePressConsumer = this::onMousePress;
         EventQueue.getInstance().registerConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
 
+        mouseReleaseConsumer = this::onMouseRelease;
+        EventQueue.getInstance().registerConsumer(mouseReleaseConsumer, EventType.MOUSE_RELEASE_EVENT);
+
+        mouseMoveConsumer = this::onMouseMove;
+        EventQueue.getInstance().registerConsumer(mouseMoveConsumer, EventType.MOUSE_MOVE_EVENT);
+
+
         this.weapon = new BasicWeapon();
 
         TextureRegion[] walkFrames = TextureRegion.split(spriteSheet, 13, 25)[0];
@@ -63,6 +71,9 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
 
     @Override
     public void update(float timeDeltaMillis) {
+        ///////////////////
+        // Walking stuff //
+        ///////////////////
         float dx = 0;
         float dy = 0;
         if (keyHoldWatcher.isKeyHeld(Input.Keys.D) || keyHoldWatcher.isKeyHeld(Input.Keys.RIGHT)) {
@@ -89,6 +100,13 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
         }
         currentSprite = walkAnimation.getKeyFrame(animationTime,true);
 
+        //////////////////
+        // Weapon stuff //
+        //////////////////
+        if (this.isFiringWeapon && this.lastMouseEvent != null) {
+            this.fireWeapon();
+        }
+
         super.update(timeDeltaMillis);
     }
 
@@ -101,11 +119,23 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
     public void onCollisionEvent(CollisionEvent event) {
     }
 
-    private void onMousePress(MousePressEvent event) {
-        // TODO: Translate the screen coordinates of the mouse to world coordinates.
-        float dx = GameManager.getInstance().getCamera().getXfromEvent(event) - getX();
-        float dy = GameManager.getInstance().getCamera().getYfromEvent(event) - getY();
+    private void fireWeapon() {
+        float dx = GameManager.getInstance().getCamera().getXfromEvent(this.lastMouseEvent) - getX();
+        float dy = GameManager.getInstance().getCamera().getYfromEvent(this.lastMouseEvent) - getY();
         weapon.fire(this.x, this.y, dx, dy);
+    }
+
+    private void onMousePress(MousePressEvent event) {
+        this.isFiringWeapon = true;
+        this.lastMouseEvent = event;
+    }
+
+    private void onMouseRelease(MouseReleaseEvent event) {
+        this.isFiringWeapon = false;
+    }
+
+    private void onMouseMove(MouseMoveEvent event) {
+        this.lastMouseEvent = event;
     }
 
     @Override
