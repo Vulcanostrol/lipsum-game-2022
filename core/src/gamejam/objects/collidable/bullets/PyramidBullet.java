@@ -9,7 +9,7 @@ import gamejam.objects.collidable.enemies.AbstractEnemy;
 
 public class PyramidBullet extends Bullet {
     public PyramidBullet(float x, float y, float xVelocity, float yVelocity, float damage, float bulletSize) {
-        super(x, y, xVelocity, yVelocity, damage, bulletSize);
+        super(x, y, xVelocity, yVelocity, damage, bulletSize, 0);
         damagePlayer = true;
         sprite = new Texture("bullet_pyramid.png");
         spriteInsteadOfTexture = new Sprite(sprite);

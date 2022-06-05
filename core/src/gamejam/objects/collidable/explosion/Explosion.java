@@ -1,5 +1,6 @@
 package gamejam.objects.collidable.explosion;
 
+import com.badlogic.gdx.graphics.Texture;
 import gamejam.event.events.CollisionEvent;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
@@ -23,6 +24,7 @@ public class Explosion extends Collidable {
         this.durationMS = durationMS;
         this.timeLeft = durationMS;
         setPosition(x, y);
+        this.sprite = new Texture("entity/explosion.png");
     }
 
     @Override
