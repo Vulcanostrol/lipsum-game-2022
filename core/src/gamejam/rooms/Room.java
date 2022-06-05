@@ -5,13 +5,12 @@ import gamejam.GameManager;
 import gamejam.Util;
 import gamejam.config.RoomConfiguration;
 import gamejam.factories.CollidableFactory;
+import gamejam.factories.PlayerFactory;
+import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
 import gamejam.config.LevelConfiguration;
-import gamejam.objects.collidable.Collidable;
-import gamejam.objects.collidable.Door;
-import gamejam.objects.collidable.FinalDoor;
-import gamejam.objects.collidable.Pillar;
+import gamejam.objects.collidable.*;
 import gamejam.objects.collidable.enemies.AbstractEnemy;
 
 import java.lang.reflect.InvocationTargetException;
@@ -321,6 +320,16 @@ public class Room {
             GameManager.getInstance().spawnEnemies();
         }
         visited = true;
+    }
+
+    public void removeEnemies(){
+        Player p = PlayerFactory.getInstance().getPlayer();
+        AbstractEnemyFactory.getInstance().getAllManagedObjects().forEach(e -> {
+            float d = Math.abs(p.getX() - e.getX()) + Math.abs(p.getY() - e.getY());
+            if(d < 500){
+                e.despawn();
+            }
+        });
     }
 
     public void spawnEnemies(float currentSpawnRate) {
