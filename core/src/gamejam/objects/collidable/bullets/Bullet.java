@@ -96,4 +96,8 @@ public class Bullet extends Collidable implements Traversable {
         }
 
     }
+
+    public float getDamage() {
+        return damage;
+    }
 }
