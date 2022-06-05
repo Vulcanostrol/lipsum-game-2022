@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.events.CollisionEvent;
 import gamejam.objects.collidable.bullets.PyramidBullet;
 
@@ -81,6 +82,11 @@ public class HexEnemy extends AbstractEnemy {
 
         TextureRegion[] frenzyFrames = TextureRegion.split(frenzySpriteSheet, 13, 24)[0];
         frenzyAnimation = new Animation<>(FRENZY_FRAME_DURATION, frenzyFrames);
+    }
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.HEX;
     }
 
     @Override

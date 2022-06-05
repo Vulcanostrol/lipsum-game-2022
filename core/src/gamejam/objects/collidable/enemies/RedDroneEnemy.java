@@ -2,6 +2,7 @@ package gamejam.objects.collidable.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
+import gamejam.config.ScoreConfiguration;
 
 public class RedDroneEnemy extends DroneEnemy {
 
@@ -10,6 +11,11 @@ public class RedDroneEnemy extends DroneEnemy {
         spriteSheet = new Texture("entity/red_drone.png");
         RANGE_OF_SIGHT *= 2.0;
         SPEED *= 2.0;
+    }
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.RED_DRONE;
     }
 
     @Override

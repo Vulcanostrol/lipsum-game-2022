@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.events.CollisionEvent;
 import gamejam.factories.PlayerFactory;
 import gamejam.objects.collidable.bullets.PyramidBullet;
@@ -59,6 +60,11 @@ public class RedBoxEnemy extends AbstractEnemy {
     private static final float CHARGE_RATIO = 0.3f;
 
     private boolean lookingLeft = false;
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.RED_BOX;
+    }
 
     public RedBoxEnemy(float initialX, float initialY) {
         super(initialX, initialY, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, MAX_HEALTH);
