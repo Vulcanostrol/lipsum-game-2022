@@ -112,6 +112,7 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
 
     @Override
     public void draw(Camera camera) {
+        drawShadow(camera);
         camera.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight, lookingLeft, false);
         super.drawHitBox(camera);
     }
@@ -192,5 +193,10 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
 
     public Weapon getWeapon() {
         return weapon;
+    }
+
+    @Override
+    protected DropShadowType getDropShadowType() {
+        return DropShadowType.NORMAL;
     }
 }

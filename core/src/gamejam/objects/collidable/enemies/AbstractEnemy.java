@@ -74,9 +74,15 @@ public class AbstractEnemy extends SelfCollidable implements Damageable, Travers
      */
     @Override
     public void draw(Camera camera) {
+        drawShadow(camera);
         final float xLeft = this.x - this.collisionWidth / 2;
         final float healthLeftWidth = this.collisionWidth * (this.health / this.maxHealth);
         camera.draw(this.healthBarRedTexture, xLeft, this.y - 5f, this.collisionWidth, 5f);
         camera.draw(this.healthBarGreenTexture, xLeft, this.y - 5f, healthLeftWidth, 5f);
+    }
+
+    @Override
+    protected DropShadowType getDropShadowType() {
+        return DropShadowType.NORMAL;
     }
 }

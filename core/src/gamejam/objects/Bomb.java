@@ -37,11 +37,17 @@ public class Bomb extends Entity {
 
     @Override
     public void draw(Camera camera) {
+        drawShadow(camera);
         camera.draw(sprite, x - spriteWidth/2, y + computeHeight(), spriteWidth, spriteHeight);
     }
 
     private static float distance(float x, float y) {
         return (float) Math.sqrt(x*x + y*y);
+    }
+
+    @Override
+    protected DropShadowType getDropShadowType() {
+        return DropShadowType.SMALL;
     }
 
     private float computeHeight() {
