@@ -89,6 +89,11 @@ public class Main extends Game {
 			ChipManager.getInstance().activateChip(new BulletChip());
 		}
 		if (event.getKeyCode() == Input.Keys.NUM_5 && event.isKeyDown()) {
+			ChipManager.getInstance().activateChip(new ScuffedChip());
+		}
+
+		// God mode and reset
+		if (event.getKeyCode() == Input.Keys.NUM_9 && event.isKeyDown()) {
 			ChipManager.getInstance().activateChip(new GodModeChip());
 		}
 		if (event.getKeyCode() == Input.Keys.NUM_0 && event.isKeyDown()) {

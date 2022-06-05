@@ -1,23 +1,10 @@
 package gamejam.event.events;
 
-import gamejam.event.Event;
 import gamejam.event.EventType;
 
-public class MouseMoveEvent implements Event {
-
-    private final int xScreen;
-    private final int yScreen;
-
+public class MouseMoveEvent extends MouseEvent {
     public MouseMoveEvent(int xScreen, int yScreen) {
-        this.xScreen = xScreen;
-        this.yScreen = yScreen;
-    }
-
-    public int getScreenX() {
-        return xScreen;
-    }
-    public int getScreenY() {
-        return yScreen;
+        super(xScreen, yScreen);
     }
 
     @Override

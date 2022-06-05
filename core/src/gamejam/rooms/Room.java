@@ -3,20 +3,17 @@ package gamejam.rooms;
 import gamejam.Camera;
 import gamejam.GameManager;
 import gamejam.Util;
+import gamejam.config.RoomConfiguration;
 import gamejam.factories.CollidableFactory;
-import gamejam.factories.enemies.AbstractEnemyFactory;
-import gamejam.factories.enemies.PyramidEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.levels.Level;
-import gamejam.levels.LevelConfiguration;
+import gamejam.config.LevelConfiguration;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Door;
 import gamejam.objects.collidable.FinalDoor;
 import gamejam.objects.collidable.Pillar;
 import gamejam.objects.collidable.enemies.AbstractEnemy;
-import gamejam.objects.collidable.enemies.PyramidEnemy;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -384,5 +381,9 @@ public class Room {
 
     public void setFinalRoom() {
         isFinalRoom = true;
+    }
+
+    public boolean isFinalRoom() {
+        return isFinalRoom;
     }
 }

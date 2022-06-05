@@ -1,9 +1,8 @@
 package gamejam.rooms;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Camera;
-import org.w3c.dom.Text;
+import gamejam.config.RoomConfiguration;
 
 public class RoomTile {
 
