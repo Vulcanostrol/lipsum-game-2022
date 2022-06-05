@@ -22,6 +22,7 @@ public class MenuManager {
     public static final int ROOM_FADE_UPGRADE = 4;
     public static final int LEVEL_FADE_UPGRADE = 5;
     public static final int INGAME_OVERLAY = 6;
+    public static final int DEATH_MENU = 7;
 
     private final List<Menu> registeredMenus;
     private int currentMenuId;

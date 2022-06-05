@@ -53,6 +53,7 @@ public class Main extends Game {
 		menuManager.registerMenu(new RoomFadeUpgradeMenu());	// 4
 		menuManager.registerMenu(new LevelFadeUpgradeMenu());	// 5
 		menuManager.registerMenu(new IngameOverlayMenu());		// 6
+		menuManager.registerMenu(new DeathMenu());				// 7
 	}
 
 	@Override
