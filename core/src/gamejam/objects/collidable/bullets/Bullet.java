@@ -65,21 +65,15 @@ public class Bullet extends Collidable implements Traversable {
 
     @Override
     public void draw(Camera camera) {
-//        sprite = new Sprite(sprite);
-//        Sprite s = new Sprite(sprite);
-//        s.setAlpha();
-        camera.spriteDraw(spriteInsteadOfTexture, x, y, spriteWidth, spriteHeight, false, false);
-//        camera.draw(spriteInsteadOfTexture, x, y, spriteWidth, spriteHeight, false, false);
+        if(alpha > 0){
+            camera.spriteDraw(spriteInsteadOfTexture, x, y, spriteWidth, spriteHeight, false, false);
+        }
         super.drawHitBox(camera);
-//        super.draw(camera);
     }
 
     @Override
     public void update(float timeDeltaMillis) {
         super.update(timeDeltaMillis);
-//        if (Math.abs(x) + Math.abs(y) > BULLET_DESPAWN_RANGE) {
-//            despawn();
-//        }
         int screenWidth = RoomConfiguration.ROOM_TILE_WIDTH*RoomConfiguration.TILE_PIXEL_WIDTH;
         int screenHeight = RoomConfiguration.ROOM_TILE_HEIGHT*RoomConfiguration.TILE_PIXEL_HEIGHT;
         if(
@@ -87,10 +81,11 @@ public class Bullet extends Collidable implements Traversable {
                 y+spriteHeight < 0 || y > screenHeight
         ) {
             alpha -= timeDeltaMillis/1000;
+            if (alpha < 0){
+                despawn();
+            }
             spriteInsteadOfTexture.setAlpha(alpha);
         }
-        if (alpha < 0){
-            despawn();
-        }
+
     }
 }
