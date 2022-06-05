@@ -69,6 +69,10 @@ public class GameManager {
         System.out.println("Current score is: "+score);
     }
 
+    public int getScore(){
+        return score;
+    }
+
     private void resetEntireGame(PlayerDeathEvent event) {
         if (gameActive) {
             ChipManager.getInstance().resetChips();

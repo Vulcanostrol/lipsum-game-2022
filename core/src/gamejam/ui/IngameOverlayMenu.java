@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import gamejam.GameManager;
 import gamejam.event.EventQueue;
 import gamejam.event.events.MenuChangeEvent;
 import gamejam.factories.PlayerFactory;
@@ -19,6 +20,7 @@ import gamejam.objects.collidable.Player;
 public class IngameOverlayMenu extends Menu {
 
     private Label health;
+    private Label score;
 
     @Override
     public void create() {
@@ -36,7 +38,12 @@ public class IngameOverlayMenu extends Menu {
         health.setPosition(10, 10);
         health.setAlignment(Align.bottomLeft);
 
+        score = new Label("Score: - ", labelStyle);
+        score.setPosition(10, Gdx.graphics.getHeight() - 50);
+        score.setAlignment(Align.topLeft);
+
         stage.addActor(health);
+        stage.addActor(score);
     }
 
     @Override
@@ -46,5 +53,6 @@ public class IngameOverlayMenu extends Menu {
         int hp = (int) Math.ceil(player.getHealth());
         int maxHp = (int) Math.ceil(player.getMaxHealth());
         health.setText("Health: " + hp + " / " + maxHp);
+        score.setText("Score: " + GameManager.getInstance().getScore());
     }
 }
