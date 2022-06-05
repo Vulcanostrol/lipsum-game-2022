@@ -9,9 +9,6 @@ public class AbstractEnemy extends SelfCollidable implements Damageable, Travers
     private final float maxHealth;
     private float health;
 
-    public int spawnRate;
-    public int spawnRateMutate;
-
     public AbstractEnemy(float initialX, float initialY, float spriteWidth, float spriteHeight, float collisionWidth,
                          float collisionHeight, float maxHealth) {
         super(spriteWidth, spriteHeight, collisionWidth, collisionHeight);
