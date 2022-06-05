@@ -2,6 +2,7 @@ package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
+import gamejam.TextureStore;
 import gamejam.event.EventQueue;
 import gamejam.event.events.EntityDeathEvent;
 import gamejam.event.events.ScoreEvent;
@@ -33,6 +34,7 @@ public abstract class Entity {
     public void afterDraw() {};
 
     public void draw(Camera camera){
+        drawShadow(camera);
         camera.draw(sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);
     }
 
@@ -61,4 +63,35 @@ public abstract class Entity {
     public float getY(){
         return y;
     }
+
+    protected DropShadowType getDropShadowType() {
+        return DropShadowType.NONE;
+    }
+
+    protected void drawShadow(Camera camera) {
+        DropShadowType dropShadowType = getDropShadowType();
+
+        //The numbers, Mason, what do they mean?
+        if (dropShadowType == DropShadowType.NORMAL) {
+            camera.draw(TextureStore.getTileTextureByName(dropShadowType.texture),
+                    x - 6 * 5, y - 3, 12 * 5, 8 * 5);
+        } else if (dropShadowType == DropShadowType.SMALL) {
+            camera.draw(TextureStore.getTileTextureByName(dropShadowType.texture),
+                    x - 3 * 5, y - 3, 6 * 5, 4 * 5);
+        }
+    }
+
+    protected enum DropShadowType {
+        NONE(null),
+        SMALL("dropshadow_small"),
+        NORMAL("dropshadow");
+
+        private final String texture;
+
+        DropShadowType(String texture) {
+            this.texture = texture;
+        }
+    }
+
+
 }
