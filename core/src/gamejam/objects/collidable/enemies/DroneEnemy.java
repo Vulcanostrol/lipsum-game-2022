@@ -11,6 +11,7 @@ import gamejam.event.events.CollisionEvent;
 import gamejam.event.events.PlayerMoveEvent;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
+import gamejam.objects.collidable.explosion.DroneExplosion;
 
 import java.util.Random;
 
@@ -59,14 +60,19 @@ public class DroneEnemy extends AbstractEnemy {
     }
 
     public void onCollisionEvent(CollisionEvent collisionEvent) {
+        Collidable other = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
+        if (other instanceof Player) {
+            DroneExplosion explosion = new DroneExplosion(x, y);
+
+            // pass the collision event to the explosion.
+            explosion.onCollisionEvent(collisionEvent);
+
+            // Am exploding, time to despawn
+            despawn();
+        }
+
         if (playerPositionKnown) {
             // flying towards player, don't really care
-            return;
-        }
-        Collidable other = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
-
-        if (other instanceof Player) {
-            //don't care about collision with player
             return;
         }
 
@@ -83,7 +89,6 @@ public class DroneEnemy extends AbstractEnemy {
             // lost track of player, just go fly somewhere
             playerPositionKnown = false;
             roamingDirection = (float) Math.random();
-            System.out.printf("roamingdirection is now %f%n", roamingDirection);
         } else if (playerStillInRange) {
             this.playerPositionKnown = true;
         }
