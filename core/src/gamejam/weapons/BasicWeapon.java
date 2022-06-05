@@ -6,7 +6,7 @@ import gamejam.objects.collidable.bullets.Bullet;
 public class BasicWeapon extends Weapon {
 
     private static final int BASIC_WEAPON_BASE_DAMAGE = 10;
-    private static final int BASIC_WEAPON_BASE_SPEED = 1000;
+    private static final int BASIC_WEAPON_BASE_SPEED = 750;
 
     private static final float BASIC_WEAPON_BULLET_SIZE = 50;
     private static final int BASIC_WEAPON_BULLET_AMOUNT = 1;
