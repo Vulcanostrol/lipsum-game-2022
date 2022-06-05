@@ -47,7 +47,7 @@ public class EnemySpawnTable<E> {
 
     private static final float SPECIAL_HEX_ENEMY_BASE_SPAWN_RATE = 200;
     private static final float SPECIAL_HEX_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 30;
-    private static final float SPECIAL_HEX_LEVEL_APPEARANCE = 1;
+    private static final float SPECIAL_HEX_LEVEL_APPEARANCE = 15;
 
     private static EnemySpawnTable instance;
     private SpawnTableCollection spawnTableCollection;
