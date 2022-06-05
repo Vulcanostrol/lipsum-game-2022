@@ -8,9 +8,11 @@ import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.event.events.EntityDeathEvent;
 import gamejam.event.events.PlayerMoveEvent;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
+import gamejam.objects.collidable.bullets.Bullet;
 import gamejam.objects.collidable.explosion.DroneExplosion;
 
 import java.util.Random;
@@ -61,14 +63,11 @@ public class DroneEnemy extends AbstractEnemy {
 
     public void onCollisionEvent(CollisionEvent collisionEvent) {
         Collidable other = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
-        if (other instanceof Player) {
+        if (other instanceof Player || this.getHealth() <= 0.0f) {
             DroneExplosion explosion = new DroneExplosion(x, y);
-
-            // pass the collision event to the explosion.
             explosion.onCollisionEvent(collisionEvent);
-
-            // Am exploding, time to despawn
             despawn();
+            return;
         }
 
         if (playerPositionKnown) {
