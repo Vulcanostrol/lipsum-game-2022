@@ -1,10 +1,7 @@
 package gamejam.rooms;
 
 import gamejam.GameManager;
-import gamejam.objects.collidable.enemies.AbstractEnemy;
-import gamejam.objects.collidable.enemies.DroneEnemy;
-import gamejam.objects.collidable.enemies.GoldenPyramidEnemy;
-import gamejam.objects.collidable.enemies.PyramidEnemy;
+import gamejam.objects.collidable.enemies.*;
 
 public class EnemySpawnTable<E> {
 
@@ -17,8 +14,12 @@ public class EnemySpawnTable<E> {
     private static final float PYRAMID_LEVEL_APPEARANCE = 2;
 
     private static final float GOLDEN_PYRAMID_ENEMY_BASE_SPAWN_RATE = 10;
-    private static final float GOLDEN_PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 30;
+    private static final float GOLDEN_PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 15;
     private static final float GOLDEN_PYRAMID_LEVEL_APPEARANCE = 4;
+
+    private static final float GREY_BOX_ENEMY_BASE_SPAWN_RATE = 50;
+    private static final float GREY_BOX_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 20;
+    private static final float GREY_BOX_LEVEL_APPEARANCE = 5;
 
     private static EnemySpawnTable instance;
     private SpawnTableCollection spawnTableCollection;
@@ -49,6 +50,9 @@ public class EnemySpawnTable<E> {
         }
         if (currentNLevel >= GOLDEN_PYRAMID_LEVEL_APPEARANCE) {
             spawnTableCollection = spawnTableCollection.add(GOLDEN_PYRAMID_ENEMY_BASE_SPAWN_RATE + GOLDEN_PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - GOLDEN_PYRAMID_LEVEL_APPEARANCE), GoldenPyramidEnemy.class);
+        }
+        if (currentNLevel >= GREY_BOX_LEVEL_APPEARANCE) {
+            spawnTableCollection = spawnTableCollection.add(GREY_BOX_ENEMY_BASE_SPAWN_RATE + GREY_BOX_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - GREY_BOX_LEVEL_APPEARANCE), GreyBoxEnemy.class);
         }
     }
 
