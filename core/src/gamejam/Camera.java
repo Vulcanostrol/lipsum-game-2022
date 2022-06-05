@@ -60,6 +60,11 @@ public class Camera {
         draw(tr, x, y, width, height, false, false);
     }
 
+    public void draw(Texture sprite, float x, float y, float width, float height, boolean flipX, boolean flipY){
+        TextureRegion tr = new TextureRegion(sprite);
+        draw(tr, x, y, width, height, flipX, flipY);
+    }
+
 
     public void spriteDraw(Sprite s, float x, float y, float width, float height, boolean flipX, boolean flipY){
         float newWidth = width * factorX * windowFactorX;
