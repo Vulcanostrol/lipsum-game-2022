@@ -8,9 +8,12 @@ import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
+import gamejam.event.events.EntityDeathEvent;
 import gamejam.event.events.PlayerMoveEvent;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
+import gamejam.objects.collidable.bullets.Bullet;
+import gamejam.objects.collidable.explosion.DroneExplosion;
 
 import java.util.Random;
 
@@ -59,14 +62,16 @@ public class DroneEnemy extends AbstractEnemy {
     }
 
     public void onCollisionEvent(CollisionEvent collisionEvent) {
-        if (playerPositionKnown) {
-            // flying towards player, don't really care
+        Collidable other = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
+        if (other instanceof Player || this.getHealth() <= 0.0f) {
+            DroneExplosion explosion = new DroneExplosion(x, y);
+            explosion.onCollisionEvent(collisionEvent);
+            despawn();
             return;
         }
-        Collidable other = collisionEvent.getCollidesWith() == this ? collisionEvent.getCollidingObject() : collisionEvent.getCollidesWith();
 
-        if (other instanceof Player) {
-            //don't care about collision with player
+        if (playerPositionKnown) {
+            // flying towards player, don't really care
             return;
         }
 
@@ -83,7 +88,6 @@ public class DroneEnemy extends AbstractEnemy {
             // lost track of player, just go fly somewhere
             playerPositionKnown = false;
             roamingDirection = (float) Math.random();
-            System.out.printf("roamingdirection is now %f%n", roamingDirection);
         } else if (playerStillInRange) {
             this.playerPositionKnown = true;
         }
