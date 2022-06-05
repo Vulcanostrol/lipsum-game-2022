@@ -30,6 +30,7 @@ public class RandomChip extends Chip {
                 new BulletDamageEffect(1.5f),
                 new BulletSizeEffect(1.2f),
                 new MoreMaxHealthEffect(1.1f),
+                new BulletAmountEffect(1)
         };
         return effects[new Random().nextInt(effects.length)];
     }

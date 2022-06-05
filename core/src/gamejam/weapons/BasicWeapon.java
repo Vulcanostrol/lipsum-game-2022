@@ -10,9 +10,7 @@ public class BasicWeapon extends Weapon {
 
     private static final float BASIC_WEAPON_BULLET_SIZE = 50;
     private static final int BASIC_WEAPON_BULLET_AMOUNT = 1;
-    private static final float BASIC_WEAPON_BULLET_ANGLE_SPREAD = 0;
-
-//    private WeaponAugmenter augmenter = new BulletSizeAugmenter(1.1f);
+    private static final float BASIC_WEAPON_BULLET_ANGLE_SPREAD = 0.1f;
 
     public BasicWeapon() {
         super(BASIC_WEAPON_BASE_DAMAGE, BASIC_WEAPON_BASE_SPEED, BASIC_WEAPON_BULLET_SIZE,

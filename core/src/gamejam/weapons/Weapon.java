@@ -31,6 +31,7 @@ public abstract class Weapon {
     }
 
     private void onWeaponFire(WeaponFireEvent event) {
+        System.out.println(damage);
         if (event.getWeapon() == this) {
             GameManager.getInstance().getCamera().startShake();
         }
@@ -60,4 +61,11 @@ public abstract class Weapon {
         damage += scale;
     }
 
+    public void addBulletAmount(int amount) {
+        this.bulletAmount += 1;
+    }
+
+    public float getDamage() {
+        return damage;
+    }
 }
