@@ -3,6 +3,8 @@ package gamejam.objects.collidable.enemies;
 import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
 import gamejam.TextureStore;
+import gamejam.event.EventQueue;
+import gamejam.event.events.ScoreEvent;
 import gamejam.objects.Damageable;
 import gamejam.objects.collidable.SelfCollidable;
 import gamejam.objects.collidable.Traversable;
@@ -34,6 +36,7 @@ public class AbstractEnemy extends SelfCollidable implements Damageable, Travers
         health -= damage;
         if (health < 0) {
             // DEATH
+            EventQueue.getInstance().invoke(new ScoreEvent(10));
             despawn();
         }
     }
