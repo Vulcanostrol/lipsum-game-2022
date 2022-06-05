@@ -22,7 +22,7 @@ public class Bullet extends Collidable implements Traversable {
 
     private float alpha;
 
-    private Sprite spriteInsteadOfTexture;
+    protected Sprite spriteInsteadOfTexture;
 
     // TODO: When we want bullets that can damage the player, we can fuck with this. FOr now, leave this as is PLEASE!
     boolean damagePlayer = false;
@@ -95,5 +95,9 @@ public class Bullet extends Collidable implements Traversable {
             spriteInsteadOfTexture.setAlpha(alpha);
         }
 
+    }
+
+    public float getDamage() {
+        return damage;
     }
 }

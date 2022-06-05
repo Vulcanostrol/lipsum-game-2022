@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.events.CollisionEvent;
 import gamejam.factories.PlayerFactory;
 import gamejam.objects.collidable.bullets.PyramidBullet;
@@ -58,6 +59,11 @@ public class PyramidEnemy extends AbstractEnemy {
 
         TextureRegion[] frames = TextureRegion.split(spriteSheet, 13, 24)[0];
         animation = new Animation<>(0.2f, frames);
+    }
+
+    @Override
+    public int getPoints(){
+        return ScoreConfiguration.PYRAMID;
     }
 
     @Override

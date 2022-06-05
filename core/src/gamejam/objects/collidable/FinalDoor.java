@@ -7,6 +7,7 @@ import gamejam.GameManager;
 import gamejam.Camera;
 import gamejam.TextureStore;
 import gamejam.config.RoomConfiguration;
+import gamejam.config.ScoreConfiguration;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -76,7 +77,7 @@ public class FinalDoor extends Collidable {
             if (!collided) {
                 GameManager.getInstance().getCurrentLevel().getCurrentRoom().cleared = true;
                 EventQueue.getInstance().invoke(new LevelChangeEvent());
-                EventQueue.getInstance().invoke(new ScoreEvent(1000));
+                EventQueue.getInstance().invoke(new ScoreEvent(ScoreConfiguration.NEXT_LEVEL));
                 collided = true;
             }
         }
