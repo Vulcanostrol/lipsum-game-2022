@@ -1,12 +1,14 @@
 package gamejam.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import gamejam.GameManager;
@@ -37,6 +39,12 @@ public class DeathMenu extends Menu {
         Label score = new Label("Your score: " + scoreToDisplay, labelStyle);
         verticalGroup.addActor(score);
 
+        TextField.TextFieldStyle style = new TextField.TextFieldStyle();
+        style.font = font;
+        style.fontColor = Color.WHITE;
+        TextField userField = new TextField("", style);
+        verticalGroup.addActor(userField);
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
 
@@ -44,6 +52,12 @@ public class DeathMenu extends Menu {
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
+                String user = userField.getText();
+                int score = scoreToDisplay;
+
+                // POST request.
+
+                scoreToDisplay = 0;
                 EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.MAIN_MENU));
 
             }
