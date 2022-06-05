@@ -12,6 +12,7 @@ import gamejam.event.EventType;
 import gamejam.event.events.CollisionEvent;
 import gamejam.event.events.LevelChangeEvent;
 import gamejam.event.events.RoomChangeEvent;
+import gamejam.event.events.ScoreEvent;
 import gamejam.factories.enemies.AbstractEnemyFactory;
 import gamejam.levels.Direction;
 import gamejam.objects.collidable.Collidable;
@@ -77,6 +78,7 @@ public class FinalDoor extends Collidable {
             if (!collided) {
                 GameManager.getInstance().getCurrentLevel().getCurrentRoom().cleared = true;
                 EventQueue.getInstance().invoke(new LevelChangeEvent());
+                EventQueue.getInstance().invoke(new ScoreEvent(1000));
                 collided = true;
             }
         }

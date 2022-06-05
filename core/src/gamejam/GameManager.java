@@ -6,6 +6,7 @@ import gamejam.event.EventQueue;
 import gamejam.event.EventType;
 import gamejam.event.events.MenuChangeEvent;
 import gamejam.event.events.PlayerDeathEvent;
+import gamejam.event.events.ScoreEvent;
 import gamejam.factories.EntityFactory;
 import gamejam.factories.PlayerFactory;
 import gamejam.levels.Direction;
@@ -27,6 +28,7 @@ public class GameManager {
     private int currentNLevel;
     private long previousTime;
     private Camera camera;
+    private int score;
 
     public static GameManager getInstance() {
         if (instance == null) {
@@ -39,6 +41,7 @@ public class GameManager {
 
     public void setupGame() {
         gameActive = true;
+        score = 0;
 
         // Initialize a base level
         currentLevel = new Level();
@@ -56,7 +59,14 @@ public class GameManager {
         new Player(newPlayerX, newPlayerY);
 
         EventConsumer<PlayerDeathEvent> consumer = this::resetEntireGame;
+        EventConsumer<ScoreEvent> consumerScore = this::getPoints;
         EventQueue.getInstance().registerConsumer(consumer, EventType.PLAYER_DEATH);
+        EventQueue.getInstance().registerConsumer(consumerScore, EventType.SCORE_EVENT);
+    }
+
+    private void getPoints(ScoreEvent event){
+        score += event.getPoints();
+        System.out.println("Current score is: "+score);
     }
 
     private void resetEntireGame(PlayerDeathEvent event) {
@@ -66,6 +76,7 @@ public class GameManager {
             EntityFactory.getInstance().recursiveRemoveManagedObjects();
             EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.MAIN_MENU));
             gameActive = false;
+            score = 0;
         }
     }
 

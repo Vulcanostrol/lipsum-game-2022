@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
 import gamejam.event.EventQueue;
 import gamejam.event.events.EntityDeathEvent;
+import gamejam.event.events.ScoreEvent;
 import gamejam.factories.EntityFactory;
 
 public abstract class Entity {
