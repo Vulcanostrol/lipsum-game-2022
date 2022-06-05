@@ -5,7 +5,7 @@ import gamejam.Camera;
 import gamejam.objects.collidable.explosion.BombExplosion;
 
 public class Bomb extends Entity {
-    public static final float SPEED = 200;
+    public static final float SPEED = 400;
     public static final float MAX_HEIGHT = 300;
     private final float maxDistance;
 
@@ -47,7 +47,7 @@ public class Bomb extends Entity {
     private float computeHeight() {
         float normDist = distance(x - initialX, y - initialY)/ maxDistance;;
         float normHeight = (float) (4 * (0.25 - Math.pow(0.5 - normDist, 2)));
-        return MAX_HEIGHT * normHeight;
+        return maxDistance * normHeight * 0.25f;
     }
 
 }
