@@ -62,6 +62,7 @@ public class PyramidEnemy extends AbstractEnemy {
 
     @Override
     public void draw(Camera camera) {
+        super.draw(camera); // draw health bar (abstract enemy)
         currentSprite = animation.getKeyFrame(animationTime,true);
 
         camera.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight, lookingLeft, false);
