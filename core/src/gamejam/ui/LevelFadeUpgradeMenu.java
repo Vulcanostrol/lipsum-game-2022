@@ -40,6 +40,7 @@ public class LevelFadeUpgradeMenu extends Menu {
     private Image overlay;
     private float currentAlpha;
     private float deltaMultiplier;
+    private boolean choosing = true;
 
     private List<Chip> chips;
 
@@ -47,6 +48,7 @@ public class LevelFadeUpgradeMenu extends Menu {
     public void create() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+        choosing = true;
 
         chips = new ArrayList<>();
         chips.add(new RandomChip(2, 2));
@@ -100,8 +102,11 @@ public class LevelFadeUpgradeMenu extends Menu {
             nextLevelButton.addListener(new ClickListener() {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
-                    ChipManager.getInstance().activateChip(chip);
-                    nextLevel();
+                    if (choosing) {
+                        ChipManager.getInstance().activateChip(chip);
+                        nextLevel();
+                        choosing = false;
+                    }
                 }
             });
             verticalGroup.addActor(nextLevelButton);

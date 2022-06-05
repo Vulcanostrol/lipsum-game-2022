@@ -21,6 +21,10 @@ public class EnemySpawnTable<E> {
     private static final float GREY_BOX_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 20;
     private static final float GREY_BOX_LEVEL_APPEARANCE = 5;
 
+    private static final float RED_BOX_ENEMY_BASE_SPAWN_RATE = 1000;
+    private static final float RED_BOX_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 20;
+    private static final float RED_BOX_LEVEL_APPEARANCE = 1;
+
     private static final float CANNON_ENEMY_BASE_SPAWN_RATE = 20;
     private static final float CANNON_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 10;
     private static final float CANNON_LEVEL_APPEARANCE = 3;
@@ -57,6 +61,9 @@ public class EnemySpawnTable<E> {
         }
         if (currentNLevel >= GREY_BOX_LEVEL_APPEARANCE) {
             spawnTableCollection = spawnTableCollection.add(GREY_BOX_ENEMY_BASE_SPAWN_RATE + GREY_BOX_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - GREY_BOX_LEVEL_APPEARANCE), GreyBoxEnemy.class);
+        }
+        if (currentNLevel >= RED_BOX_LEVEL_APPEARANCE) {
+            spawnTableCollection = spawnTableCollection.add(RED_BOX_ENEMY_BASE_SPAWN_RATE + RED_BOX_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - RED_BOX_LEVEL_APPEARANCE), RedBoxEnemy.class);
         }
         if (currentNLevel >= CANNON_LEVEL_APPEARANCE) {
             spawnTableCollection = spawnTableCollection.add(CANNON_ENEMY_BASE_SPAWN_RATE + CANNON_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - CANNON_LEVEL_APPEARANCE), CannonEnemy.class);
