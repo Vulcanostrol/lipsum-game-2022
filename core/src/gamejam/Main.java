@@ -14,8 +14,13 @@ import gamejam.factories.*;
 import gamejam.factories.bullets.BulletFactory;
 import gamejam.factories.bullets.PyramidEnemyBulletFactory;
 import gamejam.factories.enemies.AbstractEnemyFactory;
+import gamejam.factories.enemies.CannonEnemyFactory;
 import gamejam.factories.enemies.DroneEnemyFactory;
 import gamejam.factories.enemies.PyramidEnemyFactory;
+import gamejam.factories.explosion.BombExplosionFactory;
+import gamejam.factories.explosion.ExplosionFactory;
+import gamejam.objects.collidable.enemies.CannonEnemy;
+import gamejam.objects.collidable.explosion.BombExplosion;
 import gamejam.ui.*;
 
 public class Main extends Game {
@@ -35,6 +40,10 @@ public class Main extends Game {
 		DroneEnemyFactory.getInstance();
 		PyramidEnemyFactory.getInstance();
 		PyramidEnemyBulletFactory.getInstance();
+		CannonEnemyFactory.getInstance();
+		BombFactory.getInstance();
+		ExplosionFactory.getInstance();
+		BombExplosionFactory.getInstance();
 		EntityDeathManager.init();
 	}
 
