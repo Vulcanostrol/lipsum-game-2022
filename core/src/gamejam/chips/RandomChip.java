@@ -11,10 +11,18 @@ public class RandomChip extends Chip {
             "Green", "Yellow", "Brick", "Beer", "Banana", "Screening", "Ultra", "Small", "Account", "Binding",
     };
 
-    public RandomChip() {
+    public RandomChip(int positiveEffects, int negativeEffects) {
         super(CHIP_NAMES[new Random().nextInt(CHIP_NAMES.length)] + " Chip");
-        addEffect(getRandomPositiveEffect());
-        addEffect(getRandomNegativeEffect());
+        for (int i = 0; i < positiveEffects; i++) {
+            addEffect(getRandomPositiveEffect());
+        }
+        for (int i = 0; i < negativeEffects; i++) {
+            addEffect(getRandomNegativeEffect());
+        }
+    }
+
+    public RandomChip() {
+        this(1, 1);
     }
 
     private ChipEffect getRandomPositiveEffect() {
@@ -22,6 +30,7 @@ public class RandomChip extends Chip {
                 new BulletDamageEffect(1.5f),
                 new BulletSizeEffect(1.2f),
                 new MoreMaxHealthEffect(1.1f),
+                new BulletAmountEffect(1)
         };
         return effects[new Random().nextInt(effects.length)];
     }

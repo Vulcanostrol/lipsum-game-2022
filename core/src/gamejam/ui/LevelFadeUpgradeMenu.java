@@ -32,7 +32,7 @@ public class LevelFadeUpgradeMenu extends Menu {
     }
 
     private static void onLevelChangeEvent(LevelChangeEvent event) {
-        EventQueue.getInstance().invoke(new MenuChangeEvent(5));
+        EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.LEVEL_FADE_UPGRADE));
     }
 
     // Menu itself, no static stuff anymore.
@@ -49,10 +49,10 @@ public class LevelFadeUpgradeMenu extends Menu {
         Gdx.input.setInputProcessor(stage);
 
         chips = new ArrayList<>();
-        chips.add(new RandomChip());
-        chips.add(new RandomChip());
-        chips.add(new RandomChip());
-        chips.add(new RandomChip());
+        chips.add(new RandomChip(2, 2));
+        chips.add(new RandomChip(2, 2));
+        chips.add(new RandomChip(2, 2));
+        chips.add(new RandomChip(2, 2));
 
         currentAlpha = 0f;
         deltaMultiplier = 1f;
@@ -158,6 +158,6 @@ public class LevelFadeUpgradeMenu extends Menu {
     }
 
     private void onComplete() {
-        EventQueue.getInstance().invoke(new MenuChangeEvent(-1));
+        EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.INGAME_OVERLAY));
     }
 }

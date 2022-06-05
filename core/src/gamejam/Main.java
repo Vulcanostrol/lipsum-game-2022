@@ -8,6 +8,8 @@ import gamejam.chips.*;
 import gamejam.event.*;
 import gamejam.event.events.KeyEvent;
 import gamejam.event.events.LevelChangeEvent;
+import gamejam.event.events.LevelChangeEvent;
+import gamejam.event.events.PlayerDeathEvent;
 import gamejam.factories.*;
 import gamejam.factories.bullets.BulletFactory;
 import gamejam.factories.bullets.PyramidEnemyBulletFactory;
@@ -47,6 +49,7 @@ public class Main extends Game {
 		menuManager.registerMenu(new RoomFadeMenu());			// 3
 		menuManager.registerMenu(new RoomFadeUpgradeMenu());	// 4
 		menuManager.registerMenu(new LevelFadeUpgradeMenu());	// 5
+		menuManager.registerMenu(new IngameOverlayMenu());		// 6
 	}
 
 	@Override
@@ -56,7 +59,7 @@ public class Main extends Game {
 		// Initiate the Efficient collision handler
 		EfficientCollisionHandler.getInstance();
 
-		menuManager.switchMenu(0);
+		menuManager.switchMenu(MenuManager.MAIN_MENU);
 
 		EventConsumer<KeyEvent> consumer = this::onKeyEvent;
 		EventQueue.getInstance().registerConsumer(consumer, EventType.KEY_EVENT);
@@ -84,8 +87,12 @@ public class Main extends Game {
 		}
 
 		// Events
+
 		if (event.getKeyCode() == Input.Keys.NUMPAD_1 && event.isKeyDown()) {
 			EventQueue.getInstance().invoke(new LevelChangeEvent());
+		}
+		if (event.getKeyCode() == Input.Keys.NUMPAD_2 && event.isKeyDown()) {
+			EventQueue.getInstance().invoke(new PlayerDeathEvent());
 		}
 	}
 
@@ -108,6 +115,6 @@ public class Main extends Game {
 
 	@Override
 	public void dispose () {
-		menuManager.switchMenu(-1);
+		menuManager.switchMenu(MenuManager.NO_MENU);
 	}
 }

@@ -155,6 +155,11 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
         keyHoldWatcher.releaseAll();
     }
 
+    public void hardDisposePlayer() {
+        // Here, we DO dispose stuff, because the whole game is resetting.
+        EventQueue.getInstance().deregisterConsumer(mousePressConsumer, EventType.MOUSE_PRESS_EVENT);
+    }
+
     public Weapon getWeapon() {
         return weapon;
     }

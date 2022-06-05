@@ -41,7 +41,7 @@ public class PausedMenu extends Menu {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                EventQueue.getInstance().invoke(new MenuChangeEvent(-1));
+                EventQueue.getInstance().invoke(new MenuChangeEvent(6));
             }
         });
         verticalGroup.addActor(backButton);

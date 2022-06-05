@@ -14,6 +14,15 @@ import java.util.List;
 
 public class MenuManager {
 
+    public static final int NO_MENU = -1;
+    public static final int MAIN_MENU = 0;
+    public static final int OPTIONS_MENU = 1;
+    public static final int PAUSED_MENU = 2;
+    public static final int ROOM_FADE_MENU = 3;
+    public static final int ROOM_FADE_UPGRADE = 4;
+    public static final int LEVEL_FADE_UPGRADE = 5;
+    public static final int INGAME_OVERLAY = 6;
+
     private final List<Menu> registeredMenus;
     private int currentMenuId;
 
@@ -36,7 +45,7 @@ public class MenuManager {
 
     private void onKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == Input.Keys.ESCAPE && event.isKeyDown()) {
-            EventQueue.getInstance().invoke(new MenuChangeEvent(3));
+            EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.PAUSED_MENU));
         }
     }
 
