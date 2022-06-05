@@ -118,7 +118,7 @@ public class Level {
             currentRoom.setup(false);
             return true;
         } else {
-            System.err.println("Trying to move to a location where there is no room! Direction: ");
+            System.err.println("Trying to move to a location where there is no room! Direction: " + direction);
             return false;
         }
     }

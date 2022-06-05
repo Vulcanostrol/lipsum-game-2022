@@ -2,14 +2,10 @@ package gamejam;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
-import gamejam.chips.*;
-import gamejam.event.*;
-import gamejam.event.events.KeyEvent;
-import gamejam.event.events.LevelChangeEvent;
-import gamejam.event.events.LevelChangeEvent;
-import gamejam.event.events.PlayerDeathEvent;
+import gamejam.chips.ChipManager;
+import gamejam.event.EfficientCollisionHandler;
+import gamejam.event.EventQueue;
 import gamejam.factories.*;
 import gamejam.factories.bullets.BulletFactory;
 import gamejam.factories.bullets.PyramidEnemyBulletFactory;
@@ -19,8 +15,6 @@ import gamejam.factories.enemies.DroneEnemyFactory;
 import gamejam.factories.enemies.PyramidEnemyFactory;
 import gamejam.factories.explosion.BombExplosionFactory;
 import gamejam.factories.explosion.ExplosionFactory;
-import gamejam.objects.collidable.enemies.CannonEnemy;
-import gamejam.objects.collidable.explosion.BombExplosion;
 import gamejam.ui.*;
 
 public class Main extends Game {
@@ -69,46 +63,7 @@ public class Main extends Game {
 		EfficientCollisionHandler.getInstance();
 
 		menuManager.switchMenu(MenuManager.MAIN_MENU);
-
-		EventConsumer<KeyEvent> consumer = this::onKeyEvent;
-		EventQueue.getInstance().registerConsumer(consumer, EventType.KEY_EVENT);
  	}
-
-	private void onKeyEvent(KeyEvent event) {
-		// Debugging tests
-		if (event.getKeyCode() == Input.Keys.NUM_1 && event.isKeyDown()) {
-			ChipManager.getInstance().activateChip(new BuffChip());
-		}
-		if (event.getKeyCode() == Input.Keys.NUM_2 && event.isKeyDown()) {
-			ChipManager.getInstance().activateChip(new WeirdChip());
-		}
-		if (event.getKeyCode() == Input.Keys.NUM_3 && event.isKeyDown()) {
-			ChipManager.getInstance().activateChip(new SniperChip());
-		}
-		if (event.getKeyCode() == Input.Keys.NUM_4 && event.isKeyDown()) {
-			ChipManager.getInstance().activateChip(new BulletChip());
-		}
-		if (event.getKeyCode() == Input.Keys.NUM_5 && event.isKeyDown()) {
-			ChipManager.getInstance().activateChip(new ScuffedChip());
-		}
-
-		// God mode and reset
-		if (event.getKeyCode() == Input.Keys.NUM_9 && event.isKeyDown()) {
-			ChipManager.getInstance().activateChip(new GodModeChip());
-		}
-		if (event.getKeyCode() == Input.Keys.NUM_0 && event.isKeyDown()) {
-			ChipManager.getInstance().resetChips();
-		}
-
-		// Events
-
-		if (event.getKeyCode() == Input.Keys.NUMPAD_1 && event.isKeyDown()) {
-			EventQueue.getInstance().invoke(new LevelChangeEvent());
-		}
-		if (event.getKeyCode() == Input.Keys.NUMPAD_2 && event.isKeyDown()) {
-			EventQueue.getInstance().invoke(new PlayerDeathEvent());
-		}
-	}
 
 	public void resize (int width, int height) {
 		menuManager.onResize(width, height);

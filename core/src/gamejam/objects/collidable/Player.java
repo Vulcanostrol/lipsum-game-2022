@@ -112,6 +112,7 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
 
     @Override
     public void draw(Camera camera) {
+        drawShadow(camera);
         camera.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight, lookingLeft, false);
         super.drawHitBox(camera);
     }
@@ -183,6 +184,7 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
         // We intentionally do not do anything here anymore, because the player persists between rooms / levels. We only
         // reset the input handling.
         keyHoldWatcher.releaseAll();
+        isFiringWeapon = false;
     }
 
     public void hardDisposePlayer() {
@@ -192,5 +194,10 @@ public class Player extends SelfCollidable implements Damageable, Traversable {
 
     public Weapon getWeapon() {
         return weapon;
+    }
+
+    @Override
+    protected DropShadowType getDropShadowType() {
+        return DropShadowType.NORMAL;
     }
 }

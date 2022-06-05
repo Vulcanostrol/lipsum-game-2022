@@ -22,6 +22,8 @@ public class TextureStore {
         textures.put("finaldoor_vertical", new Texture("terrain/finaldoor_vertical.png"));
         textures.put("health_bar_red", new Texture("healthbar/red_pixel.png"));
         textures.put("health_bar_green", new Texture("healthbar/green_pixel.png"));
+        textures.put("dropshadow", new Texture("dropshadow.png"));
+        textures.put("dropshadow_small", new Texture("dropshadow_smol.png"));
         // Upgrade rooms
         textures.put("wall_upgrade", new Texture("terrain/wall_upgrade.png"));
         textures.put("wall_vertical_upgrade", new Texture("terrain/wall_vertical_upgrade.png"));

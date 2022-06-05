@@ -40,7 +40,7 @@ public class Room {
     public boolean visited;
     public boolean cleared;
     public boolean isUpgradeRoom;
-
+    public Boolean isStartRoom = null;
     private boolean isFinalRoom;
 
     private static Random random = new Random(LevelConfiguration.SEED);
@@ -218,6 +218,12 @@ public class Room {
             List<Direction> possibleDirections = getPossibleBranchDirections();
             finalDoorDirection = possibleDirections.get(new Random().nextInt(possibleDirections.size()));
         }
+        if (this.isStartRoom == null) {
+            this.isStartRoom = isStartRoom;
+        }
+        if (this.isStartRoom) {
+            isUpgradeRoom = false;
+        }
 
         // Setup base room tiles
         int max_tile_x = tiles.length - 1;
@@ -228,7 +234,7 @@ public class Room {
                 int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
                 int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
                 int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
-                if(pillars[i][j] && !isStartRoom) {
+                if(pillars[i][j] && !this.isStartRoom) {
                     new Pillar(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY);
                 }
 
@@ -310,11 +316,11 @@ public class Room {
         }
 
         // After this one can choose how to randomly instantiate rest objects in the room
-        if (!visited && !isStartRoom) {
-            visited = true;
+        if (!visited && !this.isStartRoom) {
             // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
             GameManager.getInstance().spawnEnemies();
         }
+        visited = true;
     }
 
     public void spawnEnemies(float currentSpawnRate) {

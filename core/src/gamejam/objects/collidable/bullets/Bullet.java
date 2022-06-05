@@ -12,6 +12,8 @@ public class Bullet extends Collidable implements Traversable {
 
     public final float BULLET_DESPAWN_RANGE = 5000;
 
+    public static float HEIGHT = 15;
+
     private float damage;
 
     // TODO: When we want bullets that can damage the player, we can fuck with this. FOr now, leave this as is PLEASE!
@@ -52,7 +54,13 @@ public class Bullet extends Collidable implements Traversable {
 
     @Override
     public void draw(Camera camera) {
-        super.draw(camera);
+        drawShadow(camera);
+        camera.draw(sprite, x - spriteWidth / 2, y + HEIGHT, spriteWidth, spriteHeight);
+    }
+
+    @Override
+    protected DropShadowType getDropShadowType() {
+        return DropShadowType.SMALL;
     }
 
     @Override
