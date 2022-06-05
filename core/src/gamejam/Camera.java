@@ -47,7 +47,7 @@ public class Camera {
     private float movementOffsetX = 200;
     private float movementOffsetY = 200;
 
-    private boolean flipX = true;
+    private boolean flipX = false;
 //    private boolean flipY = false;
 
 //    private ShapeRenderer s = new ShapeRenderer();
