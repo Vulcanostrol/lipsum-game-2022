@@ -3,6 +3,7 @@ package gamejam.objects.collidable;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import gamejam.Camera;
+import gamejam.config.GeneralConfiguration;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
 import gamejam.event.EventType;
@@ -62,11 +63,13 @@ public abstract class Collidable extends Entity {
     }
 
     protected void drawHitBox(Camera camera){
-//        if (hasCollided) {
-//            camera.draw(hitBoxRedTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
-//        } else {
-//            camera.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
-//        }
+        if(GeneralConfiguration.showHitBoxes){
+            if (hasCollided) {
+                camera.draw(hitBoxRedTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
+            } else {
+                camera.draw(hitBoxGreenTexture, x - collisionWidth / 2, y, collisionWidth, collisionHeight);
+            }
+        }
     }
 
 

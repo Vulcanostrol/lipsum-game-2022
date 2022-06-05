@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import gamejam.event.events.MousePressEvent;
-import gamejam.rooms.RoomConfiguration;
+import gamejam.config.RoomConfiguration;
 
 import java.util.Random;
 
@@ -39,19 +39,19 @@ public class Camera {
     private float updateFactorY = 1f;
     private float updateFactorX = 1f;
 
-    private int movementSpeed = 500;
+    private int movementSpeed = 0;
     private int movementX = movementSpeed;
     private int movementY = 0;
     private int movementXDirection = 1;
     private int movementYDirection = 1;
-    private float movementOffsetX = 0;
-    private float movementOffsetY = 0;
+    private float movementOffsetX = 200;
+    private float movementOffsetY = 200;
 
-    private boolean flipX = false;
-    private boolean flipY = true;
+    private boolean flipX = true;
+//    private boolean flipY = false;
 
-    private ShapeRenderer s = new ShapeRenderer();
-    private float blueness = 0.5f;
+//    private ShapeRenderer s = new ShapeRenderer();
+//    private float blueness = 0.5f;
 
     public Camera(){
         spriteBatch = new SpriteBatch();
@@ -61,10 +61,12 @@ public class Camera {
     }
 
     public void draw(Texture sprite, float x, float y, float width, float height){
-        draw(sprite, x, y, width, height, 0, 0, sprite.getWidth(), sprite.getHeight(), false, false);
+        TextureRegion tr = new TextureRegion(sprite);
+        draw(tr, x, y, width, height, false, false);
+//        draw2(sprite, x, y, width, height, 0, 0, sprite.getWidth(), sprite.getHeight(), false, false);
     }
 
-    public void draw(Texture sprite, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
+    public void draw2(Texture sprite, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
         float newWidth = width * factorX * windowFactorX;
         float newHeight = height * factorY * windowFactorY;
 
@@ -73,10 +75,14 @@ public class Camera {
             newX = ((START_WIDTH-x-newWidth*2) + movementOffsetX + shakeX) * factorX * windowFactorX;
         }
         float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
-        if(this.flipY){
-            newY = ((START_HEIGHT-y-newHeight*2) + movementOffsetY + shakeY) * factorY * windowFactorY;
-        }
-        spriteBatch.draw(sprite, newX, newY, newWidth, newHeight, srcX, srcY, srcWidth, srcHeight, !(flipX ^ this.flipX), !(flipY ^ this.flipY));
+//        if(this.flipY){
+            //more wrong when newHeight is bigger
+            //more wrong when windowFactorY is bigger
+//            System.out.println(windowFactorY);
+//            newY = ((START_HEIGHT-y-newHeight*2) + movementOffsetY + shakeY) * factorY * windowFactorY;
+//        }
+//        spriteBatch.draw(sprite, newX, newY, newWidth, newHeight, srcX, srcY, srcWidth, srcHeight, !(flipX ^ this.flipX), (flipY ^ this.flipY));
+        spriteBatch.draw(sprite, newX, newY, newWidth, newHeight, srcX, srcY, srcWidth, srcHeight, !(flipX ^ this.flipX), flipY);
     }
 
     public void draw(TextureRegion region, float x, float y, float width, float height, boolean flipX, boolean flipY){
@@ -88,14 +94,17 @@ public class Camera {
             newX = ((START_WIDTH-x-newWidth*2) + movementOffsetX + shakeX) * factorX * windowFactorX;
         }
         float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
-        if(this.flipY){
-            newY = ((START_HEIGHT-y-newHeight*4) + movementOffsetY + shakeY) * factorY * windowFactorY;
-        }
+//        if(this.flipY){
+//            newY = ((START_HEIGHT-y) + movementOffsetY + shakeY) * factorY * windowFactorY;
+//        }
         float newOriginX = newWidth / 2f; // Origin in middle.
         float newOriginY = newHeight; // Origin on the bottom.
         float xScale = (this.flipX ^ flipX) ? -1f : 1f;
-        float yScale = (this.flipY ^ flipY) ? -1f : 1f;
-        spriteBatch.draw(region, newX, newY, newOriginX, newOriginY, newWidth, newHeight, xScale, yScale, 0f);
+//        float yScale = (this.flipY ^ flipY) ? -1f : 1f;
+        float yScale = flipY ? -1f : 1f;
+//        spriteBatch.draw
+//        spriteBatch.draw(region, newX, newY, newOriginX, newOriginY, newWidth, newHeight, xScale, yScale, 0f);
+        spriteBatch.draw(region, newX, newY, newOriginX, 0, newWidth, newHeight, xScale, yScale, 0f);
     }
 
     public void updateShake() {
@@ -114,11 +123,11 @@ public class Camera {
     }
 
     public float getYfromEvent(MousePressEvent event){
-        if(this.flipY){
-            return -(((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY - START_HEIGHT);
-        } else {
+//        if(this.flipY){
+//            return -(((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY - START_HEIGHT);
+//        } else {
             return ((Gdx.graphics.getHeight() - event.getScreenY()) / (factorY*windowFactorY)) - movementOffsetY;
-        }
+//        }
     }
 
     private void updateHeight(){
@@ -177,18 +186,11 @@ public class Camera {
         timingCounter += deltaTimeMillis;
         updateMovement(deltaTimeMillis);
         updateLoop();
+
         spriteBatch.begin();
     }
 
     public void end(){
-        s.begin(ShapeRenderer.ShapeType.Filled);
-        float newX = (movementOffsetX + shakeX) * factorX * windowFactorX;
-        float newY = (movementOffsetY + shakeY) * factorY * windowFactorY;
-        float newWidth = START_WIDTH * factorX * windowFactorX;
-        float newHeight = START_HEIGHT * factorY * windowFactorY;
-        s.setColor(new Color(0, 0, 255, blueness));
-        s.rect(newX, newY, newWidth, newHeight);
-        s.end();
         spriteBatch.end();
     }
 

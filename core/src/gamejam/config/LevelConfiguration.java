@@ -1,4 +1,4 @@
-package gamejam.levels;
+package gamejam.config;
 
 public class LevelConfiguration {
 

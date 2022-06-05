@@ -2,10 +2,11 @@ package gamejam.levels;
 
 import gamejam.Camera;
 import gamejam.Util;
+import gamejam.config.LevelConfiguration;
 import gamejam.factories.WallFactory;
 import gamejam.objects.collidable.Wall;
 import gamejam.rooms.Room;
-import gamejam.rooms.RoomConfiguration;
+import gamejam.config.RoomConfiguration;
 
 import java.util.List;
 
