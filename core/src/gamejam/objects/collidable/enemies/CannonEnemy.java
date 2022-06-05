@@ -2,11 +2,11 @@ package gamejam.objects.collidable.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
+import gamejam.config.RoomConfiguration;
 import gamejam.factories.CollidableFactory;
 import gamejam.factories.PlayerFactory;
 import gamejam.objects.Bomb;
 import gamejam.objects.collidable.Collidable;
-import gamejam.rooms.RoomConfiguration;
 
 import java.util.Random;
 import java.util.stream.Stream;
