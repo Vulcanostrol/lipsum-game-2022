@@ -159,7 +159,9 @@ public class GameManager {
 
         //Draw
         currentLevel.render(camera);
-        EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
+        // Sorts maken drawcode beter
+        EntityFactory.getInstance().getAllManagedObjects()
+                .sorted((e1, e2) -> Float.compare(e2.getY(), e1.getY())).forEach(e -> e.draw(camera));
         camera.end();
 
         // After draw (don't question, just believe)
