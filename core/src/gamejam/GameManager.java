@@ -38,6 +38,13 @@ public class GameManager {
         return instance;
     }
 
+    public GameManager() {
+        EventConsumer<PlayerDeathEvent> consumer = this::resetEntireGame;
+        EventConsumer<ScoreEvent> consumerScore = this::getPoints;
+        EventQueue.getInstance().registerConsumer(consumer, EventType.PLAYER_DEATH);
+        EventQueue.getInstance().registerConsumer(consumerScore, EventType.SCORE_EVENT);
+    }
+
     private boolean gameActive;
 
     public void setupGame() {
@@ -59,11 +66,6 @@ public class GameManager {
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
-
-        EventConsumer<PlayerDeathEvent> consumer = this::resetEntireGame;
-        EventConsumer<ScoreEvent> consumerScore = this::getPoints;
-        EventQueue.getInstance().registerConsumer(consumer, EventType.PLAYER_DEATH);
-        EventQueue.getInstance().registerConsumer(consumerScore, EventType.SCORE_EVENT);
     }
 
     private void getPoints(ScoreEvent event){
