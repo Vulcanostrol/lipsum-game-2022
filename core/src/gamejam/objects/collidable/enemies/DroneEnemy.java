@@ -32,7 +32,7 @@ public class DroneEnemy extends AbstractEnemy {
     // angle at which the robot moves once it collides with something, and it is not following the player.
     protected float roamingDirection = (float) Math.random();
 
-    public float SPEED = 50f;
+    public float SPEED = 150f;
 
     protected float playerX = -Float.MAX_VALUE;
     protected float playerY = -Float.MAX_VALUE;
