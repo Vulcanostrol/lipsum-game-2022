@@ -2,34 +2,36 @@ package gamejam.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import gamejam.Camera;
+import gamejam.TextureStore;
 import gamejam.objects.Entity;
+import gamejam.objects.collidable.explosion.BombExplosion;
 
 public class Bomb extends Entity {
     public static final float SPEED = 200;
     public static final float MAX_HEIGHT = 300;
-    private float maxDistance;
+    private final float maxDistance;
 
-    private float targetX;
-    private float targetY;
+    private final float initialX;
+    private final float initialY;
 
     public Bomb(float x, float y, float targetX, float targetY) {
         super(10*5, 10*5);
         sprite = new Texture("entity/bomb.png");
-        this.targetX = targetX;
-        this.targetY = targetY;
-
+        initialX = x;
+        initialY = y;
         maxDistance = distance(x - targetX, y - targetY);
         setPosition(x, y);
         setVelocity(
-                SPEED * (x/ maxDistance),
-                SPEED * (y/ maxDistance)
+                SPEED * ((targetX - x)/ maxDistance),
+                SPEED * ((targetY - y)/ maxDistance)
         );
     }
 
     @Override
     public void update(float timeDeltaMillis) {
-        float height = computeHeight();
-        if (height <= 0) {
+        float normDist = distance(x - initialX, y - initialY)/ maxDistance;;
+        if (normDist > 1) {
+            new BombExplosion(x, y);
             despawn();
         }
         super.update(timeDeltaMillis);
@@ -45,7 +47,7 @@ public class Bomb extends Entity {
     }
 
     private float computeHeight() {
-        float normDist = distance(x - targetX, y - targetY)/ maxDistance;
+        float normDist = distance(x - initialX, y - initialY)/ maxDistance;;
         float normHeight = (float) (4 * (0.25 - Math.pow(0.5 - normDist, 2)));
         return MAX_HEIGHT * normHeight;
     }

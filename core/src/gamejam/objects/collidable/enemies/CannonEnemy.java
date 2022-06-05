@@ -1,15 +1,15 @@
 package gamejam.objects.collidable.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
+import gamejam.Camera;
 import gamejam.factories.PlayerFactory;
 import gamejam.objects.Bomb;
-import gamejam.objects.collidable.Player;
 
 /**
  * Bomby boi shoots bombs and teleports all over the map just to annoy you
  */
 public class CannonEnemy extends AbstractEnemy {
-    public static final float FIRE_RATE = 1000;
+    public static final float FIRE_RATE = 3000;
 
     private float fireTimer;
 
@@ -29,5 +29,11 @@ public class CannonEnemy extends AbstractEnemy {
             fireTimer = FIRE_RATE;
         }
         super.update(timeDeltaMillis);
+    }
+
+    @Override
+    public void draw(Camera camera) {
+        super.draw(camera);
+        camera.draw(sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);
     }
 }

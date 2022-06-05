@@ -2,6 +2,7 @@ package gamejam.rooms;
 
 import gamejam.GameManager;
 import gamejam.objects.collidable.enemies.AbstractEnemy;
+import gamejam.objects.collidable.enemies.CannonEnemy;
 import gamejam.objects.collidable.enemies.DroneEnemy;
 import gamejam.objects.collidable.enemies.PyramidEnemy;
 
@@ -14,6 +15,10 @@ public class EnemySpawnTable<E> {
     private static final float PYRAMID_ENEMY_BASE_SPAWN_RATE = 20;
     private static final float PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 10;
     private static final float PYRAMID_LEVEL_APPEARANCE = 2;
+
+    private static final float CANNON_ENEMY_BASE_SPAWN_RATE = 200;
+    private static final float CANNON_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 10;
+    private static final float CANNON_LEVEL_APPEARANCE = 0;
 
     private static EnemySpawnTable instance;
     private SpawnTableCollection spawnTableCollection;
@@ -41,6 +46,9 @@ public class EnemySpawnTable<E> {
         }
         if (currentNLevel >= PYRAMID_LEVEL_APPEARANCE) {
             spawnTableCollection = spawnTableCollection.add(PYRAMID_ENEMY_BASE_SPAWN_RATE + PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - PYRAMID_LEVEL_APPEARANCE), PyramidEnemy.class);
+        }
+        if (currentNLevel >= CANNON_LEVEL_APPEARANCE) {
+            spawnTableCollection = spawnTableCollection.add(CANNON_ENEMY_BASE_SPAWN_RATE + CANNON_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - CANNON_LEVEL_APPEARANCE), CannonEnemy.class);
         }
     }
 
