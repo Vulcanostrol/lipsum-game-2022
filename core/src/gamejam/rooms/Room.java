@@ -211,7 +211,7 @@ public class Room {
         }
     }
 
-    public void setup() {
+    public void setup(boolean isStartRoom) {
         this.updateNeighbourRooms();
         Direction finalDoorDirection = null;
         if (isFinalRoom) {
@@ -228,7 +228,7 @@ public class Room {
                 int maxX = (i + 1) * RoomConfiguration.TILE_PIXEL_WIDTH;
                 int minY = j * RoomConfiguration.TILE_PIXEL_HEIGHT;
                 int maxY = (j + 1) * RoomConfiguration.TILE_PIXEL_HEIGHT;
-                if(pillars[i][j]){
+                if(pillars[i][j] && !isStartRoom) {
                     new Pillar(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY);
                 }
 
@@ -310,7 +310,7 @@ public class Room {
         }
 
         // After this one can choose how to randomly instantiate rest objects in the room
-        if (!visited) {
+        if (!visited && !isStartRoom) {
             visited = true;
             // TODO: Implement initializing and storing objects in the room so they are remembered on next visit
             GameManager.getInstance().spawnEnemies();

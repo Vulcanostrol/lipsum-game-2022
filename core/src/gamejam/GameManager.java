@@ -44,9 +44,10 @@ public class GameManager {
         score = 0;
 
         // Initialize a base level
-        currentLevel = new Level();
-        currentNLevel = 1;
         levels.clear();
+        currentNLevel = 1;
+        EnemySpawnTable.getInstance().updateSpawnTable();
+        currentLevel = new Level();
         levels.add(currentLevel);
 
         camera = new Camera();
