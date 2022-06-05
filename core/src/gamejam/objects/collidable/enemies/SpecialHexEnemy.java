@@ -4,21 +4,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
-import gamejam.config.ScoreConfiguration;
 import gamejam.event.events.CollisionEvent;
 import gamejam.objects.collidable.bullets.PyramidBullet;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * An angry golden shooty boy
  */
-public class HexEnemy extends AbstractEnemy {
+public class SpecialHexEnemy extends AbstractEnemy {
 
     public static final float BULLET_SPEED = 550;
-    public static final float FRENZY_MAX_COOLDOWN = 20000.0f;
-    public static final float FRENZY_DURATION = 2500f;
+    public static final float FRENZY_MAX_COOLDOWN = 10000.0f;
+    public static final float FRENZY_DURATION = 1500f;
     public static final float FRENZY_FIRE_INTERVAL = 250f;
     private float currentFireCooldown = 0f;
     private float currentFrenzyTime = 0;
@@ -61,14 +59,14 @@ public class HexEnemy extends AbstractEnemy {
 
     private boolean lookingLeft = false;
 
-    public HexEnemy(float initialX, float initialY) {
+    public SpecialHexEnemy(float initialX, float initialY) {
         super(initialX, initialY, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, MAX_HEALTH);
 
         if (idleSpriteSheet == null) {
-            idleSpriteSheet = new Texture("entity/hex_idle.png");
+            idleSpriteSheet = new Texture("entity/special_hex_idle.png");
         }
         if (frenzySpriteSheet == null) {
-            frenzySpriteSheet = new Texture("entity/hex_frenzy.png");
+            frenzySpriteSheet = new Texture("entity/special_hex_frenzy.png");
         }
 
         random = new Random();
@@ -82,11 +80,6 @@ public class HexEnemy extends AbstractEnemy {
 
         TextureRegion[] frenzyFrames = TextureRegion.split(frenzySpriteSheet, 13, 24)[0];
         frenzyAnimation = new Animation<>(FRENZY_FRAME_DURATION, frenzyFrames);
-    }
-
-    @Override
-    public int getPoints(){
-        return ScoreConfiguration.HEX;
     }
 
     @Override
@@ -122,12 +115,11 @@ public class HexEnemy extends AbstractEnemy {
                 fire();
             }
 
-            if (random.nextFloat() < ANGLE_ADJUST_CHANCE) {
-                angle += timeDeltaMillis * ANGLE_ADJUST_SPEED * (random.nextFloat() - 0.5f) * 2.0f;
-                angle %= Math.PI * 2.0f;
-            }
-            setVelocity((float) Math.cos(angle) * FRENZY_MOVE_SPEED * timeDeltaMillis,
-                    (float) Math.sin(angle) * FRENZY_MOVE_SPEED * timeDeltaMillis);
+            angle += timeDeltaMillis * ANGLE_ADJUST_SPEED * (random.nextFloat() - 0.5f) * 2.0f;
+            angle %= Math.PI * 2.0f;
+            setVelocity((float) Math.cos(angle) * IDLE_MOVE_SPEED * timeDeltaMillis,
+                    (float) Math.sin(angle) * IDLE_MOVE_SPEED * timeDeltaMillis);
+
             if (currentFrenzyTime <= 0) {
                 endFrenzy();
             }
@@ -140,9 +132,14 @@ public class HexEnemy extends AbstractEnemy {
 
     private void fire() {
         currentFireCooldown = FRENZY_FIRE_INTERVAL;
-        angle = (float) (random.nextFloat() * 2 * Math.PI);
-
-        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, (float) Math.cos(angle) * BULLET_SPEED, (float) Math.sin(angle) * BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, BULLET_SPEED, BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, -BULLET_SPEED, -BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, BULLET_SPEED, -BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, -BULLET_SPEED, BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, 0, BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, BULLET_SPEED, 0, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, 0, -BULLET_SPEED, DAMAGE, BULLET_SIZE);
+        new PyramidBullet(x, y + BULLET_SPAWN_HEIGHT, -BULLET_SPEED, 0, DAMAGE, BULLET_SIZE);
     }
 
     private void endFrenzy() {

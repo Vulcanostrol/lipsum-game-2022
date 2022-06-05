@@ -45,6 +45,10 @@ public class EnemySpawnTable<E> {
     private static final float HEX_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 30;
     private static final float HEX_LEVEL_APPEARANCE = 10;
 
+    private static final float SPECIAL_HEX_ENEMY_BASE_SPAWN_RATE = 200;
+    private static final float SPECIAL_HEX_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 30;
+    private static final float SPECIAL_HEX_LEVEL_APPEARANCE = 15;
+
     private static EnemySpawnTable instance;
     private SpawnTableCollection spawnTableCollection;
 
@@ -95,6 +99,9 @@ public class EnemySpawnTable<E> {
         }
         if (currentNLevel >= HEX_LEVEL_APPEARANCE) {
             spawnTableCollection = spawnTableCollection.add(HEX_ENEMY_BASE_SPAWN_RATE + HEX_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - HEX_LEVEL_APPEARANCE), HexEnemy.class);
+        }
+        if (currentNLevel >= SPECIAL_HEX_LEVEL_APPEARANCE) {
+            spawnTableCollection = spawnTableCollection.add(SPECIAL_HEX_ENEMY_BASE_SPAWN_RATE + SPECIAL_HEX_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - SPECIAL_HEX_LEVEL_APPEARANCE), SpecialHexEnemy.class);
         }
     }
 
