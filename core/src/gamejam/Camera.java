@@ -65,7 +65,7 @@ public class Camera {
 
         float newX = (x + movementOffsetX + shakeX) * factorX * windowFactorX;
         if(this.flipX){
-            newX = ((START_WIDTH-x-newWidth*1f) + movementOffsetX + shakeX) * factorX * windowFactorX;
+            newX = ((START_WIDTH-x-newWidth/windowFactorX) + movementOffsetX + shakeX) * factorX * windowFactorX;
         }
         float newY = (y + movementOffsetY + shakeY) * factorY * windowFactorY;
         float newOriginX = newWidth / 2f; // Origin in middle.
