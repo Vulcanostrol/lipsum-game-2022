@@ -1,6 +1,7 @@
 package gamejam.chips;
 
 import gamejam.chips.effects.*;
+import gamejam.weapons.augmentation.BulletExplosionAugmenter;
 
 import java.util.Random;
 
@@ -33,7 +34,8 @@ public class RandomChip extends Chip {
                 new BulletAmountEffect(1),
                 new BulletSpeedEffect(50),
                 new FullHealEffect(),
-                new PlayerSpeedEffect(1.1f)
+                new PlayerSpeedEffect(1.1f),
+                new SplashBulletEffect(150, 100),
         };
         return effects[new Random().nextInt(effects.length)];
     }

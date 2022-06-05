@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
-import gamejam.config.ScoreConfiguration;
 import gamejam.event.events.CollisionEvent;
 import gamejam.factories.PlayerFactory;
 import gamejam.objects.collidable.bullets.PyramidBullet;
@@ -14,12 +13,12 @@ import java.util.Random;
 /**
  * An angry golden shooty boy
  */
-public class GreyBoxEnemy extends AbstractEnemy {
+public class RedBoxEnemy extends AbstractEnemy {
 
-    public static final float BULLET_SPEED = 1000;
+    public static final float BULLET_SPEED = 1500;
     public static final float MAX_FIRE_TIME = 3000.0f;
-    public static final float MAX_HEALTH = 250;
-    public static final float DAMAGE = 80f;
+    public static final float MAX_HEALTH = 500;
+    public static final float DAMAGE = 120f;
     public static final float BULLET_SIZE = 25f;
     public static final float ANGLE_ADJUST_SPEED =  0.0004f;
     public static final float BULLET_SPAWN_HEIGHT = 12.0f * 5;
@@ -28,8 +27,8 @@ public class GreyBoxEnemy extends AbstractEnemy {
 
     private int nShotsRemaining = 0;
     private float currentShotDelay = 0;
-    private static final int N_SHOTS = 3;
-    private static final float SHOT_DELAY = 250f;
+    private static final int N_SHOTS = 6;
+    private static final float SHOT_DELAY = 150f;
     private boolean isShooting = false;
 
     private static final int TILE_WIDTH = 14;
@@ -61,17 +60,17 @@ public class GreyBoxEnemy extends AbstractEnemy {
 
     private boolean lookingLeft = false;
 
-    public GreyBoxEnemy(float initialX, float initialY) {
+    public RedBoxEnemy(float initialX, float initialY) {
         super(initialX, initialY, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, MAX_HEALTH);
 
         if (baseSpriteSheet == null) {
-            baseSpriteSheet = new Texture("entity/grey_box.png");
+            baseSpriteSheet = new Texture("entity/red_box.png");
         }
         if (chargingSpriteSheet == null) {
-            chargingSpriteSheet = new Texture("entity/grey_box_charging.png");
+            chargingSpriteSheet = new Texture("entity/red_box_charging.png");
         }
         if (shootingSpriteSheet == null) {
-            shootingSpriteSheet = new Texture("entity/grey_box_shooting.png");
+            shootingSpriteSheet = new Texture("entity/red_box_shooting.png");
         }
 
         charging = false;
@@ -89,11 +88,6 @@ public class GreyBoxEnemy extends AbstractEnemy {
 
         TextureRegion[] shootingFrames = TextureRegion.split(shootingSpriteSheet, TILE_WIDTH, TILE_HEIGHT)[0];
         shootingAnimation = new Animation<>(FRAME_DURATION, shootingFrames);
-    }
-
-    @Override
-    public int getPoints(){
-        return ScoreConfiguration.GREY_BOX;
     }
 
     @Override

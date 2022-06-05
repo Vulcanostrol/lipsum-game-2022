@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
+import com.badlogic.gdx.graphics.Texture;
 import gamejam.event.events.CollisionEvent;
 import gamejam.objects.collidable.Collidable;
 import gamejam.objects.collidable.Player;
@@ -30,9 +31,6 @@ public class Explosion extends Collidable {
         this.hurtsPlayer = hurtsPlayer;
         this.durationMS = durationMS;
         this.timeLeft = durationMS;
-        this.spriteSheet = spriteSheet;
-        TextureRegion[] frames = TextureRegion.split(spriteSheet, keyFrameWidth, keyFrameHeight)[0];
-        animation = new Animation<>(0.2f, frames);
         setPosition(x, y);
     }
 

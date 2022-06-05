@@ -1,6 +1,5 @@
 package gamejam.weapons;
 
-import com.badlogic.gdx.Game;
 import gamejam.GameManager;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
@@ -93,5 +92,8 @@ public abstract class Weapon {
 
     public void setCoolDownMs(int coolDownMs) {
         this.coolDownMs = coolDownMs;
+    }
+
+    public void augmentExplosion(int initialAmount, int addAmount) {
     }
 }

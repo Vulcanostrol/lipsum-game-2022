@@ -38,12 +38,16 @@ public class AbstractEnemy extends SelfCollidable implements Damageable, Travers
         this.healthBarRedTexture = TextureStore.getTileTextureByName("health_bar_red");
     }
 
+    public int getPoints(){
+        return 10;
+    }
+
     @Override
     public void damage(float damage) {
         health -= damage;
         if (health < 0) {
             // DEATH
-            EventQueue.getInstance().invoke(new ScoreEvent(10));
+            EventQueue.getInstance().invoke(new ScoreEvent(getPoints()));
 
             new Explosion(x, y);
 
