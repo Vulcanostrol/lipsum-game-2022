@@ -5,16 +5,18 @@ import gamejam.objects.collidable.enemies.AbstractEnemy;
 import gamejam.objects.collidable.enemies.DroneEnemy;
 import gamejam.objects.collidable.enemies.PyramidEnemy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+public class EnemySpawnTable<E> {
 
-public class EnemySpawnTable {
+    private static final float DRONE_ENEMY_BASE_SPAWN_RATE = 10;
+    private static final float DRONE_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 1;
+    private static final float DRONE_LEVEL_APPEARANCE = 1;
+
+    private static final float PYRAMID_ENEMY_BASE_SPAWN_RATE = 20;
+    private static final float PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 10;
+    private static final float PYRAMID_LEVEL_APPEARANCE = 2;
 
     private static EnemySpawnTable instance;
-
-//    private HashMap<AbstractEnemy, Integer> spawnTable;
-    private ArrayList<Class<? extends AbstractEnemy>> spawnTable;
-
+    private SpawnTableCollection spawnTableCollection;
 
     public static EnemySpawnTable getInstance() {
         if (instance == null) {
@@ -24,18 +26,29 @@ public class EnemySpawnTable {
     }
 
     public EnemySpawnTable() {
-//        spawnTable = new HashMap<>();
-        spawnTable = new ArrayList<>();
-        populateSpawnTable();
+        spawnTableCollection = new SpawnTableCollection();
+        updateSpawnTable();
     }
 
-    public void populateSpawnTable() {
-//        int currentNLevel = GameManager.getInstance().getCurrentNLevel();
-        spawnTable.add(DroneEnemy.class);
-        spawnTable.add(PyramidEnemy.class);
+    /**
+     * New enemies must be added to the spawn table
+     */
+    public void updateSpawnTable() {
+        spawnTableCollection.clear();
+        int currentNLevel = GameManager.getInstance().getCurrentNLevel();
+        if (currentNLevel >= DRONE_LEVEL_APPEARANCE) {
+            spawnTableCollection = spawnTableCollection.add(DRONE_ENEMY_BASE_SPAWN_RATE + DRONE_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - DRONE_LEVEL_APPEARANCE), DroneEnemy.class);
+        }
+        if (currentNLevel >= PYRAMID_LEVEL_APPEARANCE) {
+            spawnTableCollection = spawnTableCollection.add(PYRAMID_ENEMY_BASE_SPAWN_RATE + PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR * (currentNLevel - PYRAMID_LEVEL_APPEARANCE), PyramidEnemy.class);
+        }
     }
 
-    public ArrayList<Class<? extends AbstractEnemy>> getSpawnTable() {
-        return spawnTable;
+    public Class<? extends AbstractEnemy> next() {
+        return spawnTableCollection.next();
+    }
+
+    public SpawnTableCollection getSpawnTableCollection() {
+        return spawnTableCollection;
     }
 }

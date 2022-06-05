@@ -326,8 +326,7 @@ public class Room {
                 int yOffset = Math.round(random.nextFloat() * RoomConfiguration.TILE_PIXEL_HEIGHT / 2) - RoomConfiguration.TILE_PIXEL_HEIGHT / 2;
 
                 if (random.nextFloat() < currentSpawnRate) {
-                    ArrayList<Class<? extends AbstractEnemy>> spawnTable = EnemySpawnTable.getInstance().getSpawnTable();
-                    Class<? extends AbstractEnemy> cls = spawnTable.get(Math.round(random.nextFloat() * (spawnTable.size() - 1)));
+                    Class<? extends AbstractEnemy> cls = EnemySpawnTable.getInstance().next();
                     AbstractEnemy potentialNewEnemy = null;
                     try {
                         float spawnX = (float) i * RoomConfiguration.TILE_PIXEL_WIDTH + xOffset;

@@ -16,6 +16,7 @@ import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
 import gamejam.config.RoomConfiguration;
 import gamejam.objects.collidable.SelfCollidable;
+import gamejam.rooms.EnemySpawnTable;
 import gamejam.ui.MenuManager;
 
 import java.util.ArrayList;
@@ -83,6 +84,7 @@ public class GameManager {
         currentLevel = new Level();
         currentNLevel += 1;
         levels.add(currentLevel);
+        EnemySpawnTable.getInstance().updateSpawnTable();
 
         // Entity creation
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
@@ -136,19 +138,10 @@ public class GameManager {
         long deltaTimeMillis = newTime - previousTime;
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.update(deltaTimeMillis));
         camera.begin(deltaTimeMillis);
-//        System.out.println(deltaTimeMillis);
         previousTime = newTime;
 
         //Draw
         currentLevel.render(camera);
-        //Slow but fps is good enough and now everything is actually visible
-//        PillarFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
-//        PlayerFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
-//        FinalDoorFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
-//        WallFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
-//        AbstractEnemyFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
-//        BulletFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
-//        DoorFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
         EntityFactory.getInstance().getAllManagedObjects().forEach(e -> e.draw(camera));
         camera.end();
 
