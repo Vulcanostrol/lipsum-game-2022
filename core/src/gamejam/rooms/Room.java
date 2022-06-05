@@ -42,6 +42,7 @@ public class Room {
     public boolean isUpgradeRoom;
 
     private boolean isFinalRoom;
+    private Direction finalDoorDirection;
 
     private static Random random = new Random(LevelConfiguration.SEED);
 
@@ -213,10 +214,11 @@ public class Room {
 
     public void setup() {
         this.updateNeighbourRooms();
-        Direction finalDoorDirection = null;
         if (isFinalRoom) {
-            List<Direction> possibleDirections = getPossibleBranchDirections();
-            finalDoorDirection = possibleDirections.get(new Random().nextInt(possibleDirections.size()));
+            if (!visited) {
+                List<Direction> possibleDirections = getPossibleBranchDirections();
+                finalDoorDirection = possibleDirections.get(new Random().nextInt(possibleDirections.size()));
+            }
         }
 
         // Setup base room tiles
@@ -232,13 +234,16 @@ public class Room {
                     new Pillar(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY);
                 }
 
+                int doorX = minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2;
+                int doorY = minY;
+
                 if (i == 0 && j == Math.round((max_tile_y / 2))) {
                     // West door
                     if (westRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST, westRoom.isUpgradeRoom);
+                        new Door(doorX, doorY, Direction.WEST, westRoom.isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.WEST) {
-                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.WEST);
+                        new FinalDoor(doorX, doorY, Direction.WEST);
                     }
                 }
 
@@ -246,30 +251,30 @@ public class Room {
                 if (i == max_tile_x && j == Math.round((max_tile_y / 2))) {
                     // East door
                     if (eastRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST, eastRoom.isUpgradeRoom);
+                        new Door(doorX, doorY, Direction.EAST, eastRoom.isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.EAST) {
-                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.EAST);
+                        new FinalDoor(doorX, doorY, Direction.EAST);
                     }
                 }
 
                 if (i == Math.round((max_tile_x / 2)) && j == 0) {
                     // South door
                     if (southRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH, southRoom.isUpgradeRoom);
+                        new Door(doorX, doorY, Direction.SOUTH, southRoom.isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.SOUTH) {
-                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.SOUTH);
+                        new FinalDoor(doorX, doorY, Direction.SOUTH);
                     }
                 }
 
                 if (i == Math.round((max_tile_x / 2)) && j == max_tile_y) {
                     // North door
                     if (northRoom != null) {
-                        new Door(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH, northRoom.isUpgradeRoom);
+                        new Door(doorX, doorY, Direction.NORTH, northRoom.isUpgradeRoom);
                     }
                     if (finalDoorDirection == Direction.NORTH) {
-                        new FinalDoor(minX + RoomConfiguration.TILE_PIXEL_WIDTH / 2, minY, Direction.NORTH);
+                        new FinalDoor(doorX, doorY, Direction.NORTH);
                     }
                 }
 
