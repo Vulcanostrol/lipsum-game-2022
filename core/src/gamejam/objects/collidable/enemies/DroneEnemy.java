@@ -1,6 +1,8 @@
 package gamejam.objects.collidable.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import gamejam.Camera;
 import gamejam.event.EventConsumer;
 import gamejam.event.EventQueue;
@@ -21,7 +23,7 @@ public class DroneEnemy extends AbstractEnemy {
     private boolean playerPositionKnown = false;
 
     // from how far away the drone can see the player.
-    private final float RANGE_OF_SIGHT = 300f;
+    private final float RANGE_OF_SIGHT = 500f;
 
     // angle at which the robot moves once it collides with something, and it is not following the player.
     private float roamingDirection = (float) Math.random();
@@ -31,11 +33,26 @@ public class DroneEnemy extends AbstractEnemy {
     private float playerX = -Float.MAX_VALUE;
     private float playerY = -Float.MAX_VALUE;
 
+    public static final int SPRITE_WIDTH = 21 * 5;
+    public static final int SPRITE_HEIGHT = 24 * 5;
+    public static final int COLLISION_WIDTH = 19 * 5;
+    public static final int COLLISION_HEIGHT = 11 * 5;
+
+    private static Texture spriteSheet = null;
+    private float animationTime = 0f;
+    private Animation<TextureRegion> animation;
+    private TextureRegion currentSprite;
+
     private EventConsumer<PlayerMoveEvent> playerMoveEventEventConsumer;
 
     public DroneEnemy(float x, float y) {
-        super(x, y, 32, 26, 32, 26, 100);
-        this.sprite = new Texture("entity/drone.png");
+        super(x, y, SPRITE_WIDTH, SPRITE_HEIGHT, COLLISION_WIDTH, COLLISION_HEIGHT, 100);
+        if (spriteSheet == null) {
+            spriteSheet = new Texture("entity/drone.png");
+        }
+        TextureRegion[] frames = TextureRegion.split(spriteSheet, 21, 24)[0];
+        animation = new Animation<>(0.2f, frames);
+        animationTime += (new Random()).nextFloat();
 
         playerMoveEventEventConsumer = this::onPlayerMoveEvent;
         EventQueue.getInstance().registerConsumer(playerMoveEventEventConsumer, EventType.PLAYER_MOVE);
@@ -89,6 +106,8 @@ public class DroneEnemy extends AbstractEnemy {
             dy += Math.sin(roamingDirection * 2 * Math.PI);
         }
 
+        animationTime += deltaTimeMilis * 0.001;
+
         super.setVelocity(SPEED*dx, SPEED*dy);
         super.update(deltaTimeMilis);
 //        x += SPEED * dx * deltaTimeMilis;
@@ -105,7 +124,9 @@ public class DroneEnemy extends AbstractEnemy {
     @Override
     public void draw(Camera camera) {
         super.draw(camera); // draw health bar (abstract enemy)
-        camera.draw(this.sprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight);
+        currentSprite = animation.getKeyFrame(animationTime, true);
+
+        camera.draw(currentSprite, x - spriteWidth / 2, y, spriteWidth, spriteHeight, false, false);
         super.drawHitBox(camera);
     }
 }
