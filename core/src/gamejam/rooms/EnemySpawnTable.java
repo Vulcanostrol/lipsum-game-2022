@@ -16,9 +16,9 @@ public class EnemySpawnTable<E> {
     private static final float PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 10;
     private static final float PYRAMID_LEVEL_APPEARANCE = 2;
 
-    private static final float GOLDEN_PYRAMID_ENEMY_BASE_SPAWN_RATE = 50;
-    private static final float GOLDEN_PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 10;
-    private static final float GOLDEN_PYRAMID_LEVEL_APPEARANCE = 2;
+    private static final float GOLDEN_PYRAMID_ENEMY_BASE_SPAWN_RATE = 10;
+    private static final float GOLDEN_PYRAMID_ENEMY_SPAWN_RATE_MUTATION_FACTOR = 30;
+    private static final float GOLDEN_PYRAMID_LEVEL_APPEARANCE = 4;
 
     private static EnemySpawnTable instance;
     private SpawnTableCollection spawnTableCollection;
