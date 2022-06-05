@@ -9,19 +9,19 @@ public class TextureStore {
 
     public static void instantiate() {
         textures = new HashMap<>();
-        textures.put("bobbysoepkip", new Texture("assets/terrain/error.png"));
-        textures.put("wall", new Texture("assets/terrain/wall.png"));
-        textures.put("wall_vertical", new Texture("assets/terrain/wall_vertical.png"));
-        textures.put("cornerwall", new Texture("assets/terrain/cornerwall.png"));
-        textures.put("floor", new Texture("assets/terrain/floor.png"));
-        textures.put("door", new Texture("assets/terrain/door.png"));
-        textures.put("door_vertical", new Texture("assets/terrain/door_vertical.png"));
-        textures.put("upgradedoor", new Texture("assets/terrain/upgradedoor.png"));
-        textures.put("upgradedoor_vertical", new Texture("assets/terrain/upgradedoor_vertical.png"));
-        textures.put("finaldoor", new Texture("assets/terrain/finaldoor.png"));
-        textures.put("finaldoor_vertical", new Texture("assets/terrain/finaldoor_vertical.png"));
-        textures.put("health_bar_red", new Texture("assets/healthbar/red_pixel.png"));
-        textures.put("health_bar_green", new Texture("assets/healthbar/green_pixel.png"));
+        textures.put("bobbysoepkip", new Texture("terrain/error.png"));
+        textures.put("wall", new Texture("terrain/wall.png"));
+        textures.put("wall_vertical", new Texture("terrain/wall_vertical.png"));
+        textures.put("cornerwall", new Texture("terrain/cornerwall.png"));
+        textures.put("floor", new Texture("terrain/floor.png"));
+        textures.put("door", new Texture("terrain/door.png"));
+        textures.put("door_vertical", new Texture("terrain/door_vertical.png"));
+        textures.put("upgradedoor", new Texture("terrain/upgradedoor.png"));
+        textures.put("upgradedoor_vertical", new Texture("terrain/upgradedoor_vertical.png"));
+        textures.put("finaldoor", new Texture("terrain/finaldoor.png"));
+        textures.put("finaldoor_vertical", new Texture("terrain/finaldoor_vertical.png"));
+        textures.put("health_bar_red", new Texture("healthbar/red_pixel.png"));
+        textures.put("health_bar_green", new Texture("healthbar/green_pixel.png"));
     }
 
     public static Texture getTileTextureByName(String name) {
