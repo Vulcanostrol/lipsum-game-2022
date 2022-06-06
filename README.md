@@ -8,7 +8,10 @@ The theme for the gamejam.Game Jam is:\
 **_"Everything has a cost - Break the system"_**.
 
 ## How to play
-Use WASD to read and mouse to shoot.
+Use WASD to walk and mouse to shoot.
+
+After (inevitably) dying, you can enter a name and submit the score.
+Leaderboard can be found at: http://gerben-meijer.nl/gamejam2022/ .
 
 ## Installation
 ### For playing
