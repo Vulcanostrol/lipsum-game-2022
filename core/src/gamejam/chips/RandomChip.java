@@ -30,8 +30,8 @@ public class RandomChip extends Chip {
         ChipEffect[] effects = {
                 new BulletDamageEffect(1.5f),
                 new BulletSizeEffect(1.2f),
-                new MoreMaxHealthEffect(1.1f),
-                new BulletAmountEffect(1),
+                new MoreMaxHealthEffect(1.3f),
+                new BulletAmountEffect(1, 0.6f),
                 new BulletSpeedEffect(50),
                 new FullHealEffect(),
                 new PlayerSpeedEffect(1.1f),
@@ -42,7 +42,7 @@ public class RandomChip extends Chip {
 
     private ChipEffect getRandomNegativeEffect() {
         ChipEffect[] effects = {
-                new ScreenShakeEffect(1.5f),
+                new ScreenShakeEffect(1.7f),
                 new ScreenThinnerEffect(0.9f),
                 new ScreenSwollEffect(0.9f),
                 new CameraDvdEffect(1.3f),

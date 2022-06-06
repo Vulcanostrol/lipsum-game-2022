@@ -7,6 +7,9 @@ Made for the Inter-Actief gamejam.Game Jam (June 2022).
 The theme for the gamejam.Game Jam is:\
 **_"Everything has a cost - Break the system"_**.
 
+## How to play
+Use WASD to read and mouse to shoot.
+
 ## Installation
 Clone the repository, either via the IntelliJ `Get from VCS` option, or just command-line git. 
 

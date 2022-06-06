@@ -16,6 +16,7 @@ import gamejam.levels.Level;
 import gamejam.objects.Entity;
 import gamejam.objects.collidable.Player;
 import gamejam.rooms.EnemySpawnTable;
+import gamejam.ui.DeathMenu;
 import gamejam.ui.MenuManager;
 
 import java.util.ArrayList;
@@ -35,6 +36,13 @@ public class GameManager {
             instance = new GameManager();
         }
         return instance;
+    }
+
+    public GameManager() {
+        EventConsumer<PlayerDeathEvent> consumer = this::resetEntireGame;
+        EventConsumer<ScoreEvent> consumerScore = this::getPoints;
+        EventQueue.getInstance().registerConsumer(consumer, EventType.PLAYER_DEATH);
+        EventQueue.getInstance().registerConsumer(consumerScore, EventType.SCORE_EVENT);
     }
 
     private boolean gameActive;
@@ -58,11 +66,6 @@ public class GameManager {
         int newPlayerX = RoomConfiguration.TILE_PIXEL_WIDTH * RoomConfiguration.ROOM_TILE_WIDTH / 2;
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         new Player(newPlayerX, newPlayerY);
-
-        EventConsumer<PlayerDeathEvent> consumer = this::resetEntireGame;
-        EventConsumer<ScoreEvent> consumerScore = this::getPoints;
-        EventQueue.getInstance().registerConsumer(consumer, EventType.PLAYER_DEATH);
-        EventQueue.getInstance().registerConsumer(consumerScore, EventType.SCORE_EVENT);
     }
 
     private void getPoints(ScoreEvent event){
@@ -82,8 +85,9 @@ public class GameManager {
             ChipManager.getInstance().resetChips();
             PlayerFactory.getInstance().getPlayer().hardDisposePlayer();
             EntityFactory.getInstance().recursiveRemoveManagedObjects();
-            EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.MAIN_MENU));
+            EventQueue.getInstance().invoke(new MenuChangeEvent(MenuManager.DEATH_MENU));
             gameActive = false;
+            DeathMenu.scoreToDisplay = score;
             score = 0;
         }
     }
@@ -97,6 +101,7 @@ public class GameManager {
 
     public void moveToNextLevel() {
         Player player = PlayerFactory.getInstance().getPlayer();
+
         EntityFactory.getInstance().recursiveRemoveManagedObjects();
         currentLevel = new Level();
         currentNLevel += 1;
@@ -108,6 +113,8 @@ public class GameManager {
         int newPlayerY = RoomConfiguration.TILE_PIXEL_HEIGHT * RoomConfiguration.ROOM_TILE_HEIGHT / 2;
         PlayerFactory.getInstance().addManagedObject(player);
         player.setPosition(newPlayerX, newPlayerY);
+
+        currentLevel.getCurrentRoom().removeEnemies();
     }
 
     public void moveToRoomByDirection(Direction direction) {
@@ -144,6 +151,8 @@ public class GameManager {
         } else {
             System.err.println("Tried to move to an invalid room location. Staying in the current room(?)");
         }
+
+        currentLevel.getCurrentRoom().removeEnemies();
     }
 
     public void draw() {
