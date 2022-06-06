@@ -11,6 +11,9 @@ The theme for the gamejam.Game Jam is:\
 Use WASD to read and mouse to shoot.
 
 ## Installation
+### For playing
+Grab the latest `.jar` release from the releases tab on the right and run it (you need to have Java installed).
+### For development
 Clone the repository, either via the IntelliJ `Get from VCS` option, or just command-line git. 
 
 Open IntelliJ, navigate to `File > Open`.

@@ -15,11 +15,11 @@
 <html>
 <style>
 html {
-	background-color: F60101;
+	background-color: #C19272;
     }
 
 h1, th, td {
-	color: #F6F6F6;
+	color: #010101;
 	font-family: Helvetica, sans-serif;
 	text-align:center
 }
@@ -44,7 +44,7 @@ img {
 
 .wrapper {
 	width: 100%;
-	background-color: #B20101;
+	background-color: #B18262;
 }
 
 .col {
@@ -58,7 +58,7 @@ img {
 }
 
 .spaceship {
-	background-color: #B20101;
+	background-color: #B18262;
 	height: 100%;
 }
 
@@ -71,19 +71,19 @@ img {
 </style>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Shipsum Highscores</title>
+	<title>Chipsum Highscores</title>
 </head>
 
 <body>
 <div class="wrapper">
 	<div class="spaceship col">
 		<div class="shipcontainer">
-			<img src="sprite2022.png"></img>
+			<img src="drone.gif"></img>
 		</div>
 	</div>
 	<div class="col-scores">
 
-    <h1> Shipsum Highscores </h1>
+    <h1> Chipsum Highscores </h1>
 
     <table>
         <tr>
@@ -108,7 +108,7 @@ img {
 </div>
 	<div class="spaceship col">
 		<div class="shipcontainer">
-			<img src="/sprite2022.png"></img>
+			<img src="drone.gif"></img>
 		</div>
 	</div>
 </div>
