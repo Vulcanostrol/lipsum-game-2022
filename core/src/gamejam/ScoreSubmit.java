@@ -42,7 +42,14 @@ public class ScoreSubmit {
         try(InputStream is = http.getInputStream()) {
             outp = new String(is.readAllBytes());
         }
-        return outp.startsWith("400 OK");
+
+        boolean success = outp.startsWith("400 OK");
+
+        if (!success) {
+            System.err.println("Error during score submission. Site returned: " + outp);
+        }
+
+        return success;
     }
 
     public static byte[] getSHA(String input) throws NoSuchAlgorithmException
